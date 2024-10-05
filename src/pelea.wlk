@@ -54,27 +54,6 @@ object combate {
 
 }
 
-object atacaEnemigo {
-    method entidad() {
-        return personaje.enemigoCombatiendo()
-    }
-
-    method cambioTurno() {
-        return atacaJugador.entidad()
-    }
-}
-
-object atacaJugador {
-    method entidad() {
-        return personaje
-    }
-
-    method cambioTurno() {
-        return atacaEnemigo.entidad()
-    }
-
-}
-
 object barraEstadoPeleas {
 
     var property enemigo = null

@@ -79,17 +79,24 @@ object personaje {
     method atacarPre() {
         esTurno = true
     }
-	
 
 	method atacar() {
         self.validarCombate() // para que no le pegue a x enemigo cuando no esta peleando
 
-		enemigoCombatiendo.recibirDanho(armaActual.danho()) //ya no hace falta preguntar si está en combate, porq atacar solo se ejecuta el cambio de turno
-		armaActual.chequearDurabilidad()	
+		enemigoCombatiendo.recibirDanho(armaActual.danho()) //esto solo se llega a ejecutar posterior al cambio de turno en una pelea
+		armaActual.realizarActualizacionDeArmas()
 
         esTurno = false //para que no pueda atacar al enemigo cuando no es su turno
 
 		combate.cambiarTurnoA(enemigoCombatiendo)   //el pj termina de atacar y cambia el turno al enemigo
+	}
+
+	method actualizarArmaActual() { //esto se ejecuta cuando se descarta el arma actual
+		if(bolsa.size()>1) {
+			armaActual = bolsa.get(1); //pone la 2da de la bolsa como el arma actual
+		} else {
+			armaActual = mano
+		}
 	}
 
     method validarCombate() {

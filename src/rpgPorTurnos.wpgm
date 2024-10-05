@@ -21,6 +21,8 @@ program rpgPorTurnos {
 
     const arma1 = randomizer.armaRandom()
 	game.addVisual(arma1)
+	const arma2 = randomizer.armaRandom() //segunda arma para realizar las pruebas pertinentes
+	game.addVisual(arma2)
 	
 	//MOVIMIENTO
 	keyboard.w().onPressDo({personaje.mover(arriba)})

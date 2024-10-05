@@ -22,7 +22,7 @@ class Arma {
     method image() 
     method imagenParaPersonaje()
     method restarDurabilidad(cantidadRestada)
-    method chequearDurabilidad()
+    method realizarActualizacionDeArmas()
     method habilidadEspecial()
 
 }
@@ -32,17 +32,17 @@ class Espada inherits Arma {
     //y la declaramos acá porque si se declara en la superclase ya no le podemos dar valor inicial personalizado a menos que sea usando 
     //algún método
 
-    override method restarDurabilidad(cantidadRestada) {
-        durabilidad -= cantidadRestada
+    override method realizarActualizacionDeArmas() {
+        if (self.durabilidad() <= 5) {
+            personaje.actualizarArmaActual()
+            personaje.bolsa().remove(personaje.bolsa().head()) //se borra esta arma, que era la primera y la anterior actual
+        } else {
+            self.restarDurabilidad(10)
+        }
     }
 
-    override method chequearDurabilidad() {
-        if (self.durabilidad() <= 5) {
-            personaje.armaActual(mano) //en realidad hay que fijarse si tiene otra y pasar esa al primero, y si hay tercera pasarla a 2do
-            personaje.bolsa().remove(personaje.bolsa().head())
-        } else {
-            self.restarDurabilidad(5)
-        }
+    override method restarDurabilidad(cantidadRestada) {
+        durabilidad -= cantidadRestada
     }
 
     override method danho() {
@@ -73,17 +73,17 @@ class ArcoYFlecha inherits Arma {
     //y la declaramos acá porque si se declara en la superclase ya no le podemos dar valor inicial personalizado a menos que sea usando 
     //algún método
 
-    override method restarDurabilidad(cantidadRestada) {
-        durabilidad -= (cantidadRestada * 2)
+    override method realizarActualizacionDeArmas() {
+        if (self.durabilidad() <= 5) {
+            personaje.actualizarArmaActual()
+            personaje.bolsa().remove(personaje.bolsa().head()) //se borra esta arma, que era la primera y la anterior actual
+        } else {
+            self.restarDurabilidad(10)
+        }
     }
 
-    override method chequearDurabilidad() {
-        if (self.durabilidad() <= 5) {
-            personaje.armaActual(mano) 
-            personaje.bolsa().remove(personaje.bolsa().head())
-        } else {
-            self.restarDurabilidad(5)
-        }
+    override method restarDurabilidad(cantidadRestada) {
+        durabilidad -= cantidadRestada
     }
 
     override method danho() {
@@ -111,17 +111,17 @@ class MartilloDeGuerra inherits Arma {
     //y la declaramos acá porque si se declara en la superclase ya no le podemos dar valor inicial personalizado a menos que sea usando 
     //algún método
 
-    override method restarDurabilidad(cantidadRestada) {
-        durabilidad = durabilidad - (cantidadRestada / 2)
+    override method realizarActualizacionDeArmas() {
+        if (self.durabilidad() <= 5) {
+            personaje.actualizarArmaActual()
+            personaje.bolsa().remove(personaje.bolsa().head()) //se borra esta arma, que era la primera y la anterior actual
+        } else {
+            self.restarDurabilidad(10)
+        }
     }
 
-    override method chequearDurabilidad() {
-        if (self.durabilidad() <= 5) {
-            personaje.armaActual(mano) //en realidad hay que fijarse si tiene otra y pasar esa al primero, y si hay tercera pasarla a 2do
-            personaje.bolsa().remove(personaje.bolsa().head())
-        } else {
-            self.restarDurabilidad(5)
-        }
+    override method restarDurabilidad(cantidadRestada) {
+        durabilidad -= cantidadRestada
     }
 
     override method danho() {
@@ -147,13 +147,14 @@ class MartilloDeGuerra inherits Arma {
 }
 
 object mano { //objeto especial (hay que trabajar con los efectos que causa porque noto efectos raros en la pelea al usar la mano)
+
     method danho() {
         return 5
     }
 
-    var property durabilidad = 9999 
+    var property durabilidad = "Infinita"
     
-    method chequearDurabilidad() { } //necesario para que funcione el polimorfismo
+    method realizarActualizacionDeArmas() { } //necesario para que funcione el polimorfismo (todas las armas deben entenderlo)
 }
 
 //FÁBRICAS (su única función es devolverme en nuevo objeto de la subclase de Arma a la que están ligadas. nos permiten crear armas random)

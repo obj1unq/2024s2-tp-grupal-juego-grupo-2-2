@@ -47,6 +47,11 @@ object enemigo1 {
         }
     }
 
+    // cuando el pj colsiona con el enemigo, este incia el combate
+    method colisiono(personaje){
+        self.combate()
+    }
+
     // COMBATE/PELEA
 
     /*  - La posicion del enemigo es una celda a la derecha del personaje cuando empieza el combate.
@@ -61,17 +66,17 @@ object enemigo1 {
         position = position.right(1)    //se posiciona una celda a la derecha del personaje
         game.say(self, "Ah! Pelea!")    // Avisa . Despues se va aquitar
 
-        combate.cambiarTurnoA(self) //Empiza en combate
+        combate.cambiarTurnoA(self) //Empieza el combate
     }
 
     method atacarPre() {
-        //game.schedule(300, { self.atacar(self)})      // para que quede más lindo a lo visual, que tarde un toque en atacar, que no sea instantaneo   
+        //game.schedule(300, { self.atacar(self)}) // para que quede más lindo a lo visual, que tarde un toque en atacar, que no sea instantaneo   
         self.atacar(self)
     }
 
     method atacar(_) { // el atributo  esta solo para el polimorfismo
         objetivoADestruir.recibirDanho(20) //FUTURO: Hacer las habilidades del enemigo y hacerlo clase
-        combate.cambiarTurnoA(personaje)
+        combate.cambiarTurnoA(objetivoADestruir)
     }
 
 
@@ -83,11 +88,6 @@ object enemigo1 {
         /*Este método despues se va cambiar por un removeVisual o algo asi, esta así ahora para testear porque solo tenemos un enemigo.*/
         position = game.at(7,4)
         vida = 150
-    }
-
-    // cuando el pj colsiona con el enemigo, este incia el combate
-    method colisiono(personaje){
-        self.combate()
     }
 
 }

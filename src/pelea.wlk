@@ -7,25 +7,22 @@ import personaje.*
 
 object combate {
 
-    var property entidadAtacando = null
-    //var property enemigoEnCombate = null
-    const heroe = personaje
-
+    var property entidadAtacando = null //aquel que tiene el turno para atacar
+    const heroe = personaje //fijarse de renombrar personaje por heroe en el código
     var hayCombate = false
 
+    method iniciarCombate(){
+        personaje.enemigoCombatiendo(entidadAtacando)
+        hayCombate = true
+        personaje.estaEnCombate(true)   //en personaje se puede poner combate.hayCombate() en vez de mandarle esto al personaje
+        barraEstadoPeleas.enemigo(entidadAtacando)
+        barraEstadoPeleas.aparecer()
+    }
+
     method cambiarTurnoA(entidad){
-        //self.validarCombate()
         entidadAtacando = entidad
         //game.schedule(500, {self.entidadAtaca()} ) //quedaba lindo pero acumula daño
-        self.entidadAtaca()
-    }
-    method validarCombate() {
-        if(!hayCombate){
-            self.error("No hay nadie peleando")
-        }
-    }
-    method hayCombate(cond){
-        hayCombate = cond
+        self.entidadAtaca() //acá se valida si el que ahora tiene el turno sigue con vida y, si es así, este realiza su ataque
     }
 
     method entidadAtaca() {
@@ -44,12 +41,13 @@ object combate {
         }
     }
 
-    method iniciarCombate(){
-        personaje.enemigoCombatiendo(entidadAtacando)
-        hayCombate = true
-        personaje.estaEnCombate(true)   //en personaje se puede poner combate.hayCombate() en vez de mandarle esto al personaje
-        barraEstadoPeleas.enemigo(entidadAtacando)
-        barraEstadoPeleas.aparecer()
+    method validarCombate() {
+        if(!hayCombate){
+            self.error("No hay nadie peleando")
+        }
+    }
+    method hayCombate(cond){
+        hayCombate = cond
     }
 
 }

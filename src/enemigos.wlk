@@ -14,11 +14,11 @@ object enemigo1 {
 	}
 
     method image() { //image() se calcula a cada frame al igual que position(), si no entendí mal
-		return "enemigo1" + self.estado() + "-32Bits.png"
+		return "enemigo1" + self.estado().imagenParaPersonaje() + "-32Bits.png"
 	}
 
 	method estado() {
-		return ""
+		return enemigoSinArma //como, de momento, tiene un solo estado, es un poco raro. Tendrá mas sentido si tiene más estados (como el pj)
 	}
 
     //MOVIMIENTO
@@ -60,7 +60,7 @@ object enemigo1 {
     */
     method combate() {
         
-        combate.entidadAtacando(self)   //Hace saber al combate que él(enemigo/self) empieza
+        combate.entidadAtacando(self)   //Hace saber al combate que él(enemigo/self) será quien empieza
         combate.iniciarCombate()    //prepara toda el hud del combate y la info necesaria
 
         position = position.right(1)    //se posiciona una celda a la derecha del personaje
@@ -70,15 +70,14 @@ object enemigo1 {
     }
 
     method atacarPre() {
-        //game.schedule(300, { self.atacar(self)}) // para que quede más lindo a lo visual, que tarde un toque en atacar, que no sea instantaneo   
-        self.atacar(self)
+        //game.schedule(300, { self.atacar(self)}) // para que quede más lindo a lo visual, que tarde un toque en atacar, que no sea instantaneo (NO porque causa arrastre de daño)
+        self.atacar()
     }
 
-    method atacar(_) { // el atributo  esta solo para el polimorfismo
+    method atacar() {
         objetivoADestruir.recibirDanho(20) //FUTURO: Hacer las habilidades del enemigo y hacerlo clase
         combate.cambiarTurnoA(objetivoADestruir)
     }
-
 
     method recibirDanho(cantidad){
         vida = vida - cantidad
@@ -88,6 +87,14 @@ object enemigo1 {
         /*Este método despues se va cambiar por un removeVisual o algo asi, esta así ahora para testear porque solo tenemos un enemigo.*/
         position = game.at(7,4)
         vida = 150
+    }
+
+}
+
+object enemigoSinArma {
+
+    method imagenParaPersonaje() {
+        return ""
     }
 
 }

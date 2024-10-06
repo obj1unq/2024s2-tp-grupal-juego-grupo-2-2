@@ -7,7 +7,6 @@ import armas.*
 import randomizer.*
 import pelea.*
 
-
 object personaje {
 
 	var  position = game.at(7,2);
@@ -21,14 +20,14 @@ object personaje {
 	}
 
 	method image() { //image() se calcula a cada frame al igual que position(), si no entendí mal
-		return "personaje" + self.estado() + "-32Bits.png"
+		return "personaje" + self.estado().imagenParaPersonaje() + "-32Bits.png"
 	}
 
 	method estado() {
 		if(self.estaSinArma()) {
-			return ""
+			return sinArma
 		} else {
-			return armaActual.imagenParaPersonaje()
+			return conArma
 		}
 	}
 
@@ -68,13 +67,12 @@ object personaje {
 	}
 
 	//COMBATE/PELEA
-    var property enemigoCombatiendo = null
+    var property enemigoCombatiendo = null //el enemigo con quien está en combate
+	var esTurno = false //si es su turno en un combate
 
     method estaEnCombate(condicion){
         estaEnCombate = condicion
     }
-
-    var esTurno = false
 
     method atacarPre() {
         esTurno = true
@@ -83,7 +81,7 @@ object personaje {
 	method atacar() {
         self.validarCombate() // para que no le pegue a x enemigo cuando no esta peleando
 
-		enemigoCombatiendo.recibirDanho(armaActual.danho()) //esto solo se llega a ejecutar posterior al cambio de turno en una pelea
+		enemigoCombatiendo.recibirDanho(armaActual.danho()) //todo esto solo se llega a ejecutar posterior al cambio de turno en una pelea
 		armaActual.realizarActualizacionDeArmas()
 
         esTurno = false //para que no pueda atacar al enemigo cuando no es su turno
@@ -108,15 +106,29 @@ object personaje {
 	method recibirDanho(cantidad) {
 		vida -= cantidad
 	}
-
 	
 	method morir() {
 		position = game.at(2,2)
         vida = 450
 	}
 
+}
 
+//ESTADOS
 
+object sinArma {
+
+	method imagenParaPersonaje() {
+		return ""
+	}
+
+}
+
+object conArma {
+
+	method imagenParaPersonaje() {
+		return personaje.armaActual().imagenParaPersonaje()
+	}
 
 }
 

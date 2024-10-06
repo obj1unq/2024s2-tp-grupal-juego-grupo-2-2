@@ -41,7 +41,7 @@ program rpgPorTurnos {
 	//borde.mostrar()
 
     //test turnos
-    game.addVisual(turnoTest)
-    //cambio para intentar pasar branch
+    //game.addVisual(turnoTest)
+
 	game.start()
 }

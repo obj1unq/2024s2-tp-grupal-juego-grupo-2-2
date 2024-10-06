@@ -6,11 +6,11 @@ import paleta.*
 object listaDeObjetos {
 
     method position() {
-		return game.at(29,24)
+		return game.at(28,23)
 	}
 
 	method image() { 
-		return "listaDeObj" + self.estado().imagenParaLista() + "-32Bits.png"
+		return "listaDeObj" + self.estado().imagenParaLista() + "-64Bits.png"
 	}
 
     method estado() {

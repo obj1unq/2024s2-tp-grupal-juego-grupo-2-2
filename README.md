@@ -13,7 +13,8 @@
 
 ## Reglas de Juego / Instrucciones
 
-(Escribirlas)
+ - Para moverse, pulse las teclas W, A S y D
+ - Para atacar cuando está en combate, pulse la "up arrow" (flecha hacia arriba)
 
 
 ## Otros

@@ -92,7 +92,7 @@ object vidaPersonaje{
 
 object vidaEnemigo {
 
-    method text() = "Enemigo Vida: " + barraEstadoPeleas.enemigo().vida().toString()
+    method text() = " Vida enemigo: " + barraEstadoPeleas.enemigo().vida().toString()
     method textColor() = paleta.rojo()
 
     method position() = vidaPersonaje.position().right(3)
@@ -101,8 +101,8 @@ object vidaEnemigo {
 
 object ataque{
 
-    method position() = vidaPersonaje.position().down(1)
-    method text() = "Durabilidad: " + personaje.armaActual().durabilidad().toString() //+ "\n Nivel: " + personaje.armaActual().nivel().toString()
+    method position() = vidaPersonaje.position().down(1).right(2)
+    method text() = "Durabilidad (" +personaje.armaActual().toString() + "): " + personaje.armaActual().durabilidad().toString() //+ "\n Nivel: " + personaje.armaActual().nivel().toString()
     method textColor() = paleta.rojo()
 
 }

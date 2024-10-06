@@ -28,16 +28,16 @@ class Arma {
 }
 
 class Espada inherits Arma {
-    var property durabilidad = 100.randomUpTo(130).round() //porque es un dato cambiante que debe cambiar y no recalcularse cada vez.
+    var property durabilidad = 90.randomUpTo(120).round() //porque es un dato cambiante que debe cambiar y no recalcularse cada vez.
     //y la declaramos acá porque si se declara en la superclase ya no le podemos dar valor inicial personalizado a menos que sea usando 
     //algún método
 
     override method realizarActualizacionDeArmas() {
-        if (self.durabilidad() <= 5) {
+        if (self.durabilidad() <= 15) {
             personaje.actualizarArmaActual()
             personaje.bolsa().remove(personaje.bolsa().head()) //se borra esta arma, que era la primera y la anterior actual
         } else {
-            self.restarDurabilidad(10)
+            self.restarDurabilidad(15)
         }
     }
 
@@ -69,16 +69,16 @@ class Espada inherits Arma {
 }
 
 class ArcoYFlecha inherits Arma {
-    var property durabilidad = 130.randomUpTo(150).round() //porque es un dato cambiante que debe cambiar y no recalcularse cada vez.
+    var property durabilidad = 120.randomUpTo(150).round() //porque es un dato cambiante que debe cambiar y no recalcularse cada vez.
     //y la declaramos acá porque si se declara en la superclase ya no le podemos dar valor inicial personalizado a menos que sea usando 
     //algún método
 
     override method realizarActualizacionDeArmas() {
-        if (self.durabilidad() <= 5) {
+        if (self.durabilidad() <= 15) {
             personaje.actualizarArmaActual()
             personaje.bolsa().remove(personaje.bolsa().head()) //se borra esta arma, que era la primera y la anterior actual
         } else {
-            self.restarDurabilidad(10)
+            self.restarDurabilidad(15)
         }
     }
 
@@ -107,16 +107,16 @@ class ArcoYFlecha inherits Arma {
 }
 
 class MartilloDeGuerra inherits Arma {
-    var property durabilidad = 50.randomUpTo(90).round() //porque es un dato cambiante que debe cambiar y no recalcularse cada vez.
+    var property durabilidad = 60.randomUpTo(90).round() //porque es un dato cambiante que debe cambiar y no recalcularse cada vez.
     //y la declaramos acá porque si se declara en la superclase ya no le podemos dar valor inicial personalizado a menos que sea usando 
     //algún método
 
     override method realizarActualizacionDeArmas() {
-        if (self.durabilidad() <= 5) {
+        if (self.durabilidad() <= 15) {
             personaje.actualizarArmaActual()
             personaje.bolsa().remove(personaje.bolsa().head()) //se borra esta arma, que era la primera y la anterior actual
         } else {
-            self.restarDurabilidad(10)
+            self.restarDurabilidad(15)
         }
     }
 

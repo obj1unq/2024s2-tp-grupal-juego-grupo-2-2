@@ -91,7 +91,7 @@ object personaje {
 		combate.cambiarTurnoA(enemigoCombatiendo)   //el pj termina de atacar y cambia el turno al enemigo
 	}
 
-	method actualizarArmaActual() { //esto se ejecuta cuando se descarta el arma actual
+	method actualizarArmaActual() { //esto se ejecuta solamente cuando se descarta el arma actual
 		if(bolsa.size()>1) {
 			armaActual = bolsa.get(1); //pone la 2da de la bolsa como el arma actual
 		} else {

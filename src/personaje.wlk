@@ -112,8 +112,6 @@ object personaje {
         vida = 450
 	}
 
-	//OTROS
-
 	method aumentarVida(vidaSumada) {
 		vida += vidaSumada
 	}
@@ -132,6 +130,20 @@ object sinArma {
 
 object conArma {
 
+=======
+}
+
+//ESTADOS
+
+object sinArma {
+
+	method imagenParaPersonaje() {
+		return ""
+	}
+
+}
+
+object conArma {
 	method imagenParaPersonaje() {
 		return personaje.armaActual().imagenParaPersonaje()
 	}

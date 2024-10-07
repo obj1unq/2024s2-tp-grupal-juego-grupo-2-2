@@ -24,7 +24,7 @@ program rpgPorTurnos {
 	const arma2 = randomizer.armaRandom() //segunda arma para realizar las pruebas pertinentes
 	game.addVisual(arma2)
 
-	const corazon1 = new Corazon() //objeto que, al tocarlo, le sube la vida a personaje
+const corazon1 = new Corazon() //objeto que, al tocarlo, le sube la vida a personaje
 	game.addVisual(corazon1)
 	
 	//MOVIMIENTO

@@ -112,6 +112,12 @@ object personaje {
         vida = 450
 	}
 
+	//OTROS
+
+	method aumentarVida(vidaSumada) {
+		vida += vidaSumada
+	}
+
 }
 
 //ESTADOS

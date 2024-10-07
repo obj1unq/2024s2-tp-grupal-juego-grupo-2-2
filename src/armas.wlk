@@ -5,7 +5,7 @@ import personaje.*
 
 class Arma {
     var property estaEquipada = false
-    const property position = game.at(randomizer.posicionesRandomArmas().head(),randomizer.posicionesRandomArmas().last() )
+    const property position = randomizer.posicionRandomDeArma()
     const nivel = 1.randomUpTo(3).round() 
 
     method serEquipada() {

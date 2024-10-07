@@ -74,3 +74,16 @@ object dungeon {
         return posicion.x().between(2, game.width() - 3) && posicion.y().between(2, game.height() - 6) 
     }
 }
+
+class Corazon {
+    const property position = randomizer.posicionRandomDeCorazon()
+    const property image = "corazon-32Bits.png"
+    const vidaOtorgada = 150
+
+    // El personaje colisiona con el corazón y su vida aumenta
+    method colisiono(personaje){
+        personaje.aumentarVida(vidaOtorgada)
+        game.removeVisual(self)
+    }
+
+}

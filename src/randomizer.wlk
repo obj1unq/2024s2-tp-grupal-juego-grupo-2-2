@@ -12,9 +12,14 @@ object randomizer {
 		return fabricaRnd.nuevaArma()
 	}
 
-	method posicionesRandomArmas() {
-		const listaDePosicionesArma = [[6,3], [6,7], [4,7], [2,7],[3,10], [11,9], [11,6]]
-		return listaDePosicionesArma.get(0.randomUpTo(listaDePosicionesArma.size() - 1))
+	method posicionRandomDeArma() {
+		const posRnd = [[6,3], [6,7], [4,7], [2,7], [3,10], [11,9], [11,6]].anyOne()
+		return game.at(posRnd.head(), posRnd.last())
+	}
+
+	method posicionRandomDeCorazon() {
+		const posRnd = [[2,19], [27,19], [27,2]].anyOne() //solo esquinas del tablero que no sean en la que empieza el personaje
+		return game.at(posRnd.head(), posRnd.last())
 	}
 
 	method position() {

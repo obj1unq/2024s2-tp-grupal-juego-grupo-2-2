@@ -64,6 +64,18 @@ object listaCon0 {
 
 object dungeon {
 
+    const enemigos = []
+
+    method spawnEnemigo(enemigo){
+
+        enemigos.add(enemigo)
+
+    }
+    
+    method hayEnemigoEn(celda){
+        return enemigos.any({enemigo => enemigo.position() == celda})
+    }
+
     method validarDentro(posicion) {
         if (!self.estaDentro(posicion)) {
             self.error("Soy una pared. No podés pasarme.") //entiendo que al no tener visual ni posición esto nunca se ve. igual mejor así!
@@ -72,6 +84,10 @@ object dungeon {
 
     method estaDentro(posicion) {
         return posicion.x().between(2, game.width() - 3) && posicion.y().between(2, game.height() - 6) 
+    }
+
+    method accion(){
+        enemigos.forEach({enemigo => enemigo.mover()})
     }
 }
 

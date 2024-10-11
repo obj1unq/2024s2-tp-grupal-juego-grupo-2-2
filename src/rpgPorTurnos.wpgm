@@ -16,9 +16,10 @@ program rpgPorTurnos {
 	game.cellSize(32) 		//valor por defecto 50 
 	game.boardGround("fondoNivel1.png") //posibilidad: usar objeto fondo para manejar el fondo (¿aún así lo inicializamos con esto, no?)
 	game.addVisual(listaDeObjetos)
-	game.addVisual(personaje.enemigos().head())
+	game.addVisual(fabricaDeOjos.nuevoEnemigo())
+    //game.addVisual(fabricaDeOjos.nuevoEnemigo())
 	game.addVisual(fabricaDeEsqueleto.nuevoEnemigo())
-	game.addVisual(fabricaDeEsqueleto2.nuevoEnemigo())
+	//game.addVisual(fabricaDeEsqueleto2.nuevoEnemigo())
 	game.addVisual(personaje)
 
     const arma1 = randomizer.armaRandom()

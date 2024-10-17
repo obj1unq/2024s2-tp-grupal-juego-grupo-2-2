@@ -40,9 +40,9 @@ class Enemigo {
       self.atacar()
     }
 
-    method atacar() {
-        objetivoADestruir.recibirDanho(self.danhoAtaque()) //FUTURO: Hacer las habilidades del enemigo y hacerlo clase
-        acumuladorDeTurnos+=1
+    //capaz se podría llamar hacerTurno(), porque algunas subclases de enemigo tienen habilidades curativas!
+    method atacar() { 
+        self.realizarAtaqueNormalOHabilidad() //esto se encarga del ataque/habilidad y de sumar +1 a acumuladorDeTurnos
         combate.cambiarTurnoA(objetivoADestruir)
     }
     
@@ -57,8 +57,10 @@ class Enemigo {
     method image() 
     method estado() 
     method mover() 
-    method danhoAtaque()
-    method habilidad()
+    //method danhoAtaque()
+    //method habilidad()
+    method realizarAtaqueNormalOHabilidad()
+    method utilizarHabilidad()
       
 }
 
@@ -100,18 +102,20 @@ class OjoVolador inherits Enemigo {
     }
 
     // COMBATE/PELEA
-    
-    override method danhoAtaque() {
-        if(acumuladorDeTurnos < 3) { //el cuarto ataque es habilidad
-            return danhoBase //20
+
+    //el cuarto ataque es habilidad
+    override method realizarAtaqueNormalOHabilidad() { 
+        if(acumuladorDeTurnos < 3) {
+            acumuladorDeTurnos += 1
+            objetivoADestruir.recibirDanho(danhoBase) //20
         } else {
-            acumuladorDeTurnos = -1
-            return self.habilidad()
+            acumuladorDeTurnos = 0
+            self.utilizarHabilidad()
         }
     }
 
-    override method habilidad() {
-        return danhoBase * 4 //combate.cambiarTurnoA(self) (saltea al rival y ataca otra vez)
+    override method utilizarHabilidad() {
+        objetivoADestruir.recibirDanho(danhoBase * 4)
     }
 
 }
@@ -125,6 +129,8 @@ class Esqueleto inherits Enemigo {
     override method estado() {
         return esqueletoSinArma
     }
+
+    //MOVIMIENTO (en realidad, no se mueve, pero es lo que hace en vez de moverse)
 
     override method mover() {
            self.encontrarObjetivo()
@@ -145,17 +151,22 @@ class Esqueleto inherits Enemigo {
     method hayObjetivoEnVision() {
         return objetivoADestruir.position().x().between(3, 7) && objetivoADestruir.position().y() == self.position().y()
     }
-    override method danhoAtaque() { //el quinto ataque es habilidad
+
+    // COMBATE/PELEA
+
+    //el quinto ataque es habilidad
+    override method realizarAtaqueNormalOHabilidad() { 
         if(acumuladorDeTurnos < 4) {
-          return danhoBase //43
+            acumuladorDeTurnos += 1
+            objetivoADestruir.recibirDanho(danhoBase) //43
         } else {
-            acumuladorDeTurnos = -1
-            return self.habilidad()
+            acumuladorDeTurnos = 0
+            self.utilizarHabilidad()
         }
     }
 
-    override method habilidad() {
-        return danhoBase * 2 
+    override method utilizarHabilidad() {
+        objetivoADestruir.recibirDanho(danhoBase * 2)
     }
 
 }
@@ -170,19 +181,25 @@ class Goblin inherits Enemigo {
         return goblinSinArma
     }
 
+    //MOVIMIENTO (en realidad, no se mueve)
+
     override method mover() { }
 
-    override method danhoAtaque() { //el tercer ataque es habilidad
+    // COMBATE/PELEA
+
+    //el tercer ataque es habilidad
+    override method realizarAtaqueNormalOHabilidad() { 
         if(acumuladorDeTurnos < 2) {
-          return danhoBase //37
+            acumuladorDeTurnos += 1
+            objetivoADestruir.recibirDanho(danhoBase) //37
         } else {
-            acumuladorDeTurnos = -1
-            return self.habilidad()
+            acumuladorDeTurnos = 0
+            self.utilizarHabilidad()
         }
     }
 
-    override method habilidad() {
-        return danhoBase * 3
+    override method utilizarHabilidad() {
+        objetivoADestruir.recibirDanho(danhoBase * 3)
     }
 
 }

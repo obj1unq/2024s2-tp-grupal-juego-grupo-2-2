@@ -31,21 +31,20 @@ class Arma {
         }
     }
 
+    method restarDurabilidad(cantidadRestada) {
+        durabilidad -= cantidadRestada
+    }
+
     //se implementan en cada una de las subclases de tipos de arma (ya que en todas varía)
     method danho()
     method image() 
     method imagenParaPersonaje()
-    method restarDurabilidad(cantidadRestada)
     method habilidadEspecial()
     
 
 }
 
 class Espada inherits Arma {
-
-    override method restarDurabilidad(cantidadRestada) {
-        durabilidad -= cantidadRestada
-    }
 
     override method danho() {
         return 35 + nivel * 3
@@ -72,10 +71,6 @@ class Espada inherits Arma {
 
 class ArcoYFlecha inherits Arma {
 
-    override method restarDurabilidad(cantidadRestada) {
-        durabilidad -= cantidadRestada
-    }
-
     override method danho() {
         return 20 + nivel * 3
     }
@@ -97,10 +92,6 @@ class ArcoYFlecha inherits Arma {
 }
 
 class MartilloDeGuerra inherits Arma {
-
-    override method restarDurabilidad(cantidadRestada) {
-        durabilidad -= cantidadRestada
-    }
 
     override method danho() {
         return 80 + nivel * 3

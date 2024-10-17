@@ -5,7 +5,7 @@ import wollok.game.*
 
 object randomizer {
 
-	const fabricas = [fabricaEspada, fabricaArcoYFlecha, fabricaMartilloDeGuerra]
+	const fabricas = [fabricaDeEspada, fabricaDeArcoYFlecha, fabricaDeMartilloDeGuerra]
 
 	method armaRandom() {
 		const fabricaRnd = fabricas.anyOne()

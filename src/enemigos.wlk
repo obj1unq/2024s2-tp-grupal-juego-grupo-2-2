@@ -8,27 +8,24 @@ import extras.*
 //dentro de una superclase --> esqueleto
 
 class Enemigo {
+    const danhoBase 
     var position
     var vida
     const objetivoADestruir = personaje
     var acumuladorDeTurnos = 0
-    const danhoBase 
 
     method position() {
         return position
     }
 
-    method image() 
-    method estado() 
+    method vida() {
+        return vida
+    }
 
     method colisiono(personaje) {
      self.combate() 
     }
     
-    method vida() {
-        return vida
-    }
-
     method combate() {
         combate.entidadAtacando(self)   //Hace saber al combate que él(enemigo/self) será quien empieza
         combate.iniciarCombate()    //prepara toda el hud del combate y la info necesaria
@@ -44,24 +41,24 @@ class Enemigo {
     }
 
     method atacar() {
-        objetivoADestruir.recibirDanho(self.danio()) //FUTURO: Hacer las habilidades del enemigo y hacerlo clase
-        combate.cambiarTurnoA(objetivoADestruir)
+        objetivoADestruir.recibirDanho(self.danhoAtaque()) //FUTURO: Hacer las habilidades del enemigo y hacerlo clase
         acumuladorDeTurnos+=1
+        combate.cambiarTurnoA(objetivoADestruir)
     }
-
-    method danio()
-    method habilidad()
     
     method recibirDanho(cantidad){
         vida = vida - cantidad
     }
 
-    method mover() 
-
     method morir() {
         game.removeVisual(self)
     }
 
+    method image() 
+    method estado() 
+    method mover() 
+    method danhoAtaque()
+    method habilidad()
       
 }
 
@@ -104,22 +101,19 @@ class OjoVolador inherits Enemigo {
 
     // COMBATE/PELEA
     
-    override method atacar() {
-        if(acumuladorDeTurnos < 1) {
-            objetivoADestruir.recibirDanho(danhoBase)
+    override method danhoAtaque() {
+        if(acumuladorDeTurnos < 3) { //el cuarto ataque es habilidad
+            return danhoBase //20
         } else {
-            self.habilidad()
+            acumuladorDeTurnos = -1
+            return self.habilidad()
         }
-    }
-    //el problema es el atacar() del ojo acá!!! el personaje no muere en combate contra el ojo!
-   
-    override method danio() {
-        
     }
 
     override method habilidad() {
-        combate.cambiarTurnoA(self)
+        return danhoBase * 4 //combate.cambiarTurnoA(self) (saltea al rival y ataca otra vez)
     }
+
 }
 
 class Esqueleto inherits Enemigo {
@@ -151,18 +145,19 @@ class Esqueleto inherits Enemigo {
     method hayObjetivoEnVision() {
         return objetivoADestruir.position().x().between(3, 7) && objetivoADestruir.position().y() == self.position().y()
     }
-    override method danio() {
+    override method danhoAtaque() { //el quinto ataque es habilidad
         if(acumuladorDeTurnos < 4) {
           return danhoBase //43
         } else {
+            acumuladorDeTurnos = -1
             return self.habilidad()
         }
     }
 
     override method habilidad() {
-        return
-        acumuladorDeTurnos = 0
+        return danhoBase * 2 
     }
+
 }
 
 class Goblin inherits Enemigo {
@@ -175,31 +170,35 @@ class Goblin inherits Enemigo {
         return goblinSinArma
     }
 
-    override method mover() {
-           
-    }
+    override method mover() { }
 
-    override method danio() {
+    override method danhoAtaque() { //el tercer ataque es habilidad
         if(acumuladorDeTurnos < 2) {
           return danhoBase //37
         } else {
+            acumuladorDeTurnos = -1
             return self.habilidad()
         }
     }
 
     override method habilidad() {
         return danhoBase * 3
-        acumuladorDeTurnos = 0
     }
+
 }
 
-object fabricaDeOjos {
+//FACTORIES DE ENEMIGOS
+//Tener en cuenta que, de momento, el método que tienen es para crear un enemigo en base a parámetros y no con atributos random.
+//para randomizar, si quisiéramos hacerlo, lo haríamos como hicimos en las factories de armas
+
+object fabricaDeOjoVolador {
 
     method agregarNuevoEnemigo(_position, _vida, _danhoBase) {
         const ojo = new OjoVolador(position = _position, vida = _vida, danhoBase = _danhoBase)
         dungeon.enemigos().add(ojo)
         game.addVisual(ojo)
   }
+  
 }
 
 object fabricaDeEsqueleto {
@@ -209,6 +208,7 @@ object fabricaDeEsqueleto {
         dungeon.enemigos().add(esqueleto)
         game.addVisual(esqueleto)
   }
+
 }
 
 object fabricaDeGoblin {
@@ -220,15 +220,6 @@ object fabricaDeGoblin {
     }
 
 }
-
-/*object fabricaDeEsqueleto1 {
-
-    method nuevoEnemigo() {
-        const esqueletoDer = new Esqueleto(position = game.at(26,13) , vida = 200)
-        dungeon.enemigos().add(esqueletoDer)
-        return esqueletoDer
-  }
-}*/
 
 //estados de las distintas clases de enemigos 
 //(¿van a tener algo más que solo la imagen? porque, sino, leo dijo que no está tan bueno hacer objetos de estado así. Podríamos no tener

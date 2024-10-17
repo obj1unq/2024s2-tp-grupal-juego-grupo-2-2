@@ -12,7 +12,7 @@ class Enemigo {
     var vida
     const objetivoADestruir = personaje
     var acumuladorDeTurnos = 0
-    const danioBase 
+    const danhoBase 
 
     method position() {
         return position
@@ -106,11 +106,12 @@ class OjoVolador inherits Enemigo {
     
     override method atacar() {
         if(acumuladorDeTurnos < 1) {
-            objetivoADestruir.recibirDanho(danioBase)
+            objetivoADestruir.recibirDanho(danhoBase)
         } else {
             self.habilidad()
         }
     }
+    //el problema es el atacar() del ojo acá!!! el personaje no muere en combate contra el ojo!
    
     override method danio() {
         
@@ -152,7 +153,7 @@ class Esqueleto inherits Enemigo {
     }
     override method danio() {
         if(acumuladorDeTurnos < 4) {
-          return danioBase //43
+          return danhoBase //43
         } else {
             return self.habilidad()
         }
@@ -180,42 +181,44 @@ class Goblin inherits Enemigo {
 
     override method danio() {
         if(acumuladorDeTurnos < 2) {
-          return danioBase //37
+          return danhoBase //37
         } else {
             return self.habilidad()
         }
     }
 
     override method habilidad() {
-        return danioBase * 3
+        return danhoBase * 3
         acumuladorDeTurnos = 0
     }
 }
 
 object fabricaDeOjos {
 
-    method nuevoEnemigo() {
-        const ojo = new OjoVolador(position = game.at(14,9) , vida = 150, danioBase = 20)
+    method agregarNuevoEnemigo(_position, _vida, _danhoBase) {
+        const ojo = new OjoVolador(position = _position, vida = _vida, danhoBase = _danhoBase)
         dungeon.enemigos().add(ojo)
-        return ojo
+        game.addVisual(ojo)
   }
 }
 
 object fabricaDeEsqueleto {
 
-    method nuevoEnemigo() {
-        const esqueletoIzq = new Esqueleto(position = game.at(3,10) , vida = 200, danioBase = 43)
-        dungeon.enemigos().add(esqueletoIzq)
-        return esqueletoIzq
+    method agregarNuevoEnemigo(_position, _vida, _danhoBase) {
+        const esqueleto = new Esqueleto(position = _position, vida = _vida, danhoBase = _danhoBase)
+        dungeon.enemigos().add(esqueleto)
+        game.addVisual(esqueleto)
   }
 }
 
 object fabricaDeGoblin {
-    method nuevoEnemigo() {
-        const goblin = new Goblin(position = game.at(15, 14), vida = 95, danioBase = 37)
+
+    method agregarNuevoEnemigoCon(_position, _vida, _danhoBase) {
+        const goblin = new Goblin(position = _position, vida = _vida, danhoBase = _danhoBase)
         dungeon.enemigos().add(goblin)
-        return goblin
+        game.addVisual(goblin)
     }
+
 }
 
 /*object fabricaDeEsqueleto1 {
@@ -226,6 +229,10 @@ object fabricaDeGoblin {
         return esqueletoDer
   }
 }*/
+
+//estados de las distintas clases de enemigos 
+//(¿van a tener algo más que solo la imagen? porque, sino, leo dijo que no está tan bueno hacer objetos de estado así. Podríamos no tener
+//estado y en el método image() simplemente hacer un if, según dijo)
 
 
 object ojoSinArma {

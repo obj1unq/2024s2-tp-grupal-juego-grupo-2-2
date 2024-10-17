@@ -15,14 +15,18 @@ program rpgPorTurnos {
 	game.width(30) 			//valor por defecto 5
 	game.cellSize(32) 		//valor por defecto 50 
 	game.boardGround("fondoNivel1.png") //posibilidad: usar objeto fondo para manejar el fondo (¿aún así lo inicializamos con esto, no?)
-	game.addVisual(listaDeObjetos)
 
-	game.addVisual(fabricaDeOjos.nuevoEnemigo())
-	game.addVisual(fabricaDeEsqueleto.nuevoEnemigo())
-	//game.addVisual(fabricaDeEsqueleto1.nuevoEnemigo())
-	game.addVisual(fabricaDeGoblin.nuevoEnemigo())
 	game.addVisual(personaje)
 
+	//OBJETOS CON LOS QUE NO SE INTERACTUA
+	game.addVisual(listaDeObjetos)
+
+	//OBJETOS CON LOS QUE SE INTERACTUA
+	fabricaDeOjos.agregarNuevoEnemigo(game.at(20,9), 150, 20)
+	fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(3,10), 200, 43)
+	fabricaDeGoblin.agregarNuevoEnemigoCon(game.at(15, 14), 95, 37)
+	
+	//podríamos replicar el no uso de un const para las armas y corazones tal como se hace arriba con los enemigos!
     const arma1 = randomizer.armaRandom()
 	game.addVisual(arma1)
 	const arma2 = randomizer.armaRandom() //segunda arma para realizar las pruebas pertinentes
@@ -31,7 +35,7 @@ program rpgPorTurnos {
 	const corazon1 = new Corazon() //objeto que, al tocarlo, le sube la vida a personaje
 	game.addVisual(corazon1)
 	
-	//MOVIMIENTO
+	//TECLAS MOVIMIENTO
 	keyboard.w().onPressDo({personaje.mover(arriba)})
 	keyboard.d().onPressDo({personaje.mover(derecha)})
 	keyboard.s().onPressDo({personaje.mover(abajo)})

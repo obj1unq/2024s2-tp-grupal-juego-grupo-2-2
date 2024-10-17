@@ -92,7 +92,7 @@ object personaje {
 
 	method actualizarArmaActual() { //esto se ejecuta solamente cuando se descarta el arma actual
 		if(bolsa.size()>1) {
-			armaActual = bolsa.get(1); //pone la 2da de la bolsa como el arma actual
+			armaActual = bolsa.get(1) //pone la 2da de la bolsa como el arma actual
 		} else {
 			armaActual = mano
 		}

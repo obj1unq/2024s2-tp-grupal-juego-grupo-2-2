@@ -13,6 +13,7 @@ class Enemigo {
     var vida
     const objetivoADestruir = personaje
     var acumuladorDeTurnos = 0
+    const turnoRequeridoParaHabilidad
 
     method position() {
         return position
@@ -55,17 +56,26 @@ class Enemigo {
         dungeon.enemigos().remove(self)
     }
 
+    method realizarAtaqueNormalOHabilidad() { 
+        if(acumuladorDeTurnos < turnoRequeridoParaHabilidad) {
+            acumuladorDeTurnos += 1
+            objetivoADestruir.recibirDanho(danhoBase)
+        } else {
+            acumuladorDeTurnos = 0
+            self.utilizarHabilidad()
+        }
+    }
+
     method image() 
     method estado() 
     method mover() 
     //method danhoAtaque()
     //method habilidad()
-    method realizarAtaqueNormalOHabilidad()
     method utilizarHabilidad()
       
 }
 
-class OjoVolador inherits Enemigo {
+class OjoVolador inherits Enemigo(turnoRequeridoParaHabilidad = 3) {
     
    override  method image() { 
 		return "ojoVolador" + self.estado().imagenParaPersonaje() + "-32Bits.png"
@@ -104,15 +114,6 @@ class OjoVolador inherits Enemigo {
     // COMBATE/PELEA
 
     //el cuarto ataque es habilidad
-    override method realizarAtaqueNormalOHabilidad() { 
-        if(acumuladorDeTurnos < 3) {
-            acumuladorDeTurnos += 1
-            objetivoADestruir.recibirDanho(danhoBase) //20
-        } else {
-            acumuladorDeTurnos = 0
-            self.utilizarHabilidad()
-        }
-    }
 
     override method utilizarHabilidad() {
         game.say(self, "¡Uso habilidad Poción de Vida!")
@@ -121,7 +122,7 @@ class OjoVolador inherits Enemigo {
 
 }
 
-class Esqueleto inherits Enemigo {
+class Esqueleto inherits Enemigo(turnoRequeridoParaHabilidad = 4) {
 
     override method image() {
         return "esqueleto" + self.estado().imagenParaPersonaje() + "-32Bits.png" //EMOSIDO ENGAÑADO. ES DE 64X64!!
@@ -156,15 +157,6 @@ class Esqueleto inherits Enemigo {
     // COMBATE/PELEA
 
     //el quinto ataque es habilidad
-    override method realizarAtaqueNormalOHabilidad() { 
-        if(acumuladorDeTurnos < 4) {
-            acumuladorDeTurnos += 1
-            objetivoADestruir.recibirDanho(danhoBase) //43
-        } else {
-            acumuladorDeTurnos = 0
-            self.utilizarHabilidad()
-        }
-    }
 
     override method utilizarHabilidad() {
         game.say(self, "¡Uso habilidad Robo de Energia!")
@@ -174,7 +166,7 @@ class Esqueleto inherits Enemigo {
 
 }
 
-class Goblin inherits Enemigo {
+class Goblin inherits Enemigo(turnoRequeridoParaHabilidad = 2) {
        
     override method image() {
         return "enemigo1" + self.estado().imagenParaPersonaje() + "-32Bits.png" //momentáneamente, la imagen es la de Silvestre
@@ -191,15 +183,6 @@ class Goblin inherits Enemigo {
     // COMBATE/PELEA
 
     //el tercer ataque es habilidad
-    override method realizarAtaqueNormalOHabilidad() { 
-        if(acumuladorDeTurnos < 2) {
-            acumuladorDeTurnos += 1
-            objetivoADestruir.recibirDanho(danhoBase) //37
-        } else {
-            acumuladorDeTurnos = 0
-            self.utilizarHabilidad()
-        }
-    }
 
     override method utilizarHabilidad() {
         game.say(self, "¡Uso habilidad Golpe Mortal!")

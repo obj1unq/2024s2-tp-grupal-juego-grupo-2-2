@@ -67,6 +67,10 @@ object dungeon {
 
     const property enemigos = []
 
+    method registrarEnemigo(enemigo) {
+        enemigos.add(enemigo)
+    }
+
     method validarDentro(posicion) {
         if (!self.estaDentro(posicion)) {
             self.error("Soy una pared. No podés pasarme.") //entiendo que al no tener visual ni posición esto nunca se ve. igual mejor así!

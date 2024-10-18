@@ -11,9 +11,9 @@ import pelea.*
 
 program rpgPorTurnos {
 	game.title("RPG por turnos de nombre a confirmar")
-	game.height(25) 		//valor por defecto 5
-	game.width(30) 			//valor por defecto 5
-	game.cellSize(32) 		//valor por defecto 50 
+	game.height(25) 		
+	game.width(30) 			
+	game.cellSize(32) 		
 	game.boardGround("fondoNivel1.png") //posibilidad: usar objeto fondo para manejar el fondo (¿aún así lo inicializamos con esto, no?)
 
 	//OBJETOS CON LOS QUE NO SE INTERACTUA
@@ -21,16 +21,22 @@ program rpgPorTurnos {
 
 	//OBJETOS CON LOS QUE SE INTERACTUA
 	fabricaDeOjoVolador.agregarNuevoEnemigo(game.at(20,9), 150, 20)
-	fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(3,10), 200, 43) //¿el que más vida tiene es el que más daño causa? ¿no es too much?
-	fabricaDeGoblin.agregarNuevoEnemigoCon(game.at(15, 14), 95, 37)
+	fabricaDeGoblin.agregarNuevoEnemigoCon(game.at(15,14), 95, 37)
+	fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(3,10), 200, 43, visionDerecha) 
+	fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(26,10), 200, 43, visionIzquierda) 
+	//¿el que más vida tiene es el que más daño causa? ¿no es too much?
+	//por alguna razón, el 2do esqueleto solamente busca al pj dps de muerto el 1er esqueleto. de hecho. el 1er esqueleto como que 
+	//lockea el movimiento de todo lo que viene dps de él. si ponemos el ojo dps del 1er esqueleto tampoco sigue al personaje como debería
+	//probé poniendo 2 ojos y no pasa que el 1ro lockee el movimiento del 2do. Es algo de la subclase Esqueleto, parece
+	//mientras el 1er esqueleto esté vivo, el 2do NO hace lo de ver a su alrededor para atacar
 	
 	//podríamos replicar el no uso de un const/referencia para las armas y corazones tal como se hace arriba con los enemigos!
     const arma1 = randomizer.armaRandom()
 	game.addVisual(arma1)
-	const arma2 = randomizer.armaRandom() //segunda arma para realizar las pruebas pertinentes
+	const arma2 = randomizer.armaRandom() 
 	game.addVisual(arma2)
 
-	const corazon1 = new Corazon() //objeto que, al tocarlo, le sube la vida a personaje
+	const corazon1 = new Corazon() 
 	game.addVisual(corazon1)
 
 	//PERSONAJE

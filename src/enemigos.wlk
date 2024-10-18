@@ -24,7 +24,7 @@ class Enemigo {
     }
 
     method colisiono(personaje) {
-     self.combate() 
+        self.combate() 
     }
     
     method combate() {
@@ -123,6 +123,7 @@ class OjoVolador inherits Enemigo(turnoRequeridoParaHabilidad = 3) {
 }
 
 class Esqueleto inherits Enemigo(turnoRequeridoParaHabilidad = 4) {
+    const vision
 
     override method image() {
         return "esqueleto" + self.estado().imagenParaPersonaje() + "-32Bits.png" //EMOSIDO ENGAÑADO. ES DE 64X64!!
@@ -135,23 +136,34 @@ class Esqueleto inherits Enemigo(turnoRequeridoParaHabilidad = 4) {
     //MOVIMIENTO (en realidad, no se mueve, pero es lo que hace en vez de moverse)
 
     override method mover() {
-           self.encontrarObjetivo()
+        self.revisarSiHayObjetivo()
     }
 
-    method encontrarObjetivo() {
-        self.validarEncontrar()
-        position = objetivoADestruir.position()
-        self.combate()
-    }
-
-    method validarEncontrar() {
-        if (!self.hayObjetivoEnVision()) {
-            self.error("")
+    //se tuvo que remplazar la validación por directamente un if. Si se cumple condición, se dispara combate.
+    //la validación causaba que, si personaje no estaba en el rango de visión del esqueleto, tirara ERROR, y eso causaba que se deje de
+    //ejecutar el método de dungeon accionEnemigos() que hace que todos los enemigos de la dungeon ejecuten mover(),
+    //por lo que todos los enemigos que venían después del 1er esqueleto en la lista de enemigos de la dungeon NO SE MOVÍAN (ya que
+    //el error paraba la ejecución del método accionEnemigos)
+    //con el if no pasa eso. Si no está en el rango de visión del esqueleto, no hace nada y listo. NO se tira un error.
+    //entiendo que, conceptualmente, no está mal, ya que el método no promete atacar, sino que promete REVISAR (y, si dps de revisar,
+    //ve al personaje cerca, ahí sí ataca)
+    method revisarSiHayObjetivo() {
+        //self.validarEncontrar() ESTO CAUSABA BUG AL TENER 2 ESQUELETOS. No queda otra más que sacarlo
+        if(self.hayObjetivoEnVision() && self.position()!=objetivoADestruir.position()) { //esto para que no se choque con el self.combate() de colisiono()
+            position = objetivoADestruir.position()
+            self.combate()
         }
     }
 
+    //method validarEncontrar() {
+    //    if (!self.hayObjetivoEnVision()) {
+    //        self.error("")
+    //    }
+    //}
+
     method hayObjetivoEnVision() {
-        return objetivoADestruir.position().x().between(3, 7) && objetivoADestruir.position().y() == self.position().y()
+        return vision.hayObjetoEnX(self.position(), objetivoADestruir.position()) &&
+               objetivoADestruir.position().y() == self.position().y()
     }
 
     // COMBATE/PELEA
@@ -165,6 +177,26 @@ class Esqueleto inherits Enemigo(turnoRequeridoParaHabilidad = 4) {
     }
 
 }
+
+/////////objetos visión/////////////
+
+object visionDerecha {
+
+    method hayObjetoEnX(posObservador, posObservado) {
+        return posObservado.x().between(posObservador.x(), posObservador.x()+3) //vision.hayObjetoEnX(self.position(), objetivoADestruir.position())
+    }
+
+}
+
+object visionIzquierda {
+
+    method hayObjetoEnX(posObservador, posObservado) {
+        return posObservado.x().between(posObservador.x()-3, posObservador.x()) //vision.hayObjetoEnX(self.position(), objetivoADestruir.position())
+    }
+
+}
+
+////////////////////////////////////
 
 class Goblin inherits Enemigo(turnoRequeridoParaHabilidad = 2) {
        
@@ -199,7 +231,7 @@ object fabricaDeOjoVolador {
 
     method agregarNuevoEnemigo(_position, _vida, _danhoBase) {
         const ojo = new OjoVolador(position = _position, vida = _vida, danhoBase = _danhoBase)
-        dungeon.enemigos().add(ojo)
+        dungeon.registrarEnemigo(ojo)
         game.addVisual(ojo)
   }
   
@@ -207,9 +239,9 @@ object fabricaDeOjoVolador {
 
 object fabricaDeEsqueleto {
 
-    method agregarNuevoEnemigo(_position, _vida, _danhoBase) {
-        const esqueleto = new Esqueleto(position = _position, vida = _vida, danhoBase = _danhoBase)
-        dungeon.enemigos().add(esqueleto)
+    method agregarNuevoEnemigo(_position, _vida, _danhoBase, _vision) {
+        const esqueleto = new Esqueleto(position = _position, vida = _vida, danhoBase = _danhoBase, vision = _vision)
+        dungeon.registrarEnemigo(esqueleto)
         game.addVisual(esqueleto)
   }
 
@@ -219,7 +251,7 @@ object fabricaDeGoblin {
 
     method agregarNuevoEnemigoCon(_position, _vida, _danhoBase) {
         const goblin = new Goblin(position = _position, vida = _vida, danhoBase = _danhoBase)
-        dungeon.enemigos().add(goblin)
+        dungeon.registrarEnemigo(goblin)
         game.addVisual(goblin)
     }
 

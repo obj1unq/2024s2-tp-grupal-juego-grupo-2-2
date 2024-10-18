@@ -10,7 +10,7 @@ import pelea.*
 object personaje {
 	//var property enemigos = fabricaDeOjos.nuevoEnemigo() //Esto hay que arreglarlo
 	//para que funcione sin esta lista fea donde el personaje conoce al enemigo en vez de la dungeon
-	var  position = game.at(7,2);
+	var  position = game.at(7,2)
     var property vida = 450
 	const property bolsa = []
 	var estaEnCombate = false

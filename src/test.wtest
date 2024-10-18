@@ -1,6 +1,12 @@
-import posiciones.*
 import personaje.*
+import extras.*
 import enemigos.*
+import randomizer.*
+import posiciones.*
+import paleta.*
+import armas.*
+import paredes.*
+import pelea.*
 
 /*
 describe "prueba de movimiento de enemigo1" {
@@ -15,3 +21,15 @@ describe "prueba de movimiento de enemigo1" {
 
 }
 */
+
+describe "testeo de funcionalidades" {
+
+    test "lista de enemigos de la dungeon" {
+        fabricaDeOjoVolador.agregarNuevoEnemigo(game.at(20,9), 150, 20)
+	fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(3,10), 200, 43, visionDerecha) 
+	fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(26,10), 200, 43, visionIzquierda)
+	fabricaDeGoblin.agregarNuevoEnemigoCon(game.at(15, 14), 95, 37)
+        assert.equals(4, dungeon.enemigos().size())
+    }
+
+}

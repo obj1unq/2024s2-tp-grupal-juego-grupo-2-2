@@ -1,10 +1,11 @@
-# Nombre del juego (<- borrar y completar)
+# RPG por Turnos (aún sin nombre)
 
 ## Equipo de desarrollo
 
-- Alguien
-- Persona
-- etc.
+- Cutillo, Camila
+- Oreskovic, Franco
+- Reynoso, Elías
+- Vildoza, Lautaro
 
 ## Capturas
 
@@ -12,11 +13,12 @@
 
 ## Reglas de Juego / Instrucciones
 
-(Escribirlas)
+ - Para moverse, pulse las teclas W, A, S y D
+ - Para atacar cuando está en combate, pulse la tecla "up arrow" (flecha hacia arriba)
 
 
 ## Otros
 
-- Curso/Facultad
-- Versión de wollok
-- Una vez terminado, no tenemos problemas en que el repositorio sea público / queremos manternerlo privado
+- Programacion Con Objetos 1 (Comision 2) / UNQ (Universidad Nacional de Quilmes)
+- Versión de wollok 0.2.7
+- Una vez terminado, no tenemos problemas en que el repositorio sea público / queremos manternerlo privado (aún no decidido)

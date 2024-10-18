@@ -21,7 +21,7 @@ program rpgPorTurnos {
 
 	//OBJETOS CON LOS QUE SE INTERACTUA
 	fabricaDeOjoVolador.agregarNuevoEnemigo(game.at(20,9), 150, 20)
-	fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(3,10), 200, 43)
+	fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(3,10), 200, 43) //¿el que más vida tiene es el que más daño causa? ¿no es too much?
 	fabricaDeGoblin.agregarNuevoEnemigoCon(game.at(15, 14), 95, 37)
 	
 	//podríamos replicar el no uso de un const/referencia para las armas y corazones tal como se hace arriba con los enemigos!

@@ -52,6 +52,7 @@ class Enemigo {
 
     method morir() {
         game.removeVisual(self)
+        dungeon.enemigos().remove(self)
     }
 
     method image() 
@@ -66,9 +67,8 @@ class Enemigo {
 
 class OjoVolador inherits Enemigo {
     
-   override  method image() { //image() se calcula a cada frame al igual que position(), si no entendí mal
-		return "ojito32a.png"
-        
+   override  method image() { 
+		return "ojoVolador" + self.estado().imagenParaPersonaje() + "-32Bits.png"
 	}
 
 	override method estado() {
@@ -115,7 +115,8 @@ class OjoVolador inherits Enemigo {
     }
 
     override method utilizarHabilidad() {
-        objetivoADestruir.recibirDanho(danhoBase * 4)
+        game.say(self, "¡Uso habilidad Poción de Vida!")
+        vida += danhoBase * 3
     }
 
 }
@@ -123,7 +124,7 @@ class OjoVolador inherits Enemigo {
 class Esqueleto inherits Enemigo {
 
     override method image() {
-        return "esqueleto" + self.estado().imagenParaPersonaje() + "-32Bits.png"
+        return "esqueleto" + self.estado().imagenParaPersonaje() + "-32Bits.png" //EMOSIDO ENGAÑADO. ES DE 64X64!!
     }
 
     override method estado() {
@@ -166,7 +167,9 @@ class Esqueleto inherits Enemigo {
     }
 
     override method utilizarHabilidad() {
-        objetivoADestruir.recibirDanho(danhoBase * 2)
+        game.say(self, "¡Uso habilidad Robo de Energia!")
+        vida += danhoBase * 1.5
+        objetivoADestruir.recibirDanho(danhoBase * 1.5)
     }
 
 }
@@ -174,7 +177,7 @@ class Esqueleto inherits Enemigo {
 class Goblin inherits Enemigo {
        
     override method image() {
-        return "enemigo1" + self.estado().imagenParaPersonaje() + "-32Bits.png"
+        return "enemigo1" + self.estado().imagenParaPersonaje() + "-32Bits.png" //momentáneamente, la imagen es la de Silvestre
     }
 
     override method estado() {
@@ -199,6 +202,7 @@ class Goblin inherits Enemigo {
     }
 
     override method utilizarHabilidad() {
+        game.say(self, "¡Uso habilidad Golpe Mortal!")
         objetivoADestruir.recibirDanho(danhoBase * 3)
     }
 
@@ -248,6 +252,7 @@ object ojoSinArma {
     method imagenParaPersonaje() {
         return ""
     }
+
 }
 
 object esqueletoSinArma {
@@ -255,6 +260,7 @@ object esqueletoSinArma {
     method imagenParaPersonaje() {
       return ""
     }
+
 }
 
 object goblinSinArma {
@@ -262,5 +268,6 @@ object goblinSinArma {
     method imagenParaPersonaje() {
         return ""
     }
+
 }
 

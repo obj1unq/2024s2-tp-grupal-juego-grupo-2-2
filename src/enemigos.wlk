@@ -68,7 +68,7 @@ class Enemigo {
 
     method image() 
     method estado() 
-    method mover() 
+    method reaccionarAMovimiento() 
     //method danhoAtaque()
     //method habilidad()
     method utilizarHabilidad()
@@ -95,19 +95,29 @@ class OjoVolador inherits Enemigo(turnoRequeridoParaHabilidad = 3) {
         return (objetivoADestruir.position().y() - position.y())
     }
 
-   override method mover() { 
+    override method reaccionarAMovimiento() {   // SI HAY MAS DE UN ENEMIGO QUE NO SE METAN LOS DOS EN LA MISMA CELDA
         if (self.distanciaEnEjeX().abs() > self.distanciaEnEjeY().abs()) {
             if(self.distanciaEnEjeX() > 0) {
-                position = derecha.siguiente(position)
+                const posicionSiguiente = derecha.siguiente(position)
+                self.moverseSiNoHayOtroA(posicionSiguiente)
             } else {
-                position = izquierda.siguiente(position)
+                const posicionSiguiente = izquierda.siguiente(position)
+                self.moverseSiNoHayOtroA(posicionSiguiente)
             }
         } else if (self.distanciaEnEjeY().abs() > self.distanciaEnEjeX().abs()) {
             if(self.distanciaEnEjeY() > 0) {
-                position = arriba.siguiente(position)
+                const posicionSiguiente = arriba.siguiente(position)
+                self.moverseSiNoHayOtroA(posicionSiguiente)
             } else {
-                position = abajo.siguiente(position)
+                const posicionSiguiente = abajo.siguiente(position)
+                self.moverseSiNoHayOtroA(posicionSiguiente)
             }
+        }
+    }
+
+    method moverseSiNoHayOtroA(posicionSiguiente) { //El ojo se mueve si no hay otro enemigo en la celda. Así se evitan choques entre ellos.
+        if(!dungeon.hayEnemigoEn(posicionSiguiente)) {
+            position = posicionSiguiente
         }
     }
 
@@ -135,13 +145,13 @@ class Esqueleto inherits Enemigo(turnoRequeridoParaHabilidad = 4) {
 
     //MOVIMIENTO (en realidad, no se mueve, pero es lo que hace en vez de moverse)
 
-    override method mover() {
+    override method reaccionarAMovimiento() {
         self.revisarSiHayObjetivo()
     }
 
     //se tuvo que remplazar la validación por directamente un if. Si se cumple condición, se dispara combate.
     //la validación causaba que, si personaje no estaba en el rango de visión del esqueleto, tirara ERROR, y eso causaba que se deje de
-    //ejecutar el método de dungeon accionEnemigos() que hace que todos los enemigos de la dungeon ejecuten mover(),
+    //ejecutar el método de dungeon accionEnemigos() que hace que todos los enemigos de la dungeon ejecuten reaccionarAMovimiento(),
     //por lo que todos los enemigos que venían después del 1er esqueleto en la lista de enemigos de la dungeon NO SE MOVÍAN (ya que
     //el error paraba la ejecución del método accionEnemigos)
     //con el if no pasa eso. Si no está en el rango de visión del esqueleto, no hace nada y listo. NO se tira un error.
@@ -210,7 +220,7 @@ class Goblin inherits Enemigo(turnoRequeridoParaHabilidad = 2) {
 
     //MOVIMIENTO (en realidad, no se mueve)
 
-    override method mover() { }
+    override method reaccionarAMovimiento() { }
 
     // COMBATE/PELEA
 

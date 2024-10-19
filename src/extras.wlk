@@ -82,8 +82,13 @@ object dungeon {
     }
 
     method accionEnemigos() {
-        enemigos.forEach({enemigo => enemigo.mover()})
+        enemigos.forEach({enemigo => enemigo.reaccionarAMovimiento()})
     }
+
+    method hayEnemigoEn(celda){
+        return enemigos.any({enemigo => enemigo.position() == celda})
+    }
+
 }
 
 class Corazon {

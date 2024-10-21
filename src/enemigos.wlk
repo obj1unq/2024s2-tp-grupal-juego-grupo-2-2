@@ -146,12 +146,15 @@ class Esqueleto inherits Enemigo(turnoRequeridoParaHabilidad = 4) {
     //MOVIMIENTO (en realidad, no se mueve, pero es lo que hace en vez de moverse)
 
     override method reaccionarAMovimiento() {
+
         self.revisarSiHayObjetivo()
     }
 
     //se tuvo que remplazar la validación por directamente un if. Si se cumple condición, se dispara combate.
     //la validación causaba que, si personaje no estaba en el rango de visión del esqueleto, tirara ERROR, y eso causaba que se deje de
+
     //ejecutar el método de dungeon accionEnemigos() que hace que todos los enemigos de la dungeon ejecuten reaccionarAMovimiento(),
+
     //por lo que todos los enemigos que venían después del 1er esqueleto en la lista de enemigos de la dungeon NO SE MOVÍAN (ya que
     //el error paraba la ejecución del método accionEnemigos)
     //con el if no pasa eso. Si no está en el rango de visión del esqueleto, no hace nada y listo. NO se tira un error.
@@ -205,8 +208,6 @@ object visionIzquierda {
     }
 
 }
-
-////////////////////////////////////
 
 class Goblin inherits Enemigo(turnoRequeridoParaHabilidad = 2) {
        

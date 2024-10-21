@@ -195,11 +195,21 @@ class Esqueleto inherits Enemigo(turnoRequeridoParaHabilidad = 4) {
 
 object area {
     method hayObjetivo(posEnemigo, posPJ){
-        return posPJ().between(lineaCentro.hayObjeto(posEnemigo, posPJ))
+        return posPJ.between(lineaCentro.hayObjeto(posEnemigo, posPJ)) ||
+                posPJ.between(lineaCentro.hayObjeto(posEnemigo.up(1), posPJ)) ||
+                posPJ.between(lineaCentro.hayObjeto(posEnemigo.downs(1), posPJ))
 
     }
 
 }
+object visionDerecha {
+
+    method hayObjetoEnX(posObservador, posObservado) {
+        return posObservado.x().between(posObservador.x(), posObservador.x()+3) //vision.hayObjetoEnX(self.position(), objetivoADestruir.position())
+    }
+
+}
+
 
 
 object lineaCentro {

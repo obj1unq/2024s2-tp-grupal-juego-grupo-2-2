@@ -193,21 +193,23 @@ class Esqueleto inherits Enemigo(turnoRequeridoParaHabilidad = 4) {
 
 /////////objetos visión/////////////
 
-object visionDerecha {
+object area {
+    method hayObjetivo(posEnemigo, posPJ){
+        return posPJ().between(lineaCentro.hayObjeto(posEnemigo, posPJ))
 
-    method hayObjetoEnX(posObservador, posObservado) {
-        return posObservado.x().between(posObservador.x(), posObservador.x()+3) //vision.hayObjetoEnX(self.position(), objetivoADestruir.position())
     }
 
 }
 
-object visionIzquierda {
 
-    method hayObjetoEnX(posObservador, posObservado) {
-        return posObservado.x().between(posObservador.x()-3, posObservador.x()) //vision.hayObjetoEnX(self.position(), objetivoADestruir.position())
+object lineaCentro {
+
+    method hayObjeto(posObservador, posObservado) {
+        return posObservado.x().between(posObservador.x()-3, posObservador.x()+3) //vision.hayObjetoEnX(self.position(), objetivoADestruir.position())
     }
 
 }
+
 
 class Goblin inherits Enemigo(turnoRequeridoParaHabilidad = 2) {
        

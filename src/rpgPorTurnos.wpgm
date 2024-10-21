@@ -19,11 +19,14 @@ program rpgPorTurnos {
 	//OBJETOS CON LOS QUE NO SE INTERACTUA
 	game.addVisual(listaDeObjetos)
 
+
+
+
 	//OBJETOS CON LOS QUE SE INTERACTUA
-	fabricaDeOjoVolador.agregarNuevoEnemigo(game.at(23,15), 150, 20)
+	//fabricaDeOjoVolador.agregarNuevoEnemigo(game.at(23,15), 150, 20)
 	fabricaDeGoblin.agregarNuevoEnemigoCon(game.at(15,14), 95, 37)
-	fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(3,10), 200, 43, visionDerecha) 
-	fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(26,10), 200, 43, visionIzquierda) 
+	fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(3,10), 200, 43) 
+	//fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(26,10), 200, 43, visionIzquierda) 
 	//¿el que más vida tiene es el que más daño causa? ¿no es too much?
 	//por alguna razón, el 2do esqueleto solamente busca al pj dps de muerto el 1er esqueleto. de hecho. el 1er esqueleto como que 
 	//lockea el movimiento de todo lo que viene dps de él. si ponemos el ojo dps del 1er esqueleto tampoco sigue al personaje como debería
@@ -58,8 +61,8 @@ program rpgPorTurnos {
 	//borde.cargar()
 	//borde.mostrar()
 
-    //test turnos
-    //game.addVisual(turnoTest)
+    //test 
+    game.addVisual(posPJ)
 
 	game.start()
 }

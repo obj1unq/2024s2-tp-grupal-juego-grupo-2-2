@@ -103,3 +103,12 @@ class Corazon {
     }
 
 }
+
+
+//para pruebas
+object posPJ{
+    const property position = game.at(5,5)
+
+    method text() = personaje.position().toString()
+    method textColor() = paleta.rojo()
+}

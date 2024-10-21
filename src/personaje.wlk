@@ -117,6 +117,7 @@ object personaje {
 		vida += vidaSumada
 	}
 
+
 }
 
 //ESTADOS

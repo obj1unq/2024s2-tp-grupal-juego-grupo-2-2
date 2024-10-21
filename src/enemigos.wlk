@@ -133,7 +133,7 @@ class OjoVolador inherits Enemigo(turnoRequeridoParaHabilidad = 3) {
 }
 
 class Esqueleto inherits Enemigo(turnoRequeridoParaHabilidad = 4) {
-    const vision
+   // const vision
 
     override method image() {
         return "esqueleto" + self.estado().imagenParaPersonaje() + "-32Bits.png" //EMOSIDO ENGAÑADO. ES DE 64X64!!
@@ -175,8 +175,8 @@ class Esqueleto inherits Enemigo(turnoRequeridoParaHabilidad = 4) {
     //}
 
     method hayObjetivoEnVision() {
-        return vision.hayObjetoEnX(self.position(), objetivoADestruir.position()) &&
-               objetivoADestruir.position().y() == self.position().y()
+        return area.hayObjetivo(self.position(), objetivoADestruir.position()) 
+              // objetivoADestruir.position().y() == self.position().y()
     }
 
     // COMBATE/PELEA
@@ -195,27 +195,22 @@ class Esqueleto inherits Enemigo(turnoRequeridoParaHabilidad = 4) {
 
 object area {
     method hayObjetivo(posEnemigo, posPJ){
-        return posPJ.between(lineaCentro.hayObjeto(posEnemigo, posPJ)) ||
-                posPJ.between(lineaCentro.hayObjeto(posEnemigo.up(1), posPJ)) ||
-                posPJ.between(lineaCentro.hayObjeto(posEnemigo.downs(1), posPJ))
+        return lineaCeldas.hayObjeto(posEnemigo, posPJ) ||
+               lineaCeldas.hayObjeto(posEnemigo.up(1), posPJ) ||
+               lineaCeldas.hayObjeto(posEnemigo.down(1), posPJ)
 
     }
 
 }
-object visionDerecha {
-
-    method hayObjetoEnX(posObservador, posObservado) {
-        return posObservado.x().between(posObservador.x(), posObservador.x()+3) //vision.hayObjetoEnX(self.position(), objetivoADestruir.position())
-    }
-
-}
 
 
 
-object lineaCentro {
+
+object lineaCeldas {
 
     method hayObjeto(posObservador, posObservado) {
-        return posObservado.x().between(posObservador.x()-3, posObservador.x()+3) //vision.hayObjetoEnX(self.position(), objetivoADestruir.position())
+        return posObservado.x().between(posObservador.x()-2, posObservador.x()+2) and
+                posObservado.y().between(posObservador.y()-2, posObservador.y()+2) //vision.hayObjetoEnX(self.position(), objetivoADestruir.position())
     }
 
 }
@@ -262,8 +257,8 @@ object fabricaDeOjoVolador {
 
 object fabricaDeEsqueleto {
 
-    method agregarNuevoEnemigo(_position, _vida, _danhoBase, _vision) {
-        const esqueleto = new Esqueleto(position = _position, vida = _vida, danhoBase = _danhoBase, vision = _vision)
+    method agregarNuevoEnemigo(_position, _vida, _danhoBase) {
+        const esqueleto = new Esqueleto(position = _position, vida = _vida, danhoBase = _danhoBase)
         dungeon.registrarEnemigo(esqueleto)
         game.addVisual(esqueleto)
   }

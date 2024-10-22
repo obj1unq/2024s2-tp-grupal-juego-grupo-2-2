@@ -12,6 +12,7 @@ object personaje {
 	//para que funcione sin esta lista fea donde el personaje conoce al enemigo en vez de la dungeon
 	var  position = game.at(7,2)
     var property vida = 450
+	var property cantVidas = 3
 	const property bolsa = []
 	var estaEnCombate = false
 	var property armaActual = mano //en vez de bolsa.head() porque ahora empieza con bolsa vacía
@@ -107,10 +108,24 @@ object personaje {
 	method recibirDanho(cantidad) {
 		vida -= cantidad
 	}
+
+	method perderVida() { //pierde una vida cuando el pj muere
+	  cantVidas -= 1
+	}
 	
 	method morir() {
-		position = game.at(2,2)
+		self.perderVida() // pierde la vida
+		self.validarVida() // valida que no este muerto (no no tenga mas vidas)
+		position = game.at(2,2) 
         vida = 450
+	}
+
+	method validarVida() {
+	  if (cantVidas < 0){
+		position = game.at(27, 19) //si muere lo manda arriba a la izq 
+		vida = 0
+		self.error("Perdi!")
+	  }
 	}
 
 	method aumentarVida(vidaSumada) {

@@ -121,10 +121,11 @@ object personaje {
 	}
 
 	method validarVida() {
-	  if (cantVidas < 0){
-		position = game.at(27, 19) //si muere lo manda arriba a la izq 
-		vida = 0
-		self.error("Perdi!")
+	  if (cantVidas <= 0){
+		//position = game.at(27, 19) //si muere lo manda arriba a la izq 
+		//vida = 0
+		//self.error("Perdi!")
+		game.stop()
 	  }
 	}
 

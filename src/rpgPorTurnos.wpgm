@@ -11,7 +11,7 @@ import pelea.*
 import mapa.*
 
 program rpgPorTurnos {
-	game.title("RPG por turnos de nombre a confirmar")
+	game.title("RPG por turnos de nombre a confirmar") //e
 	game.height(25) 		
 	game.width(30) 			
 	game.cellSize(32) 		

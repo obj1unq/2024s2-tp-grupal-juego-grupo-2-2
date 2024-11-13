@@ -74,7 +74,7 @@ class Enemigo {
     var animacion = 0
 
     method cambiarAnimacionEstatica(){
-        animacion = (animacion + 1) % 2
+        animacion = (animacion + 1) % 4
     }
       
 }

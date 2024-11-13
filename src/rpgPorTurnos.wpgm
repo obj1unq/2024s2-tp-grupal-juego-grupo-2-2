@@ -57,7 +57,7 @@ program rpgPorTurnos {
     game.onCollideDo(personaje, {cosa => cosa.colisiono(personaje)})
 
 	//ANIMACION
-	game.onTick(500, "animacion estatica", {dungeon.animacionEstaticaEnemigos()})
+	game.onTick(180, "animacion estatica", {dungeon.animacionEstaticaEnemigos()})
 
 	//PAREDES entiendo que de momento no estamos usando esto, ¿no? Lo usaríamos si hay elementos imposibles de traspasar como una mesa
 	//borde.cargar()

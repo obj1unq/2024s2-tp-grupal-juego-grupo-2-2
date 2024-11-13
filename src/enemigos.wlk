@@ -69,13 +69,20 @@ class Enemigo {
     //method danhoAtaque()
     //method habilidad()
     method utilizarHabilidad()
+
+    //animacion estatica
+    var animacion = 0
+
+    method cambiarAnimacionEstatica(){
+        animacion = (animacion + 1) % 2
+    }
       
 }
 
 class OjoVolador inherits Enemigo(turnoRequeridoParaHabilidad = 3) {
     
-   override  method image() { 
-		return "ojoVolador-32Bits.png"
+   override method image() { 
+		return "ojoVolador-" + animacion + "32Bits.png"
 	}
 
     //MOVIMIENTO
@@ -129,7 +136,7 @@ class Esqueleto inherits Enemigo(turnoRequeridoParaHabilidad = 4) {
     const vision
 
     override method image() {
-        return "esqueleto3-32Bits.png" //En realidad es de 64x64
+        return "esqueleto-" + animacion + "32Bits.png" //En realidad es de 64x64
     }
 
     //MOVIMIENTO (en realidad, no se mueve, pero es lo que hace en vez de moverse)
@@ -140,18 +147,11 @@ class Esqueleto inherits Enemigo(turnoRequeridoParaHabilidad = 4) {
     }
 
     method revisarSiHayObjetivo() {
-        //self.validarEncontrar() ESTO CAUSABA BUG AL TENER 2 ESQUELETOS. No queda otra más que sacarlo
         if(self.hayObjetivoEnVision() && self.position()!=objetivoADestruir.position()) { //esto para que no se choque con el self.combate() de colisiono()
             position = objetivoADestruir.position()
             self.combate()
         }
     }
-
-    //method validarEncontrar() {
-    //    if (!self.hayObjetivoEnVision()) {
-    //        self.error("")
-    //    }
-    //}
 
     method hayObjetivoEnVision() {
         return vision.hayObjetoEnX(self.position(), objetivoADestruir.position()) &&
@@ -191,7 +191,7 @@ object visionIzquierda {
 class Goblin inherits Enemigo(turnoRequeridoParaHabilidad = 2) {
        
     override method image() {
-        return "goblinEscudo-32Bits.png" 
+        return "goblinEscudo-" + animacion + "32Bits.png" 
     }
 
     //MOVIMIENTO (en realidad, no se mueve)

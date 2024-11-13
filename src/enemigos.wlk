@@ -130,6 +130,11 @@ class OjoVolador inherits Enemigo(turnoRequeridoParaHabilidad = 3) {
         salud += danhoBase * 2.5
     }
 
+    //movimiento volar
+    override method cambiarAnimacionEstatica(){
+        animacion = (animacion + 1) % 8
+    }
+
 }
 
 class Esqueleto inherits Enemigo(turnoRequeridoParaHabilidad = 4) {
@@ -191,7 +196,7 @@ object visionIzquierda {
 class Goblin inherits Enemigo(turnoRequeridoParaHabilidad = 2) {
        
     override method image() {
-        return "goblinEscudo-" + animacion + "32Bits.png" 
+        return "goblin-" + animacion + "32Bits.png" 
     }
 
     //MOVIMIENTO (en realidad, no se mueve)

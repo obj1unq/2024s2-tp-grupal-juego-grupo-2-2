@@ -71,18 +71,45 @@ class Enemigo {
     method utilizarHabilidad()
 
     //animacion estatica
-    var animacion = 0
+    var animacion = animacionEstatica
 
     method cambiarAnimacionEstatica(){
-        animacion = (animacion + 1) % 4
+        animacionEstatica.cambiarEstado()
     }
       
+}
+
+object animacionEstatica {
+    var numEstado = 0
+    var property estado = ""
+    
+    method numEstado() {
+        return numEstado
+    }
+
+    method cambiarEstado() {
+        numEstado = (numEstado + 1) % 4
+    }
+}
+
+object animacionCombate {
+    var numEstado = 0
+    var property estado = "ataque"
+    
+    method numEstado() {
+        return numEstado
+    }
+
+    method cambiarEstado() {
+        numEstado = (numEstado + 1) % 4
+    }
+
 }
 
 class OjoVolador inherits Enemigo(turnoRequeridoParaHabilidad = 3) {
     
    override method image() { 
-		return "ojoVolador-" + animacion + "32Bits.png"
+		return "ojoVolador-" + animacion.estado() + animacion.numEstado() + "32Bits.png"
 	}
 
     //MOVIMIENTO
@@ -132,7 +159,7 @@ class OjoVolador inherits Enemigo(turnoRequeridoParaHabilidad = 3) {
 
     //movimiento volar
     override method cambiarAnimacionEstatica(){
-        animacion = (animacion + 1) % 8
+        animacion = (animacion + 1) % 4
     }
 
 }

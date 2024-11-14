@@ -9,7 +9,7 @@ import pelea.*
 import mapa.*
 
 object personaje {
-	var  position = game.at(7,2)
+	var  position = game.at(14,2)
     var property salud = 300
 	var cantVidas = 3
 	var cantPociones = 3

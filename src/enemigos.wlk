@@ -82,36 +82,28 @@ class Enemigo {
 }
 
 object animacionEstatica {
-    var numEstado = 0
-    var property estado = ""
-    
-    method numEstado() {
-        return numEstado
+
+    method estado(){
+        return ""
     }
 
-    method cambiarEstado() {
-        numEstado = (numEstado + 1) % 4
-    }
 }
 
 object animacionCombate {
-    var numEstado = 0
     var property estado = "ataque"
     
     method numEstado() {
         return numEstado
     }
 
-    method cambiarEstado() {
-        numEstado = (numEstado + 1) % 4
-    }
+
 
 }
 
 class OjoVolador inherits Enemigo(turnoRequeridoParaHabilidad = 3) {
     
    override method image() { 
-		return "ojoVolador-" + animacion.estado() + "" + animacion.numEstado() + "32Bits.png"
+		return "ojoVolador-" + animacion.estado() + estado + "32Bits.png"
 	}
 
     //MOVIMIENTO
@@ -170,7 +162,7 @@ class Esqueleto inherits Enemigo(turnoRequeridoParaHabilidad = 4) {
     const vision
 
     override method image() {
-        return "esqueleto-" + animacion.estado() + "" + animacion.numEstado() + "32Bits.png" //En realidad es de 64x64
+        return "esqueleto-" + animacion.estado() + estado + "32Bits.png" //En realidad es de 64x64
     }
 
     //MOVIMIENTO (en realidad, no se mueve, pero es lo que hace en vez de moverse)
@@ -225,7 +217,7 @@ object visionIzquierda {
 class Goblin inherits Enemigo(turnoRequeridoParaHabilidad = 2) {
        
     override method image() {
-        return "goblin-" + animacion.estado() + "" + animacion.numEstado() + "32Bits.png" 
+        return "goblin-" + animacion.estado() + estado +  "32Bits.png" 
     }
 
     //MOVIMIENTO (en realidad, no se mueve)

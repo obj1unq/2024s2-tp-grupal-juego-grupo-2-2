@@ -29,9 +29,7 @@ object combate {
     method entidadAtaca() {        
         self.validarFinDeCombate()
         self.validarCombate()
-        entidadAtacando.animacion(animacionCombate)
-        entidadAtacando.atacarPre()
-        game.schedule(1000, {entidadAtacando.animacion(animacionEstatica)})
+        game.schedule(500, {entidadAtacando.atacarPre()})
     }
 
     method validarFinDeCombate() {

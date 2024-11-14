@@ -26,10 +26,12 @@ object combate {
         self.entidadAtaca() //acá se valida si el que ahora tiene el turno sigue con vida y, si es así, este realiza su ataque
     }
 
-    method entidadAtaca() {
+    method entidadAtaca() {        
         self.validarFinDeCombate()
         self.validarCombate()
+        entidadAtacando.animacion(animacionCombate)
         entidadAtacando.atacarPre()
+        game.schedule(1000, {entidadAtacando.animacion(animacionEstatica)})
     }
 
     method validarFinDeCombate() {

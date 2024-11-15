@@ -43,9 +43,9 @@ class Enemigo {
     method atacar() { 
         
         //self.animacion(animacionCombate)
-        game.schedule(1000, {self.realizarAtaqueNormalOHabilidad()}) //esto se encarga del ataque/habilidad y de sumar +1 a acumuladorDeTurnos
-        game.schedule(1010, {combate.cambiarTurnoA(objetivoADestruir)})
-        //game.schedule(1000, {self.animacion(animacionEstatica)})
+        game.schedule(800, {self.realizarAtaqueNormalOHabilidad()}) //esto se encarga del ataque/habilidad y de sumar +1 a acumuladorDeTurnos
+        game.schedule(810, {combate.cambiarTurnoA(objetivoADestruir)})
+        //game.schedule(800, {self.animacion(animacionEstatica)})
     }
     
     method recibirDanho(cantidad){
@@ -72,30 +72,48 @@ class Enemigo {
     method utilizarHabilidad()
 
     //animacion 
-   var frame = 0 
     var property animacion = animacionEstatica
+    var property frame = 0
 
-    method cambiarAnimacion(){
-        //animacion.cambiarEstado()
-        frame = (frame + 1) % 4
+    method maxFrameEstatica() {
+        return 4
+    }
+
+    method cambiarAnimacion() {
+        animacion.cambiarAnimacion(self)
     }
       
 }
 
-object animacionEstatica {
+class Animacion {
+    method maxFrame(enemigo)
 
-    method tipo(){
+    method cambiarAnimacion(enemigo) {
+        const newFrame = (enemigo.frame() + 1) % self.maxFrame(enemigo)
+        enemigo.frame(newFrame)
+    }
+
+}
+
+object animacionEstatica inherits Animacion {
+    override method maxFrame(enemigo) {
+        return enemigo.maxFrameEstatica()
+    }
+
+    method tipo() {
         return ""
     }
 
 }
 
-object animacionCombate {
-        method tipo(){
-        return "ataque"
+object animacionCombate inherits Animacion {
+    override method maxFrame(enemigo) {
+        return 4
     }
 
-
+    method tipo(){
+        return "ataque"
+    }
 
 }
 
@@ -104,6 +122,10 @@ class OjoVolador inherits Enemigo(turnoRequeridoParaHabilidad = 3) {
    override method image() { 
 		return "ojoVolador-" + animacion.tipo() + frame + "32Bits.png"
 	}
+
+    override method maxFrameEstatica() {
+        return 8
+    }
 
     //MOVIMIENTO
 
@@ -149,11 +171,6 @@ class OjoVolador inherits Enemigo(turnoRequeridoParaHabilidad = 3) {
         game.say(self, "¡Uso habilidad Poción de salud!")
         salud += danhoBase * 2.5
     }
-
-    //movimiento volar
-    /*override method cambiarAnimacionEstatica(){
-        animacionEstatica.cambiarEstadoOjo()
-    }*/
 
 }
 

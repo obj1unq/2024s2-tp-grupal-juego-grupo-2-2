@@ -33,7 +33,7 @@ object dungeon {
 
     //animacion enemigos
 
-    method animacionEstaticaEnemigos(){
+    method animacion(){
         enemigos.forEach({enemigo => enemigo.cambiarAnimacion()})
     }
 

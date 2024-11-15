@@ -105,7 +105,7 @@ object personaje {
 	}
 
     method validarCombate() {
-        if(!estaEnCombate && !esTurno){
+        if(!estaEnCombate || !esTurno){
             self.error("No puedo ejecutar una habilidad ahora")
         }
     }
@@ -130,9 +130,9 @@ object personaje {
 		//position = game.at(27, 19) //si muere lo manda arriba a la izq 
 		//salud = 0
 		//self.error("Perdi!")
-		gestorDeFondo.image("fondoFin.png")
 		mapa.limpiar()
-		game.stop()
+		gestorDeFondo.image("fondoFin.png")
+		game.schedule(500, {game.stop()})
 	  }
 	}
 

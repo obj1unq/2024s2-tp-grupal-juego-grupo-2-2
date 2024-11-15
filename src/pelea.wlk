@@ -27,9 +27,10 @@ object combate {
     }
 
     method entidadAtaca() {        
-        self.validarFinDeCombate()
         self.validarCombate()
-        game.schedule(200, {entidadAtacando.atacarPre()})
+        //game.schedule(200, {entidadAtacando.atacarPre()})
+        entidadAtacando.atacarPre()
+        self.validarFinDeCombate()
     }
 
     method validarFinDeCombate() {
@@ -41,6 +42,7 @@ object combate {
         }
     }
 
+    //esto se llega a ejecutar en alguna ocasión?
     method validarCombate() {
         if(!hayCombate){
             self.error("No hay nadie peleando")

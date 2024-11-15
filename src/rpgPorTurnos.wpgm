@@ -11,11 +11,10 @@ import pelea.*
 import mapa.*
 
 program rpgPorTurnos {
-	game.title("RPG por turnos de nombre a confirmar") //e
+	game.title("RPG por turnos de nombre a confirmar")
 	game.height(25) 		
 	game.width(30) 			
-	game.cellSize(32) 		
-	//game.boardGround("fondoNivel1.png") //se le da este valor como el inicial al objeto gestorDeFondo
+	game.cellSize(32)
 
 	//OBJETOS CON LOS QUE NO SE INTERACTUA
 	game.addVisual(gestorDeFondo)
@@ -28,7 +27,7 @@ program rpgPorTurnos {
 	fabricaDeOjoVolador.agregarNuevoEnemigo(game.at(23,15), 150, 20)
 	fabricaDeGoblin.agregarNuevoEnemigoCon(game.at(15,14), 95, 37)
 	fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(3,10), 200, 43, visionDerecha) 
-	fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(19,10), 200, 43, visionIzquierda) 
+	fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(26,10), 200, 43, visionIzquierda) 
 	//¿el que más vida tiene es el que más daño causa? ¿no es too much?
 	
 	//podríamos replicar el no uso de un const/referencia para las armas y pociones tal como se hace arriba con los enemigos!
@@ -57,7 +56,7 @@ program rpgPorTurnos {
     game.onCollideDo(personaje, {cosa => cosa.colisiono(personaje)})
 
 	//ANIMACION
-	game.onTick(200, "animacion estatica", {dungeon.animacionEstaticaEnemigos()})
+	game.onTick(200, "animacion estatica", {dungeon.animacion()})
 
 	//PAREDES entiendo que de momento no estamos usando esto, ¿no? Lo usaríamos si hay elementos imposibles de traspasar como una mesa
 	//borde.cargar()

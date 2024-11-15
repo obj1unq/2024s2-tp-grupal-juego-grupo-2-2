@@ -42,10 +42,10 @@ class Enemigo {
     //capaz se podría llamar hacerTurno(), porque algunas subclases de enemigo tienen habilidades curativas!
     method atacar() { 
         
-        self.animacion(animacionCombate)
-        self.realizarAtaqueNormalOHabilidad() //esto se encarga del ataque/habilidad y de sumar +1 a acumuladorDeTurnos
-        combate.cambiarTurnoA(objetivoADestruir)
-        game.schedule(200, {self.animacion(animacionEstatica)})
+        //self.animacion(animacionCombate)
+        game.schedule(1000, {self.realizarAtaqueNormalOHabilidad()}) //esto se encarga del ataque/habilidad y de sumar +1 a acumuladorDeTurnos
+        game.schedule(1000, {combate.cambiarTurnoA(objetivoADestruir)})
+        //game.schedule(1000, {self.animacion(animacionEstatica)})
     }
     
     method recibirDanho(cantidad){
@@ -69,31 +69,29 @@ class Enemigo {
 
     method image() 
     method reaccionarAMovimiento() 
-    //method danhoAtaque()
-    //method habilidad()
     method utilizarHabilidad()
 
     //animacion 
-   var estado = 0 
+   var frame = 0 
     var property animacion = animacionEstatica
 
     method cambiarAnimacion(){
         //animacion.cambiarEstado()
-        estado = (estado + 1) % 4
+        frame = (frame + 1) % 4
     }
       
 }
 
 object animacionEstatica {
 
-    method estado(){
+    method tipo(){
         return ""
     }
 
 }
 
 object animacionCombate {
-        method estado(){
+        method tipo(){
         return "ataque"
     }
 
@@ -104,7 +102,7 @@ object animacionCombate {
 class OjoVolador inherits Enemigo(turnoRequeridoParaHabilidad = 3) {
     
    override method image() { 
-		return "ojoVolador-" + animacion.estado() + estado + "32Bits.png"
+		return "ojoVolador-" + animacion.tipo() + frame + "32Bits.png"
 	}
 
     //MOVIMIENTO
@@ -163,7 +161,7 @@ class Esqueleto inherits Enemigo(turnoRequeridoParaHabilidad = 4) {
     const vision
 
     override method image() {
-        return "esqueleto-" + animacion.estado() + estado + "32Bits.png" //En realidad es de 64x64
+        return "esqueleto-" + animacion.tipo() + frame + "32Bits.png" //En realidad es de 64x64
     }
 
     //MOVIMIENTO (en realidad, no se mueve, pero es lo que hace en vez de moverse)
@@ -218,7 +216,7 @@ object visionIzquierda {
 class Goblin inherits Enemigo(turnoRequeridoParaHabilidad = 2) {
        
     override method image() {
-        return "goblin-" + animacion.estado() + estado +  "32Bits.png" 
+        return "goblin-" + animacion.tipo() + frame +  "32Bits.png" 
     }
 
     //MOVIMIENTO (en realidad, no se mueve)

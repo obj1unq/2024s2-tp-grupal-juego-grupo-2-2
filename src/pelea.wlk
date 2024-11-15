@@ -22,18 +22,17 @@ object combate {
 
     method cambiarTurnoA(entidad){
         entidadAtacando = entidad
-        //game.schedule(500, {self.entidadAtaca()} ) //quedaba lindo pero acumula daño
         self.entidadAtaca() //acá se valida si el que ahora tiene el turno sigue con vida y, si es así, este realiza su ataque
     }
 
-    method entidadAtaca() {        
+    method entidadAtaca() {  
+        self.revisarFinDeCombate()      
         self.validarCombate()
         //game.schedule(200, {entidadAtacando.atacarPre()})
         entidadAtacando.atacarPre()
-        self.validarFinDeCombate()
     }
 
-    method validarFinDeCombate() {
+    method revisarFinDeCombate() {
         if(entidadAtacando.salud() <= 0) {
             hayCombate = false
             heroe.estaEnCombate(false)
@@ -42,10 +41,9 @@ object combate {
         }
     }
 
-    //esto se llega a ejecutar en alguna ocasión?
     method validarCombate() {
         if(!hayCombate){
-            self.error("No hay nadie peleando")
+            self.error("")
         }
     }
     method hayCombate(cond){

@@ -44,7 +44,7 @@ class Enemigo {
         
         //self.animacion(animacionCombate)
         game.schedule(1000, {self.realizarAtaqueNormalOHabilidad()}) //esto se encarga del ataque/habilidad y de sumar +1 a acumuladorDeTurnos
-        game.schedule(1000, {combate.cambiarTurnoA(objetivoADestruir)})
+        game.schedule(1010, {combate.cambiarTurnoA(objetivoADestruir)})
         //game.schedule(1000, {self.animacion(animacionEstatica)})
     }
     

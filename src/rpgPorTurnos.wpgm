@@ -24,7 +24,7 @@ program rpgPorTurnos {
 	game.addVisual(pociones)
 
 	//OBJETOS CON LOS QUE SE INTERACTUA
-	fabricaDeOjoVolador.agregarNuevoEnemigo(game.at(26,7), 150, 20)
+	fabricaDeOjoVolador.agregarNuevoEnemigo(game.at(3,7), 150, 20)
 	fabricaDeGoblin.agregarNuevoEnemigoCon(game.at(15,14), 95, 37)
 	fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(3,10), 200, 43, visionDerecha) 
 	fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(26,10), 200, 43, visionIzquierda) 

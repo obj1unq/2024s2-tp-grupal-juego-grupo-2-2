@@ -117,7 +117,7 @@ object personaje {
 	method morir() {
 		self.perderVida() // pierde una vida
 		self.validarVida() // valida si está muerto (no tiene más vidas)
-		position = game.at(2,2) 
+		position = game.at(14,2)
         salud = 300
 	}
 

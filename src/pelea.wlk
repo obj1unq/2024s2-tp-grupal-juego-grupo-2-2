@@ -66,6 +66,7 @@ object barraEstadoPeleas {
     // aparece todo lo que tiene que mostrar la barra de estado
     method aparecerJuntoADemasBarras() {
             game.addVisual(self)
+            game.addVisual(saludPersonaje)
             game.addVisual(saludEnemigo)
             game.addVisual(durabilidad)
             //game.addVisual(turnoTest)
@@ -74,6 +75,7 @@ object barraEstadoPeleas {
     // desaparece la barra y todo lo que muestra tras darse la muerte del personaje o el enemigo
     method desaparecerJuntoADemasBarras() {
         game.removeVisual(self)
+        game.removeVisual(saludPersonaje)
         game.removeVisual(saludEnemigo)
         game.removeVisual(durabilidad)
         //game.removeVisual(turnoTest)
@@ -81,18 +83,27 @@ object barraEstadoPeleas {
 
 }
 
+object saludPersonaje {
+
+    method text() = " salud PJ: " + barraEstadoPeleas.heroe().salud().toString()
+    method textColor() = paleta.rojo()
+
+    method position() = barraEstadoPeleas.position().down(1)
+
+}
+
 object saludEnemigo {
 
-    method text() = " salud enemigo: " + barraEstadoPeleas.enemigo().salud().toString()
+    method text() = " salud EN: " + barraEstadoPeleas.enemigo().salud().toString()
     method textColor() = paleta.azul()
 
-    method position() = barraEstadoPeleas.position().down(1).right(2)
+    method position() = saludPersonaje.position().right(4)
 
 }
 
 object durabilidad {
 
-    method position() = saludEnemigo.position().down(1)
+    method position() = barraEstadoPeleas.position().down(2).right(2)
     method text() = "Durabilidad arma actual: " + personaje.armaActual().durabilidad().toString() //+ "\n Nivel: " + personaje.armaActual().nivel().toString()
     method textColor() = paleta.rojo()
 

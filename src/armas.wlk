@@ -27,6 +27,7 @@ class Arma {
         if ( self.durabilidad() <= 15) {
             personaje.actualizarArmaActual()
             personaje.bolsa().remove(personaje.bolsa().head()) //se borra esta arma, que era la primera y la anterior actual
+            personaje.actualizarCantArma()
         } else {
             self.restarDurabilidad(15)
         }

@@ -85,26 +85,26 @@ object barraEstadoPeleas {
 
 object saludPersonaje {
 
-    method text() = " salud PJ: " + barraEstadoPeleas.heroe().salud().toString()
+    method text() = "❤️ PJ: " + barraEstadoPeleas.heroe().salud().toString()
     method textColor() = paleta.rojo()
 
-    method position() = barraEstadoPeleas.position().down(1)
+    method position() = barraEstadoPeleas.position().down(1).right(1)
 
 }
 
 object saludEnemigo {
 
-    method text() = " salud EN: " + barraEstadoPeleas.enemigo().salud().toString()
+    method text() = " ❤️ EN: " + barraEstadoPeleas.enemigo().salud().toString()
     method textColor() = paleta.azul()
 
-    method position() = saludPersonaje.position().right(4)
+    method position() = saludPersonaje.position().right(2)
 
 }
 
 object durabilidad {
 
     method position() = barraEstadoPeleas.position().down(2).right(2)
-    method text() = "Durabilidad arma actual: " + personaje.armaActual().durabilidad().toString() //+ "\n Nivel: " + personaje.armaActual().nivel().toString()
+    method text() = "❤️ 🪓 🏹 🗡: " + personaje.armaActual().durabilidad().toString() //+ "\n Nivel: " + personaje.armaActual().nivel().toString()
     method textColor() = paleta.rojo()
 
 }

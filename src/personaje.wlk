@@ -7,6 +7,7 @@ import armas.*
 import randomizer.*
 import pelea.*
 import mapa.*
+import animaciones.*
 
 object personaje {
 	var  position = game.at(14,2)
@@ -134,11 +135,13 @@ object personaje {
 	}
 
 	method validarVida() {
-	  if (cantVidas <= 0){
+  
+	  if (cantVidas <= 0) {
 		mapa.limpiar()
 		gestorDeFondo.image("fondoFin.png")
 		game.schedule(500, {game.stop()})
 	  }
+    
 	}
 
 	method agregarPocion() {
@@ -160,16 +163,15 @@ object personaje {
 		esTurno = false //Indica que ya pasó turno. Sirve para que no pueda atacar al enemigo cuando no es su turno
 		combate.cambiarTurnoA(enemigoCombatiendo)   //como ya terminó el turno del pj, se cambia el turno al enemigo
 	}
+	
+	method aumentarSalud(saludSumada) {
+		salud += saludSumada
+	}
 
 	method validarPociones() {
 		if(cantPociones<=0) {
 			self.error("No se puede realizar una curación sin pociones de vida")
 		}
-	}
-
-	//ahora se va a usar en el método curarse()
-	method aumentarSalud(saludSumada) {
-		salud += saludSumada
 	}
 
 }

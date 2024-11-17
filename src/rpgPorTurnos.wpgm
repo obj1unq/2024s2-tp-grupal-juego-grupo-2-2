@@ -22,21 +22,20 @@ program rpgPorTurnos {
 	game.addVisual(salud)
 	game.addVisual(vidas)
 	game.addVisual(pociones)
+	
+	//PERSONAJE
+	game.addVisual(personaje)
 
 	//OBJETOS CON LOS QUE SE INTERACTUA
 	fabricaDeOjoVolador.agregarNuevoEnemigo(game.at(23,15), 150, 20)
-	fabricaDeGoblin.agregarNuevoEnemigoCon(game.at(15,14), 95, 37)
-	fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(3,10), 200, 43, visionDerecha) 
-	fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(26,10), 200, 43, visionIzquierda) 
-	//¿el que más vida tiene es el que más daño causa? ¿no es too much?
+	fabricaDeGoblin.agregarNuevoEnemigoCon(game.at(15,14), 95, 43)
+	fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(3,10), 200, 35, visionDerecha) 
+	fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(26,10), 200, 35, visionIzquierda) 
 	
     randomizer.agregarArmaRandom()
 	randomizer.agregarArmaRandom()
 
 	fabricaDePocion.agregarNuevaPocion()
-
-	//PERSONAJE
-	game.addVisual(personaje)
 	
 	//TECLAS MOVIMIENTO
 	keyboard.w().onPressDo({personaje.mover(arriba)})
@@ -52,14 +51,7 @@ program rpgPorTurnos {
     game.onCollideDo(personaje, {cosa => cosa.colisiono(personaje)})
 
 	//ANIMACION
-	game.onTick(200, "animacion estatica", {dungeon.animacion()})
-
-	//PAREDES entiendo que de momento no estamos usando esto, ¿no? Lo usaríamos si hay elementos imposibles de traspasar como una mesa
-	//borde.cargar()
-	//borde.mostrar()
-
-    //test turnos
-    //game.addVisual(turnoTest)
+	game.onTick(200, "animacion", {dungeon.animacion()})
 
 	game.start()
 }

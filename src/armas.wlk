@@ -77,7 +77,7 @@ class ArcoYFlecha inherits Arma {
     }
 
     override method imagenParaPersonaje() {
-        return "ConArcoYFlecha"
+        return "ConLanza"
     }
 
     override method habilidadEspecial() { //de momento, no está siendo usada en el juego
@@ -96,7 +96,7 @@ class MartilloDeGuerra inherits Arma {
     }
 
     override method imagenParaPersonaje() {
-        return "ConMartilloDeGuerra"
+        return "ConMaza"
     }
 
     override method habilidadEspecial() { //de momento, no está siendo usada en el juego

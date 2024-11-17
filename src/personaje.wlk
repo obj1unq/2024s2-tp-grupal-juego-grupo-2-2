@@ -22,17 +22,34 @@ object personaje {
 		return position
 	}
 
+	//ANIMACIONES
+
+	var property animacion = animacionEstatica
+	var property frame = 0
+
 	method image() { 
-		return "personaje" + self.imagenSegunEstado() + "-32Bits.png"
+		return "personaje" + animacion.tipoPersonaje() + frame + "-32Bits.png"
 	}
 
-	method imagenSegunEstado() {
-		if(self.estaSinArma()) {
-			return ""
-		} else {
-			return self.armaActual().imagenParaPersonaje()
-		}
+	method cambiarAnimacion() {
+		animacion.cambiarAnimacion(self)
 	}
+
+	method maxFrameEstatica() {
+		return 8
+	}
+
+	method maxFrameCombate() {
+		return 4
+	}
+
+	// method imagenSegunEstado() {
+	// 	if(self.estaSinArma()) {
+	// 		return ""
+	// 	} else {
+	// 		return self.armaActual().imagenParaPersonaje()
+	// 	}
+	// }
 
 	method estaSinArma() {
 		return bolsa.size()==0

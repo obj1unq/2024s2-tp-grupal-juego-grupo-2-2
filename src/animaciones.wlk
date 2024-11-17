@@ -11,20 +11,24 @@ import pelea.*
 import mapa.*
 
 class Animacion {
-    method maxFrame(enemigo)
+    method maxFrame(entidad)
 
-    method cambiarAnimacion(enemigo) {
+    method cambiarAnimacion(entidad) {
 
-        const newFrame = (enemigo.frame() + 1) % self.maxFrame(enemigo)
-        enemigo.frame(newFrame)
+        const newFrame = (entidad.frame() + 1) % self.maxFrame(entidad)
+        entidad.frame(newFrame)
+    }
+
+    method tipoPersonaje() {
+        return ""
     }
 
 }
 
 object animacionEstatica inherits Animacion {
 
-    override method maxFrame(enemigo) {
-        return enemigo.maxFrameEstatica()
+    override method maxFrame(entidad) {
+        return entidad.maxFrameEstatica()
     }
 
     method tipo() {
@@ -35,18 +39,22 @@ object animacionEstatica inherits Animacion {
 
 object animacionCombate inherits Animacion {
 
-    override method maxFrame(enemigo) {
-        return 8
+    override method maxFrame(entidad) {
+        return entidad.maxFrameCombate()
     }
 
     method tipo(){
         return "ataque"
     }
 
+    override method tipoPersonaje() {
+        return "ataque" + personaje.armaActual().imagenParaPersonaje() 
+    }
+
 }
 object animacionMuerte inherits Animacion {
 
-    override method maxFrame(enemigo) {
+    override method maxFrame(entidad) {
         return 4
     }
 

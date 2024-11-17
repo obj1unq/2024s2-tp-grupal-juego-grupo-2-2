@@ -51,7 +51,8 @@ program rpgPorTurnos {
     game.onCollideDo(personaje, {cosa => cosa.colisiono(personaje)})
 
 	//ANIMACION
-	game.onTick(200, "animacion", {dungeon.animacion()})
+	game.onTick(200, "animacion", {dungeon.animacionEnemigos()})
+	game.onTick(200, "animacion", {personaje.cambiarAnimacion()})
 
 	game.start()
 }

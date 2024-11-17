@@ -171,7 +171,7 @@ class OjoVolador inherits Enemigo(turnoRequeridoParaHabilidad = 3) {
     //el cuarto ataque es habilidad
 
     override method utilizarHabilidad() {
-        game.say(self, "¡Uso habilidad Poción de salud!")
+        game.say(self, "¡Uso habilidad Sanación!")
         salud += danhoBase * 2.5
     }
 
@@ -208,7 +208,7 @@ class Esqueleto inherits Enemigo(turnoRequeridoParaHabilidad = 4) {
     //el quinto ataque es habilidad
 
     override method utilizarHabilidad() {
-        game.say(self, "¡Uso habilidad Robo de Energia!")
+        game.say(self, "¡Uso habilidad Robo de Salud!")
         salud += danhoBase * 1.5
         objetivoADestruir.recibirDanho(danhoBase * 1.5)
     }

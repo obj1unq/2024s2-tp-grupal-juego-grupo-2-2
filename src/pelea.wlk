@@ -58,7 +58,7 @@ object barraEstadoPeleas {
     var property heroe = personaje
 
     method image() {
-        return "pruebaBarra4.png"
+        return "barraBase.png"
     }
 
     method position() = game.at(heroe.position().x() - 2, heroe.position().y() + 4)

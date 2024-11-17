@@ -108,6 +108,10 @@ object personaje {
 
 	method atacar() {
         self.validarCombate() // para que no le pegue a x enemigo cuando no esta peleando
+		self.frame(0)
+		self.animacion(animacionCombate)
+		game.schedule(805, {self.animacion(animacionEstatica)})
+		game.schedule(805, {self.frame(0)})
 		enemigoCombatiendo.recibirDanho(armaActual.danho()) 
 		armaActual.realizarActualizacionDeArmas()
         esTurno = false //Indica que ya pasó turno. Sirve para que no pueda atacar al enemigo cuando no es su turno

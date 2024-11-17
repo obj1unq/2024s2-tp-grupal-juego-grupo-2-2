@@ -43,10 +43,10 @@ class Enemigo {
         
         self.frame(0)
         self.animacion(animacionCombate)
-        game.schedule(800, {self.frame(0)})
-        game.schedule(805, {self.animacion(animacionEstatica)})
-        game.schedule(800, {self.realizarAtaqueNormalOHabilidad()}) //esto se encarga del ataque/habilidad y de sumar +1 a acumuladorDeTurnos
-        game.schedule(810, {combate.cambiarTurnoA(objetivoADestruir)})
+        game.schedule(1600, {self.frame(0)})
+        game.schedule(1605, {self.animacion(animacionEstatica)})
+        game.schedule(1600, {self.realizarAtaqueNormalOHabilidad()}) //esto se encarga del ataque/habilidad y de sumar +1 a acumuladorDeTurnos
+        game.schedule(1610, {combate.cambiarTurnoA(objetivoADestruir)})
         
     }
     

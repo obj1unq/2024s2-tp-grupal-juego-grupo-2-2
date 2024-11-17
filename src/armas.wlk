@@ -114,6 +114,10 @@ object mano { //objeto especial
     var property durabilidad = "Infinita"
     
     method realizarActualizacionDeArmas() { } //necesario para que funcione el polimorfismo (todas las armas deben entenderlo)
+
+    method imagenParaPersonaje() {
+        return ""
+    }
 }
 
 //FÁBRICAS (su única función es devolverme en nuevo objeto de la subclase de Arma a la que están ligadas. nos permiten crear armas random)

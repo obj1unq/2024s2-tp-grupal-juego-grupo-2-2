@@ -71,8 +71,6 @@ class Enemigo {
         game.schedule(800, {dungeon.enemigos().remove(self)})
     }
 
-    
-
     method image() 
     method reaccionarAMovimiento() 
     method utilizarHabilidad()

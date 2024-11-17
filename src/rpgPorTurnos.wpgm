@@ -44,7 +44,7 @@ program rpgPorTurnos {
 	keyboard.a().onPressDo({personaje.mover(izquierda)})
     
     //TECLAS COMBATE
-    keyboard.up().onPressDo({ personaje.atacar()})
+    keyboard.up().onPressDo({ personaje.hacerTurno()})
 	keyboard.down().onPressDo({ personaje.curarse()})
 
 	//COLISIÓN

@@ -54,6 +54,7 @@ class Enemigo {
         if(acumuladorDeTurnos < turnoRequeridoParaHabilidad) {
             acumuladorDeTurnos += 1
             objetivoADestruir.recibirDanho(danhoBase)
+            barraEstadoPeleas.image("barraEnemigoAtaqueComun.png")
         } else {
             acumuladorDeTurnos = 0
             self.utilizarHabilidad()
@@ -147,8 +148,8 @@ class OjoVolador inherits Enemigo(turnoRequeridoParaHabilidad = 3) {
     //el cuarto ataque es habilidad
 
     override method utilizarHabilidad() {
-        game.say(self, "¡Uso habilidad Sanación!")
         salud += danhoBase * 2.5
+        barraEstadoPeleas.image("barraEnemigoHabilidadSanacion.png")
     }
 
 }
@@ -187,9 +188,9 @@ class Esqueleto inherits Enemigo(turnoRequeridoParaHabilidad = 4) {
     //el quinto ataque es habilidad
 
     override method utilizarHabilidad() {
-        game.say(self, "¡Uso habilidad Robo de Salud!")
         salud += danhoBase * 1.5
         objetivoADestruir.recibirDanho(danhoBase * 1.5)
+        barraEstadoPeleas.image("barraEnemigoHabilidadRoboDeSalud.png")
     }
 
 }
@@ -229,8 +230,8 @@ class Goblin inherits Enemigo(turnoRequeridoParaHabilidad = 2) {
     //el tercer ataque es habilidad
 
     override method utilizarHabilidad() {
-        game.say(self, "¡Uso habilidad Golpe Mortal!")
         objetivoADestruir.recibirDanho(danhoBase * 3)
+        barraEstadoPeleas.image("barraEnemigoHabilidadGolpeMortal.png")
     }
 
 }

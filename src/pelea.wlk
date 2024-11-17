@@ -55,10 +55,7 @@ object barraEstadoPeleas {
 
     var property enemigo = null
     var property heroe = personaje
-
-    method image() {
-        return "barraBase.png"
-    }
+    var property image = "barraBase.png"
 
     method position() = game.at(heroe.position().x() - 2, heroe.position().y() + 4)
 
@@ -73,6 +70,7 @@ object barraEstadoPeleas {
 
     // desaparece la barra y todo lo que muestra tras darse la muerte del personaje o el enemigo
     method desaparecerJuntoADemasBarras() {
+        image = "barraBase.png"
         game.removeVisual(self)
         game.removeVisual(saludPersonaje)
         game.removeVisual(saludEnemigo)

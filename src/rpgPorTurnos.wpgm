@@ -45,8 +45,8 @@ program rpgPorTurnos {
 	keyboard.a().onPressDo({personaje.mover(izquierda)})
     
     //TECLAS COMBATE
-    keyboard.up().onPressDo({ personaje.hacerTurno()})
-	keyboard.down().onPressDo({ personaje.curarse()})
+    keyboard.up().onPressDo({ personaje.hacerTurnoAtaqueComun()})
+	keyboard.down().onPressDo({ personaje.hacerTurnoPocion()})
 
 	//COLISIÓN
     game.onCollideDo(personaje, {cosa => cosa.colisiono(personaje)})

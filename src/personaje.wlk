@@ -102,26 +102,29 @@ object personaje {
         esTurno = true //esto da luz verde a que el usuario pueda ejecutar una habilidad (lo que no se puede hacer si no estás en combate)
     }
 
-	method hacerTurno() {
-        self.validarCombate() // para que no le pegue a x enemigo cuando no esta peleando
+	////////////ATAQUE COMÚN//////////////////////
+
+	method hacerTurnoAtaqueComun() {
+        self.validarHacerTurno() // para que no le pegue a x enemigo cuando no está peleando / no es su turno / ya se encuentra haciendo turno
 		self.frame(0)
 		self.animacion(animacionCombate)
 		game.schedule(800, {self.frame(0)})
 		game.schedule(805, {self.animacion(animacionEstatica)})
-		game.schedule(800, {self.realizarAtaque()})
+		game.schedule(800, {self.realizarAtaqueComun()})
 		game.schedule(810, {combate.cambiarTurnoA(enemigoCombatiendo)}) //como ya terminó el turno del pj, se cambia el turno al enemigo
 	}
 
-	method validarCombate() {
+	method validarHacerTurno() {
         if(!estaEnCombate || !esTurno || animacion!=animacionEstatica){
             self.error("No puedo ejecutar una habilidad ahora")
         }
     }
 
-	method realizarAtaque() {
+	method realizarAtaqueComun() {
 		enemigoCombatiendo.recibirDanho(armaActual.danho()) 
 		armaActual.realizarActualizacionDeArmas()
         esTurno = false //Indica que ya pasó turno. Sirve para que no pueda atacar al enemigo cuando no es su turno
+		barraEstadoPeleas.image("barraPersonajeAtaqueComun.png")
 	}
 
 	method recibirDanho(cantidad) {
@@ -157,6 +160,10 @@ object personaje {
     
 	}
 
+	//////////////////////////////////////////////
+	
+	////////////USO DE POCIÓN SALUD///////////////
+
 	method agregarPocion() {
 		self.validarAgregarPocion() // valida si ya tiene 3 en el inventario y no la agarra.
 		cantPociones += 1 
@@ -168,13 +175,21 @@ object personaje {
 	  }
 	}
 
-	method curarse() {
-		self.validarCombate() // para que no le pegue a x enemigo cuando no esta peleando
+	method hacerTurnoPocion() {
+		self.validarHacerTurno() // para que no se cure en combate cuando no está peleando / no es su turno / ya se encuentra haciendo turno
 		self.validarPociones()
+		//self.animacion(animacionCombate) ¿QUÉ ANIMACIÓN SE VA A USAR PARA CUANDO TOMA POCIÓN? ¿NINGUNA?
+		//game.schedule(800, {self.frame(0)})
+		//game.schedule(805, {self.animacion(animacionEstatica)})
+		game.schedule(800, {self.usarPocionSalud()})
+		game.schedule(810, {combate.cambiarTurnoA(enemigoCombatiendo)})   //como ya terminó el turno del pj, se cambia el turno al enemigo
+	}
+
+	method usarPocionSalud() {
 		self.aumentarSalud(150)
 		cantPociones -= 1
 		esTurno = false //Indica que ya pasó turno. Sirve para que no pueda atacar al enemigo cuando no es su turno
-		combate.cambiarTurnoA(enemigoCombatiendo)   //como ya terminó el turno del pj, se cambia el turno al enemigo
+		barraEstadoPeleas.image("barraPersonajePocionSalud.png")
 	}
 	
 	method aumentarSalud(saludSumada) {
@@ -186,6 +201,8 @@ object personaje {
 			self.error("No se puede realizar una curación sin pociones de vida")
 		}
 	}
+
+	//////////////////////////////////////////////
 
 }
 

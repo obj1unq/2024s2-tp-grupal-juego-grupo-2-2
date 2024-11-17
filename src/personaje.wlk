@@ -62,7 +62,7 @@ object personaje {
     
 	method validarEquiparArma() {
 	  if(bolsa.size() >= cantArmasPermitidas){ // para no hardcodear el numero que queremos que sea el max y para que en el futuro se pueda cambiar
-		self.error("Ya tengo " + cantArmasPermitidas +" armas!")
+		self.error("Ya tengo " + bolsa.size() +" armas!")
 	  }
 	}
 
@@ -171,16 +171,17 @@ object personaje {
 
 	method validarAgregarPocion() {
 	  if(cantPociones>=cantPocionesPermitidas){
-		self.error("Ya tengo " + cantPocionesPermitidas +" pociones!")
+		self.error("Ya tengo " + cantPociones +" pociones!")
 	  }
 	}
 
 	method hacerTurnoPocion() {
 		self.validarHacerTurno() // para que no se cure en combate cuando no está peleando / no es su turno / ya se encuentra haciendo turno
 		self.validarPociones()
-		//self.animacion(animacionCombate) ¿QUÉ ANIMACIÓN SE VA A USAR PARA CUANDO TOMA POCIÓN? ¿NINGUNA?
-		//game.schedule(800, {self.frame(0)})
-		//game.schedule(805, {self.animacion(animacionEstatica)})
+		self.frame(0)
+		self.animacion(animacionCombate) //esta no va ¿QUÉ ANIMACIÓN SE VA A USAR PARA CUANDO TOMA POCIÓN? ¿NINGUNA?
+		game.schedule(800, {self.frame(0)})
+		game.schedule(805, {self.animacion(animacionEstatica)})
 		game.schedule(800, {self.usarPocionSalud()})
 		game.schedule(810, {combate.cambiarTurnoA(enemigoCombatiendo)})   //como ya terminó el turno del pj, se cambia el turno al enemigo
 	}

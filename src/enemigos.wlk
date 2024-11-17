@@ -69,7 +69,7 @@ class Enemigo {
         self.frame(0)
         self.animacion(animacionMuerte)
         game.schedule(800, {game.removeVisual(self)})
-        game.schedule(800, {dungeon.enemigos().remove(self)})
+        game.schedule(800, {dungeon.sacarEnemigo(self)})
     }
 
     method image() 

@@ -22,6 +22,12 @@ program rpgPorTurnos {
 	game.addVisual(salud)
 	game.addVisual(vidas)
 	game.addVisual(pociones)
+
+	//OBJETOS CON LOS QUE SE INTERACTUA
+	randomizer.agregarArmaRandom()
+	randomizer.agregarArmaRandom()
+
+	fabricaDePocion.agregarNuevaPocion()
 	
 	//PERSONAJE
 	game.addVisual(personaje)
@@ -32,11 +38,6 @@ program rpgPorTurnos {
 	fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(3,10), 200, 43, visionDerecha) 
 	fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(26,10), 200, 43, visionIzquierda) 
 	//¿el que más vida tiene es el que más daño causa? ¿no es too much?
-	
-  randomizer.agregarArmaRandom()
-	randomizer.agregarArmaRandom()
-
-	fabricaDePocion.agregarNuevaPocion()
 	
 	//TECLAS MOVIMIENTO
 	keyboard.w().onPressDo({personaje.mover(arriba)})

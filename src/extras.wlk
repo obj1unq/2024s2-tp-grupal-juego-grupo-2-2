@@ -31,6 +31,10 @@ object dungeon {
         return enemigos.any({enemigo => enemigo.position() == celda})
     }
 
+    method sacarEnemigo(enemigo) {
+        enemigos.remove(enemigo)
+    }
+
     //animacion enemigos
 
     method animacionEnemigos(){

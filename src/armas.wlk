@@ -40,6 +40,7 @@ class Arma {
     method danho()
     method image() 
     method imagenParaPersonaje()
+    method emojiParaInfoCombate()
     method habilidadEspecial()
 
     // Para test
@@ -65,6 +66,10 @@ class Espada inherits Arma {
         return self.danho() * 2 //golpe critico RASGUÑO MORTALLLLL
     }
 
+    override method emojiParaInfoCombate() {
+        return "🗡"
+    }
+
 }
 
 class ArcoYFlecha inherits Arma {
@@ -83,6 +88,11 @@ class ArcoYFlecha inherits Arma {
     override method habilidadEspecial() { //de momento, no está siendo usada en el juego
         return //veneno
     }
+
+    override method emojiParaInfoCombate() {
+        return "🏹"
+    }
+
 }
 
 class MartilloDeGuerra inherits Arma {
@@ -101,6 +111,10 @@ class MartilloDeGuerra inherits Arma {
 
     override method habilidadEspecial() { //de momento, no está siendo usada en el juego
         return //pierde turno enemigo
+    }
+
+    override method emojiParaInfoCombate() {
+        return "🪓"
     }
 
 }

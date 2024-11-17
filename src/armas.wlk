@@ -21,6 +21,7 @@ class Arma {
     // El pj colsiona con el arma y la mete en la bolsa()
     method colisiono(personaje){
         personaje.equiparArma(self)
+        game.removeVisual(self)
     }
 
     method realizarActualizacionDeArmas() {
@@ -82,7 +83,7 @@ class ArcoYFlecha inherits Arma {
     }
 
     override method imagenParaPersonaje() {
-        return "ConArcoYFlecha"
+        return "ConLanza"
     }
 
     override method habilidadEspecial() { //de momento, no está siendo usada en el juego
@@ -106,7 +107,7 @@ class MartilloDeGuerra inherits Arma {
     }
 
     override method imagenParaPersonaje() {
-        return "ConMartilloDeGuerra"
+        return "ConMaza"
     }
 
     override method habilidadEspecial() { //de momento, no está siendo usada en el juego
@@ -132,6 +133,11 @@ object mano { //objeto especial
     method emojiParaInfoCombate() {
         return "🤜"
     }
+    
+    method imagenParaPersonaje() {
+        return ""
+    }
+    
 }
 
 //FÁBRICAS (su única función es devolverme en nuevo objeto de la subclase de Arma a la que están ligadas. nos permiten crear armas random)

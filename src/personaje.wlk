@@ -7,34 +7,21 @@ import armas.*
 import randomizer.*
 import pelea.*
 import mapa.*
+import animaciones.*
 
 object personaje {
 	var position = game.at(14,2)
     var property salud = 300
 	var cantVidas = 3
 	var cantPociones = 3
+	const cantArmasPermitidas = 3
+	const cantPocionesPermitidas = 3
 	const property bolsa = []
 	var estaEnCombate = false
 	var property armaActual = mano //porque empieza con bolsa vacía
 
 	method position() {
 		return position
-	}
-
-	method image() { 
-		return "personaje" + self.imagenSegunEstado() + "-32Bits.png"
-	}
-
-	method imagenSegunEstado() {
-		if(self.estaSinArma()) {
-			return ""
-		} else {
-			return self.armaActual().imagenParaPersonaje()
-		}
-	}
-
-	method estaSinArma() {
-		return bolsa.size()==0
 	}
 
 	method cantVidas() {
@@ -45,13 +32,40 @@ object personaje {
 		return cantPociones
 	}
 
+	//ANIMACIONES
+
+	var property animacion = animacionEstatica
+	var property frame = 0
+
+	method image() { 
+		return "personaje" + animacion.tipoPersonaje() + frame + "-32Bits.png"
+	}
+
+	method cambiarAnimacion() {
+		animacion.cambiarAnimacion(self)
+	}
+
+	method maxFrameEstatica() {
+		return 8
+	}
+
+	method maxFrameCombate() {
+		return 4
+	}
+
 	/// ARMA    
     method equiparArma(armaNueva){
+		self.validarEquiparArma()
     	bolsa.add(armaNueva) // mete el arma en la bolsa (atrás)
         self.armaActual(bolsa.head()) // Su arma actual es la primera de la bolsa (si no tenía ninguna, será la nueva)
-		game.removeVisual(armaNueva)
     }
     
+	method validarEquiparArma() {
+	  if(bolsa.size() >= cantArmasPermitidas){ // para no hardcodear el numero que queremos que sea el max y para que en el futuro se pueda cambiar
+		self.error("Ya tengo " + cantArmasPermitidas +" armas!")
+	  }
+	}
+
     method armaActual(arma){
         armaActual = arma
     }
@@ -88,12 +102,30 @@ object personaje {
         esTurno = true //esto da luz verde a que el usuario pueda ejecutar una habilidad (lo que no se puede hacer si no estás en combate)
     }
 
-	method atacar() {
+	method hacerTurno() {
         self.validarCombate() // para que no le pegue a x enemigo cuando no esta peleando
+		self.frame(0)
+		self.animacion(animacionCombate)
+		game.schedule(800, {self.frame(0)})
+		game.schedule(805, {self.animacion(animacionEstatica)})
+		game.schedule(800, {self.realizarAtaque()})
+		game.schedule(810, {combate.cambiarTurnoA(enemigoCombatiendo)}) //como ya terminó el turno del pj, se cambia el turno al enemigo
+	}
+
+	method validarCombate() {
+        if(!estaEnCombate || !esTurno || animacion!=animacionEstatica){
+            self.error("No puedo ejecutar una habilidad ahora")
+        }
+    }
+
+	method realizarAtaque() {
 		enemigoCombatiendo.recibirDanho(armaActual.danho()) 
 		armaActual.realizarActualizacionDeArmas()
         esTurno = false //Indica que ya pasó turno. Sirve para que no pueda atacar al enemigo cuando no es su turno
-		combate.cambiarTurnoA(enemigoCombatiendo)   //como ya terminó el turno del pj, se cambia el turno al enemigo
+	}
+
+	method recibirDanho(cantidad) {
+		salud -= cantidad
 	}
 
 	method actualizarArmaActual() { //esto se ejecuta solamente cuando se descarta el arma actual
@@ -102,16 +134,6 @@ object personaje {
 		} else {
 			armaActual = mano
 		}
-	}
-
-    method validarCombate() {
-        if(!estaEnCombate || !esTurno){
-            self.error("No puedo ejecutar una habilidad ahora")
-        }
-    }
-
-	method recibirDanho(cantidad) {
-		salud -= cantidad
 	}
 	
 	method morir() {
@@ -126,18 +148,24 @@ object personaje {
 	}
 
 	method validarVida() {
-	  if (cantVidas <= 0){
-		//position = game.at(27, 19) //si muere lo manda arriba a la izq 
-		//salud = 0
-		//self.error("Perdi!")
+  
+	  if (cantVidas <= 0) {
 		mapa.limpiar()
 		gestorDeFondo.image("fondoFin.png")
 		game.schedule(500, {game.stop()})
 	  }
+    
 	}
 
 	method agregarPocion() {
-		cantPociones = (cantPociones+1).min(3) //estaría bueno informarle al jugador de que, como ya alcanzó el limite de 3, no se le suma otra poción
+		self.validarAgregarPocion() // valida si ya tiene 3 en el inventario y no la agarra.
+		cantPociones += 1 
+	}
+
+	method validarAgregarPocion() {
+	  if(cantPociones>=cantPocionesPermitidas){
+		self.error("Ya tengo " + cantPocionesPermitidas +" pociones!")
+	  }
 	}
 
 	method curarse() {
@@ -148,16 +176,15 @@ object personaje {
 		esTurno = false //Indica que ya pasó turno. Sirve para que no pueda atacar al enemigo cuando no es su turno
 		combate.cambiarTurnoA(enemigoCombatiendo)   //como ya terminó el turno del pj, se cambia el turno al enemigo
 	}
+	
+	method aumentarSalud(saludSumada) {
+		salud += saludSumada
+	}
 
 	method validarPociones() {
 		if(cantPociones<=0) {
 			self.error("No se puede realizar una curación sin pociones de vida")
 		}
-	}
-
-	//ahora se va a usar en el método curarse()
-	method aumentarSalud(saludSumada) {
-		salud += saludSumada
 	}
 
 }

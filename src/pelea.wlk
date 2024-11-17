@@ -28,7 +28,6 @@ object combate {
     method entidadAtaca() {  
         self.revisarFinDeCombate()      
         self.validarCombate()
-        //game.schedule(200, {entidadAtacando.atacarPre()})
         entidadAtacando.atacarPre()
     }
 

@@ -186,11 +186,15 @@ object barraFuerza {
 	}
 
     method imagenSegunEstado() {
-        if(personaje.cantPociones()==3) {
+        if (personaje.fuerzaAcumulada()==5) {
+            return "5"
+        } else if (personaje.fuerzaAcumulada()==4) {
+            return "4"
+        } else if(personaje.fuerzaAcumulada()==3) {
             return "3"
-        } else if (personaje.cantPociones()==2) {
+        } else if (personaje.fuerzaAcumulada()==2) {
             return "2"
-        } else if (personaje.cantPociones()==1) {
+        } else if (personaje.fuerzaAcumulada()==1) {
             return "1"
         } else {
             return "0"

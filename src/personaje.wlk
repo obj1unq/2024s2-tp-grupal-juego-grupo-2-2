@@ -14,8 +14,9 @@ object personaje {
     var property salud = 300
 	var cantVidas = 3
 	var cantPociones = 3
-	const cantArmasPermitidas = 3
 	const cantPocionesPermitidas = 3
+	var fuerzaAcumulada = 0
+	const cantArmasPermitidas = 3
 	const property bolsa = []
 	var property armaActual = mano //porque empieza con bolsa vacía
 
@@ -29,6 +30,10 @@ object personaje {
 
 	method cantPociones() {
 		return cantPociones
+	}
+
+	method fuerzaAcumulada() {
+		return fuerzaAcumulada
 	}
 
 	//ANIMACIONES
@@ -111,6 +116,7 @@ object personaje {
 		game.schedule(805, {self.animacion(animacionEstatica)})
 		game.schedule(800, {self.realizarAtaqueComun()})
 		game.schedule(810, {combate.cambiarTurnoA(enemigoCombatiendo)}) //como ya terminó el turno del pj, se cambia el turno al enemigo
+		game.schedule(800, {self.sumarFuerzaAcumulada()})
 	}
 
 	method validarHacerTurno() {
@@ -137,27 +143,6 @@ object personaje {
 			armaActual = mano
 		}
 	}
-	
-	method morir() {
-		self.perderVida() // pierde una vida
-		self.validarVida() // valida si está muerto (no tiene más vidas)
-		position = game.at(14,2)
-        salud = 300
-	}
-
-	method perderVida() { //se pierde una vida cuando la salud del pj llega a 0
-	  cantVidas -= 1
-	}
-
-	method validarVida() {
-  
-	  if (cantVidas <= 0) {
-		mapa.limpiar()
-		gestorDeFondo.image("fondoFin.png")
-		game.schedule(500, {game.stop()})
-	  }
-    
-	}
 
 	//////////////////////////////////////////////
 	
@@ -183,6 +168,7 @@ object personaje {
 		game.schedule(805, {self.animacion(animacionEstatica)})
 		game.schedule(800, {self.usarPocionSalud()})
 		game.schedule(810, {combate.cambiarTurnoA(enemigoCombatiendo)})   //como ya terminó el turno del pj, se cambia el turno al enemigo
+		game.schedule(800, {self.sumarFuerzaAcumulada()})
 	}
 
 	method usarPocionSalud() {
@@ -203,6 +189,38 @@ object personaje {
 	}
 
 	//////////////////////////////////////////////
+
+	////////////USO DE POCIÓN SALUD///////////////
+
+	method sumarFuerzaAcumulada() {
+		fuerzaAcumulada = (fuerzaAcumulada + 1).min(5)
+	}
+
+	//////////////////////////////////////////////
+
+	//muerte
+
+	method morir() {
+		self.perderVida() // pierde una vida
+		self.revivirOFinalizarPartida() // valida si está muerto (no tiene más vidas)
+	}
+
+	method perderVida() { //se pierde una vida cuando la salud del pj llega a 0
+	  cantVidas -= 1
+	}
+
+	method revivirOFinalizarPartida() {
+  
+	  if (cantVidas <= 0) {
+		mapa.limpiar()
+		gestorDeFondo.image("fondoFin.png")
+		game.schedule(500, {game.stop()})
+	  } else {
+		position = game.at(14,2)
+        salud = 300
+	  }
+    
+	}
 
 }
 

@@ -12,12 +12,14 @@ object combate {
     const heroe = personaje
     var hayCombate = false
 
-    method iniciarCombate(){
+    method iniciarCombate(enemigo){
+        self.entidadAtacando(enemigo)
         heroe.enemigoCombatiendo(entidadAtacando)
         hayCombate = true
         heroe.estaEnCombate(true)   //en personaje se puede poner combate.hayCombate() en vez de mandarle esto al personaje
         barraEstadoPeleas.enemigo(entidadAtacando)
         barraEstadoPeleas.aparecerJuntoADemasBarras()
+        self.entidadAtaca() //empieza el combate atacando el enemigo
     }
 
     method cambiarTurnoA(entidad){

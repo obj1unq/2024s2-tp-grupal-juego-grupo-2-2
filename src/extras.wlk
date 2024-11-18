@@ -139,7 +139,7 @@ object salud {
 }
 
 object vidas {
-    method position() { return game.at(3, game.height()-1) }
+    method position() { return game.at(4, game.height()-1) }
 
     method image() { 
 		return "vidas" + self.imagenSegunEstado() + ".png"
@@ -158,7 +158,7 @@ object vidas {
 }
 
 object pociones {
-    method position() { return game.at(7, game.height()-1) }
+    method position() { return game.at(8, game.height()-1) }
 
     method image() { 
 		return "pociones" + self.imagenSegunEstado() + ".png"
@@ -176,4 +176,24 @@ object pociones {
         }
     }
 
+}
+
+object barraFuerza {
+    method position() { return game.at(12, game.height()-1) }
+
+    method image() { 
+		return "barraDeFuerza" + self.imagenSegunEstado() + ".png"
+	}
+
+    method imagenSegunEstado() {
+        if(personaje.cantPociones()==3) {
+            return "3"
+        } else if (personaje.cantPociones()==2) {
+            return "2"
+        } else if (personaje.cantPociones()==1) {
+            return "1"
+        } else {
+            return "0"
+        }
+    }
 }

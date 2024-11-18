@@ -94,7 +94,7 @@ object personaje {
 		}
 	}
 
-	//COMBATE/PELEA (y habilidades, ya sean ataque, curación, etc)
+	//COMBATE / PELEA (y habilidades, ya sean ataque común, curación con poción o habilidad especial)
     var property enemigoCombatiendo = null //el enemigo con quien está en combate
 	var esTurno = false //si es su turno en un combate
 
@@ -116,7 +116,6 @@ object personaje {
 		game.schedule(805, {self.animacion(animacionEstatica)})
 		game.schedule(800, {self.realizarAtaqueComun()})
 		game.schedule(810, {combate.cambiarTurnoA(enemigoCombatiendo)}) //como ya terminó el turno del pj, se cambia el turno al enemigo
-		game.schedule(800, {self.sumarFuerzaAcumulada()})
 	}
 
 	method validarHacerTurno() {
@@ -130,6 +129,7 @@ object personaje {
 		armaActual.realizarActualizacionDeArmas()
         esTurno = false //Indica que ya pasó turno. Sirve para que no pueda atacar al enemigo cuando no es su turno
 		barraEstadoPeleas.image("barraPersonajeAtaqueComun.png")
+		self.sumarFuerzaAcumulada()
 	}
 
 	method recibirDanho(cantidad) {
@@ -168,7 +168,6 @@ object personaje {
 		game.schedule(805, {self.animacion(animacionEstatica)})
 		game.schedule(800, {self.usarPocionSalud()})
 		game.schedule(810, {combate.cambiarTurnoA(enemigoCombatiendo)})   //como ya terminó el turno del pj, se cambia el turno al enemigo
-		game.schedule(800, {self.sumarFuerzaAcumulada()})
 	}
 
 	method usarPocionSalud() {
@@ -176,6 +175,7 @@ object personaje {
 		cantPociones -= 1
 		esTurno = false //Indica que ya pasó turno. Sirve para que no pueda atacar al enemigo cuando no es su turno
 		barraEstadoPeleas.image("barraPersonajePocionSalud.png")
+		self.sumarFuerzaAcumulada()
 	}
 	
 	method aumentarSalud(saludSumada) {
@@ -184,21 +184,50 @@ object personaje {
 
 	method validarPociones() {
 		if(cantPociones<=0) {
-			self.error("No se puede realizar una curación sin pociones de vida")
+			self.error("No me puedo curar sin pociones de vida")
 		}
 	}
 
 	//////////////////////////////////////////////
 
-	////////////USO DE POCIÓN SALUD///////////////
+	////////////FUERZA / HABILIDADES ESPECIALES///////////////
 
 	method sumarFuerzaAcumulada() {
 		fuerzaAcumulada = (fuerzaAcumulada + 1).min(5)
 	}
 
-	//////////////////////////////////////////////
+	method gastarFuerzaAcumulada() {
+		fuerzaAcumulada = 0
+	}
 
-	//muerte
+	//modificar
+	method hacerTurnoHabilidadEspecial() {
+		self.validarHacerTurno() // para que no use hab especial cuando no está peleando / no es su turno / ya se encuentra haciendo turno
+		self.validarFuerzaAcumulada()
+		self.frame(0)
+		self.animacion(animacionCombate) //esta no va ¿QUÉ ANIMACIÓN SE VA A USAR PARA CUANDO TOMA POCIÓN? ¿NINGUNA?
+		game.schedule(800, {self.frame(0)})
+		game.schedule(805, {self.animacion(animacionEstatica)})
+		game.schedule(800, {self.realizarHabilidadEspecial()})
+		game.schedule(810, {combate.cambiarTurnoA(enemigoCombatiendo)})   //como ya terminó el turno del pj, se cambia el turno al enemigo
+	}
+
+	method validarFuerzaAcumulada() {
+		if(fuerzaAcumulada < 5) {
+			self.error("No tengo la suficiente fuerza acumulada")
+		}
+	}
+
+	method realizarHabilidadEspecial() {
+		armaActual.ejecutarHabilidadEspecial()
+		armaActual.realizarActualizacionDeArmas()
+        esTurno = false //Indica que ya pasó turno. Sirve para que no pueda atacar al enemigo cuando no es su turno
+		barraEstadoPeleas.image("barraPersonajeAtaqueComun.png")
+	}
+
+	//////////////////////////////////////////////////////////
+
+	//MUERTE
 
 	method morir() {
 		self.perderVida() // pierde una vida

@@ -5,17 +5,13 @@ import mapa.*
 
 
 class Arma {
-    var property estaEquipada = false
     const property position = randomizer.posicionRandomDeArma()
     const nivel = 1.randomUpTo(3).round() 
     var durabilidad  
+    const portador = personaje
 
     method durabilidad() {
       return durabilidad
-    }
-
-    method serEquipada() {
-      self.estaEquipada(true) 
     }
 
     // El pj colsiona con el arma y la mete en la bolsa()
@@ -42,7 +38,10 @@ class Arma {
     method image() 
     method imagenParaPersonaje()
     method emojiParaInfoCombate()
-    method habilidadEspecial()
+
+    method ejecutarHabilidadEspecial() {
+        portador.gastarFuerzaAcumulada()
+    }
 
     // Para test
     method text(){ return "Dur: " + self.durabilidad().toString() + "\nLvl: " + nivel.toString()}
@@ -63,12 +62,12 @@ class Espada inherits Arma {
         return "ConEspada"
     }
 
-    override method habilidadEspecial() { //de momento, no está siendo usada en el juego
-        return self.danho() * 2 //golpe critico RASGUÑO MORTALLLLL
-    }
-
     override method emojiParaInfoCombate() {
         return "🗡"
+    }
+
+    override method ejecutarHabilidadEspecial() { //de momento, no está siendo usada en el juego
+        super()
     }
 
 }
@@ -86,12 +85,12 @@ class ArcoYFlecha inherits Arma {
         return "ConLanza"
     }
 
-    override method habilidadEspecial() { //de momento, no está siendo usada en el juego
-        return //veneno
-    }
-
     override method emojiParaInfoCombate() {
         return "🏹"
+    }
+
+    override method ejecutarHabilidadEspecial() { //de momento, no está siendo usada en el juego
+        super()
     }
 
 }
@@ -110,17 +109,18 @@ class MartilloDeGuerra inherits Arma {
         return "ConMaza"
     }
 
-    override method habilidadEspecial() { //de momento, no está siendo usada en el juego
-        return //pierde turno enemigo
-    }
-
     override method emojiParaInfoCombate() {
         return "🪓"
+    }
+
+    override method ejecutarHabilidadEspecial() { //de momento, no está siendo usada en el juego
+        super()
     }
 
 }
 
 object mano { //objeto especial
+    const portador = personaje
 
     method danho() {
         return 5
@@ -130,12 +130,16 @@ object mano { //objeto especial
     
     method realizarActualizacionDeArmas() { } //necesario para que funcione el polimorfismo (todas las armas deben entenderlo)
 
+    method imagenParaPersonaje() {
+        return ""
+    }
+
     method emojiParaInfoCombate() {
         return "🤜"
     }
-    
-    method imagenParaPersonaje() {
-        return ""
+
+    method ejecutarHabilidadEspecial() { //de momento, no está siendo usada en el juego
+        portador.gastarFuerzaAcumulada()
     }
     
 }

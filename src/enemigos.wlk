@@ -26,7 +26,7 @@ class Enemigo {
         self.combate() 
     }
     
-    method combate() {
+    method combate() { //cambio de nombre a iniciarCombate? porque con el sustantivo parece de consulta
 
         position = position.left(2)    //se posiciona una celda a la izquierda del personaje
         combate.iniciarCombate(self)    //prepara el combate, la info necesaria y le hace saber que él(enemigo/self) será quien empieza

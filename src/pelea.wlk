@@ -10,13 +10,13 @@ object combate {
 
     var property entidadAtacando = null //aquel que tiene el turno para atacar
     const heroe = personaje
-    var hayCombate = false
+    var property hayCombate = false
 
     method iniciarCombate(enemigo){
         self.entidadAtacando(enemigo)
         heroe.enemigoCombatiendo(entidadAtacando)
         hayCombate = true
-        heroe.estaEnCombate(true)   //en personaje se puede poner combate.hayCombate() en vez de mandarle esto al personaje
+        //heroe.estaEnCombate(true)   //en personaje se puede poner combate.hayCombate() en vez de mandarle esto al personaje
         barraEstadoPeleas.enemigo(entidadAtacando)
         barraEstadoPeleas.aparecerJuntoADemasBarras()
         self.entidadAtaca() //empieza el combate atacando el enemigo
@@ -36,7 +36,7 @@ object combate {
     method revisarFinDeCombate() {
         if(entidadAtacando.salud() <= 0) {
             hayCombate = false
-            heroe.estaEnCombate(false)
+            //heroe.estaEnCombate(false)
             barraEstadoPeleas.desaparecerJuntoADemasBarras()
             entidadAtacando.morir()
         }
@@ -46,9 +46,6 @@ object combate {
         if(!hayCombate){
             self.error("")
         }
-    }
-    method hayCombate(cond){
-        hayCombate = cond
     }
 
 }

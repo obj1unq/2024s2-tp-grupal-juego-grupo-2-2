@@ -17,7 +17,6 @@ object personaje {
 	const cantArmasPermitidas = 3
 	const cantPocionesPermitidas = 3
 	const property bolsa = []
-	var estaEnCombate = false
 	var property armaActual = mano //porque empieza con bolsa vacía
 
 	method position() {
@@ -85,7 +84,7 @@ object personaje {
 	}
 
 	method validarMoverPelea() {
-		if (estaEnCombate) {
+		if (self.estaEnCombate()) {
 			self.error(null)
 		}
 	}
@@ -94,8 +93,8 @@ object personaje {
     var property enemigoCombatiendo = null //el enemigo con quien está en combate
 	var esTurno = false //si es su turno en un combate
 
-    method estaEnCombate(condicion){
-        estaEnCombate = condicion
+    method estaEnCombate(){
+        return combate.hayCombate()
     }
 
     method atacarPre() {
@@ -115,7 +114,7 @@ object personaje {
 	}
 
 	method validarHacerTurno() {
-        if(!estaEnCombate || !esTurno || animacion!=animacionEstatica){
+        if(!self.estaEnCombate() || !esTurno || animacion!=animacionEstatica){
             self.error("No puedo ejecutar una habilidad ahora")
         }
     }

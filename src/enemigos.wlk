@@ -60,7 +60,7 @@ class Enemigo {
     }
     
     method recibirDanho(cantidad){
-        salud -= cantidad
+        salud = (salud - cantidad).max(0)
     }
 
     method morir() {

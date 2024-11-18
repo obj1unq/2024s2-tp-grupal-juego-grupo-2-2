@@ -85,7 +85,7 @@ object personaje {
 
 	method validarMoverPelea() {
 		if (self.estaEnCombate()) {
-			self.error(null)
+			self.error("")
 		}
 	}
 
@@ -127,7 +127,7 @@ object personaje {
 	}
 
 	method recibirDanho(cantidad) {
-		salud -= cantidad
+		salud = (salud - cantidad).max(0)
 	}
 
 	method actualizarArmaActual() { //esto se ejecuta solamente cuando se descarta el arma actual

@@ -15,7 +15,7 @@ object personaje {
 	var cantVidas = 3
 	var cantPociones = 3
 	const cantPocionesPermitidas = 3
-	var fuerzaAcumulada = 4
+	var fuerzaAcumulada = 5
 	const cantArmasPermitidas = 3
 	const property bolsa = []
 	var property armaActual = mano //porque empieza con bolsa vacía

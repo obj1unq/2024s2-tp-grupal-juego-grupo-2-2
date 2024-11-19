@@ -14,6 +14,8 @@ class Enemigo {
     var acumuladorDeTurnos = 0
     const turnoRequeridoParaHabilidad
     var property estaAturdido = false
+    var property cantidadDeVeneno = 0
+    const danhoPorVeneno = 20
 
     method position() {
         return position
@@ -38,14 +40,20 @@ class Enemigo {
       self.hacerTurno()
     }
 
-    method hacerTurno() { 
-        
-        self.frame(0)
-        self.animacion(animacionCombate)
-        game.schedule(1600, {self.frame(0)})
-        game.schedule(1605, {self.animacion(animacionEstatica)})
-        game.schedule(1600, {self.realizarAtaqueNormalOHabilidad()}) //esto se encarga del ataque/habilidad y de sumar +1 a acumuladorDeTurnos
-        game.schedule(1610, {combate.cambiarTurnoA(objetivoADestruir)})
+    method hacerTurno() { //1ro sufriría el daño del veneno antes de poder atacar si corresponde. asi que, si es mortal, se muere sin atacar.
+
+        if(self.estaEnvenenado() && salud <= danhoPorVeneno) {
+            self.recibirDanho(danhoPorVeneno)
+            combate.morirEntidad() 
+        } else { 
+            self.frame(0)
+            self.animacion(animacionCombate)
+            game.schedule(1600, {self.frame(0)})
+            game.schedule(1605, {self.animacion(animacionEstatica)})
+            game.schedule(1600, {self.realizarAtaqueNormalOHabilidad()}) //esto se encarga del ataque/habilidad y de sumar +1 a acumuladorDeTurnos
+            game.schedule(1600, {self.sufrirVenenoSiCorresponde()}) //este es el caso donde, si hay daño por veneno, NO va a ser mortal
+            game.schedule(1610, {combate.cambiarTurnoA(objetivoADestruir)})
+        }
         
     }
     
@@ -59,6 +67,13 @@ class Enemigo {
             self.utilizarHabilidad()
         }
     }
+
+    method sufrirVenenoSiCorresponde() { //este es el caso donde, si hay daño por veneno, NO va a ser mortal
+        if(self.estaEnvenenado()) {
+            self.recibirDanho(danhoPorVeneno)
+            cantidadDeVeneno -= 1
+        }
+    }
     
     method recibirDanho(cantidad){
         salud = (salud - cantidad).max(0)
@@ -69,6 +84,10 @@ class Enemigo {
         self.animacion(animacionMuerte)
         game.schedule(800, {game.removeVisual(self)})
         game.schedule(800, {dungeon.sacarEnemigo(self)})
+    }
+
+    method estaEnvenenado() {
+        return cantidadDeVeneno > 0
     }
 
     method image() 

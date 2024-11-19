@@ -125,7 +125,7 @@ class Maza inherits Arma {
     override method ejecutarHabilidadEspecial() { //ENVENENAMIENTO
         super()
         self.objetivo().recibirDanho(self.danho()) 
-        //veneno
+        self.objetivo().cantidadDeVeneno(3)
     }
 
 }

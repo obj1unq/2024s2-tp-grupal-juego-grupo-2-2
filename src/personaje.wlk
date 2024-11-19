@@ -15,7 +15,7 @@ object personaje {
 	var cantVidas = 3
 	var cantPociones = 3
 	const cantPocionesPermitidas = 3
-	var fuerzaAcumulada = 0
+	var fuerzaAcumulada = 4
 	const cantArmasPermitidas = 3
 	const property bolsa = []
 	var property armaActual = mano //porque empieza con bolsa vacía
@@ -222,7 +222,7 @@ object personaje {
 		armaActual.ejecutarHabilidadEspecial()
 		armaActual.realizarActualizacionDeArmas()
         esTurno = false //Indica que ya pasó turno. Sirve para que no pueda atacar al enemigo cuando no es su turno
-		barraEstadoPeleas.image("barraPersonajeAtaqueComun.png")
+		barraEstadoPeleas.image("barraPersonajeAtaqueComun.png") //HACER IMAGS PARA CADA CASO Y DELEGAR AL ARMA!
 	}
 
 	//////////////////////////////////////////////////////////

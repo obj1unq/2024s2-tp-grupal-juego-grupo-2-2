@@ -10,6 +10,10 @@ class Arma {
     var durabilidad  
     const portador = personaje
 
+    method objetivo() {
+        return portador.enemigoCombatiendo()
+    }
+
     method durabilidad() {
       return durabilidad
     }
@@ -66,8 +70,9 @@ class Espada inherits Arma {
         return "🗡"
     }
 
-    override method ejecutarHabilidadEspecial() { //de momento, no está siendo usada en el juego
+    override method ejecutarHabilidadEspecial() { //hay que modificar
         super()
+        self.objetivo().recibirDanho(self.danho()*3) 
     }
 
 }
@@ -89,8 +94,9 @@ class ArcoYFlecha inherits Arma {
         return "🏹"
     }
 
-    override method ejecutarHabilidadEspecial() { //de momento, no está siendo usada en el juego
+    override method ejecutarHabilidadEspecial() { //FLECHAZO
         super()
+        self.objetivo().recibirDanho(self.danho()*3) 
     }
 
 }
@@ -113,14 +119,19 @@ class MartilloDeGuerra inherits Arma {
         return "🪓"
     }
 
-    override method ejecutarHabilidadEspecial() { //de momento, no está siendo usada en el juego
+    override method ejecutarHabilidadEspecial() { //hay que modificar
         super()
+        self.objetivo().recibirDanho(self.danho()*3) 
     }
 
 }
 
 object mano { //objeto especial
     const portador = personaje
+
+    method objetivo() {
+        return portador.enemigoCombatiendo()
+    }
 
     method danho() {
         return 5
@@ -138,8 +149,9 @@ object mano { //objeto especial
         return "🤜"
     }
 
-    method ejecutarHabilidadEspecial() { //de momento, no está siendo usada en el juego
+    method ejecutarHabilidadEspecial() { //PUÑETAZO
         portador.gastarFuerzaAcumulada()
+        self.objetivo().recibirDanho(self.danho()*7) //35 de daño
     }
     
 }

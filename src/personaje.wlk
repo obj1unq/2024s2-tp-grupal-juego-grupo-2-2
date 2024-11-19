@@ -11,7 +11,7 @@ import animaciones.*
 
 object personaje {
 	var position = game.at(14,2)
-    var property salud = 300
+    var property salud = 150
 	var cantVidas = 3
 	var cantPociones = 3
 	const cantPocionesPermitidas = 3
@@ -56,6 +56,10 @@ object personaje {
 
 	method maxFrameCombate() {
 		return 4
+	}
+
+	method maxFrameMuerte() {
+		return 5
 	}
 
 	/// ARMA    
@@ -164,7 +168,7 @@ object personaje {
 		self.validarHacerTurno() // para que no se cure en combate cuando no está peleando / no es su turno / ya se encuentra haciendo turno
 		self.validarPociones()
 		self.frame(0)
-		self.animacion(animacionCombate) //esta no va ¿QUÉ ANIMACIÓN SE VA A USAR PARA CUANDO TOMA POCIÓN? ¿NINGUNA?
+		self.animacion(animacionCurar) 
 		game.schedule(800, {self.frame(0)})
 		game.schedule(805, {self.animacion(animacionEstatica)})
 		game.schedule(800, {self.usarPocionSalud()})
@@ -232,7 +236,7 @@ object personaje {
 
 	method morir() {
 		self.perderVida() // pierde una vida
-		self.revivirOFinalizarPartida() // valida si está muerto (no tiene más vidas)
+		self.revivirOFinalizarPartida() // revisa si el pj está muerto (no tiene más vidas) o no y actua en consecuencia
 	}
 
 	method perderVida() { //se pierde una vida cuando la salud del pj llega a 0
@@ -242,12 +246,18 @@ object personaje {
 	method revivirOFinalizarPartida() {
   
 	  if (cantVidas <= 0) {
-		mapa.limpiar()
-		gestorDeFondo.image("fondoFin.png")
-		game.schedule(500, {game.stop()})
+    self.frame(0)
+		self.animacion(animacionMuerte)
+		game.schedule(1000, {mapa.limpiar()})
+		game.schedule(1005, {gestorDeFondo.image("fondoFin.png")})
+		game.schedule(1020, {game.stop()})
 	  } else {
-		position = game.at(14,2)
-        salud = 300
+		self.frame(0)
+		self.animacion(animacionMuerte)
+		game.schedule(1000, {self.frame(0)})
+    game.schedule(1005, {self.animacion(animacionEstatica)})
+    game.schedule(1010, {position = game.at(14,2)})
+		game.schedule(1010, {self.salud(300)})
 	  }
     
 	}

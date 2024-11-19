@@ -37,6 +37,8 @@ object combate {
             entidadAtacando.atacarPre()
         }
     }
+    */
+
 
     method morirEntidad() {
         hayCombate = false

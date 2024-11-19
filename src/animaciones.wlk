@@ -43,7 +43,7 @@ object animacionCombate inherits Animacion {
         return entidad.maxFrameCombate()
     }
 
-    method tipo(){
+    method tipo() {
         return "ataque"
     }
 
@@ -52,13 +52,30 @@ object animacionCombate inherits Animacion {
     }
 
 }
-object animacionMuerte inherits Animacion {
+
+object animacionCurar inherits Animacion {
 
     override method maxFrame(entidad) {
         return 4
     }
 
-    method tipo(){
+    override method tipoPersonaje() {
+        return "curar" 
+    }
+
+}
+
+object animacionMuerte inherits Animacion {
+
+    override method maxFrame(entidad) {
+        return entidad.maxFrameMuerte()
+    }
+
+    method tipo() {
+        return "muerte"
+    }
+
+    override method tipoPersonaje() {
         return "muerte"
     }
 

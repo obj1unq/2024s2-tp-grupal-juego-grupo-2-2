@@ -223,7 +223,7 @@ object personaje {
 		armaActual.ejecutarHabilidadEspecial()
 		armaActual.realizarActualizacionDeArmas()
         esTurno = false //Indica que ya pasó turno. Sirve para que no pueda atacar al enemigo cuando no es su turno
-		barraEstadoPeleas.image("barraPersonajeAtaqueComun.png") //HACER IMAGS PARA CADA CASO Y DELEGAR AL ARMA!
+		barraEstadoPeleas.image("barraPersonajeHabilidadEspecial" + armaActual.imagenHabilidadEspecialParaBarra() + ".png")
 	}
 
 	//////////////////////////////////////////////////////////

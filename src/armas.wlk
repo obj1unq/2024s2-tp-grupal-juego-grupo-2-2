@@ -44,6 +44,7 @@ class Arma {
     method image() 
     method imagenParaPersonaje()
     method emojiParaInfoCombate()
+    method imagenHabilidadEspecialParaBarra()
 
     method ejecutarHabilidadEspecial() {
         portador.gastarFuerzaAcumulada()
@@ -72,10 +73,14 @@ class Espada inherits Arma {
         return "🗡 (espada)"
     }
 
-    override method ejecutarHabilidadEspecial() { //GOLPE ATURDIDOR
+    override method ejecutarHabilidadEspecial() { //ATURDIMIENTO
         super()
         self.objetivo().recibirDanho(self.danho()) 
         self.objetivo().estaAturdido(true)
+    }
+
+    override method imagenHabilidadEspecialParaBarra() {
+        return "Aturdimiento"
     }
 
 }
@@ -97,9 +102,13 @@ class Lanza inherits Arma {
         return "𐃆 (lanza)"
     }
 
-    override method ejecutarHabilidadEspecial() { //FLECHAZO
+    override method ejecutarHabilidadEspecial() { //EMBESTIDA
         super()
         self.objetivo().recibirDanho(self.danho()*3) 
+    }
+
+    override method imagenHabilidadEspecialParaBarra() {
+        return "Embestida"
     }
 
 }
@@ -126,6 +135,10 @@ class Maza inherits Arma {
         super()
         self.objetivo().recibirDanho(self.danho()) 
         self.objetivo().cantidadDeVeneno(3)
+    }
+
+    override method imagenHabilidadEspecialParaBarra() {
+        return "Envenenamiento"
     }
 
 }
@@ -156,6 +169,10 @@ object mano { //objeto especial
     method ejecutarHabilidadEspecial() { //PUÑETAZO
         portador.gastarFuerzaAcumulada()
         self.objetivo().recibirDanho(self.danho()*7) //35 de daño
+    }
+
+    method imagenHabilidadEspecialParaBarra() {
+        return "Puñetazo"
     }
     
 }

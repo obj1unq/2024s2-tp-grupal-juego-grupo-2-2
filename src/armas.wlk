@@ -2,6 +2,8 @@ import randomizer.*
 import paleta.*
 import personaje.*
 import mapa.*
+import pelea.*
+import enemigos.*
 
 
 class Arma {
@@ -67,17 +69,18 @@ class Espada inherits Arma {
     }
 
     override method emojiParaInfoCombate() {
-        return "🗡"
+        return "🗡 (espada)"
     }
 
-    override method ejecutarHabilidadEspecial() { //hay que modificar
+    override method ejecutarHabilidadEspecial() { //GOLPE ATURDIDOR
         super()
-        self.objetivo().recibirDanho(self.danho()*3) 
+        self.objetivo().recibirDanho(self.danho()) 
+        self.objetivo().estaAturdido(true)
     }
 
 }
 
-class ArcoYFlecha inherits Arma {
+class Lanza inherits Arma {
 
     override method danho() {
         return 20 + nivel * 3
@@ -91,7 +94,7 @@ class ArcoYFlecha inherits Arma {
     }
 
     override method emojiParaInfoCombate() {
-        return "🏹"
+        return "𐃆 (lanza)"
     }
 
     override method ejecutarHabilidadEspecial() { //FLECHAZO
@@ -101,7 +104,7 @@ class ArcoYFlecha inherits Arma {
 
 }
 
-class MartilloDeGuerra inherits Arma {
+class Maza inherits Arma {
 
     override method danho() {
         return 80 + nivel * 3
@@ -116,12 +119,13 @@ class MartilloDeGuerra inherits Arma {
     }
 
     override method emojiParaInfoCombate() {
-        return "🪓"
+        return "🪓 (maza)"
     }
 
-    override method ejecutarHabilidadEspecial() { //hay que modificar
+    override method ejecutarHabilidadEspecial() { //ENVENENAMIENTO
         super()
-        self.objetivo().recibirDanho(self.danho()*3) 
+        self.objetivo().recibirDanho(self.danho()) 
+        //veneno
     }
 
 }
@@ -146,7 +150,7 @@ object mano { //objeto especial
     }
 
     method emojiParaInfoCombate() {
-        return "🤜"
+        return "🤜 (mano)"
     }
 
     method ejecutarHabilidadEspecial() { //PUÑETAZO
@@ -170,7 +174,7 @@ object fabricaDeEspada {
 object fabricaDeArcoYFlecha {
 
     method agregarNuevaArma() {
-        const arma = new ArcoYFlecha(durabilidad = 120.randomUpTo(150).round())
+        const arma = new Lanza(durabilidad = 120.randomUpTo(150).round())
         game.addVisual(arma)
     }
 
@@ -179,7 +183,7 @@ object fabricaDeArcoYFlecha {
 object fabricaDeMartilloDeGuerra {
 
     method agregarNuevaArma() {
-        const arma = new MartilloDeGuerra(durabilidad = 60.randomUpTo(90).round())
+        const arma = new Maza(durabilidad = 60.randomUpTo(90).round())
         game.addVisual(arma)
     }
 

@@ -19,7 +19,8 @@ object personaje {
 	const cantArmasPermitidas = 3
 	const property bolsa = []
 	var property armaActual = mano //porque empieza con bolsa vacía
-
+	const property estaAturdido = false //siempre será falso. se necesita la constante para condicional en el método de hacer turno en pelea 
+										//(el que si puede variar es el de los enemigos)
 	method position() {
 		return position
 	}

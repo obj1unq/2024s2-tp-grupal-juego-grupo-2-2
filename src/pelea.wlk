@@ -51,9 +51,12 @@ object combate {
             hayCombate = false
             entidadAtacando.morir()
             game.schedule(805, {barraEstadoPeleas.desaparecerJuntoADemasBarras()}) //con schedule para que se puedan ver animaciones d muerte
+        } else if (entidadAtacando.estaAturdido()) { //caso en donde el pj acaba de aturdir al enemigo, lo que causa que este pierda su turno
+            entidadAtacando.estaAturdido(false) //se le va el aturdimiento, que solo dura un turno (o sea, pierde nada más un turno)
+            self.cambiarTurnoA(heroe) //a heroe porque el aturdido SIEMPRE va a ser un enemigo
         } else {
             entidadAtacando.atacarPre()
-        }   
+        }
     }
 
 }

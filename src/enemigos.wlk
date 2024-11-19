@@ -13,6 +13,7 @@ class Enemigo {
     const objetivoADestruir = personaje
     var acumuladorDeTurnos = 0
     const turnoRequeridoParaHabilidad
+    var property estaAturdido = false
 
     method position() {
         return position

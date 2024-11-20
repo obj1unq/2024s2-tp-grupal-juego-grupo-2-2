@@ -24,7 +24,7 @@ object mapa {
 
     method limpiar() {
         game.allVisuals().forEach({vis => if(!self.estaEnOrigin(vis.position())) {game.removeVisual(vis)} })
-        game.sound("ambiente.mp3").pause()
+
     }
 
     method estaEnOrigin(pos) {

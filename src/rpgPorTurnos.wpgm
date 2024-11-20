@@ -50,6 +50,7 @@ program rpgPorTurnos {
     keyboard.up().onPressDo({personaje.hacerTurnoAtaqueComun()})
 	keyboard.down().onPressDo({personaje.hacerTurnoPocion()})
 	keyboard.right().onPressDo({personaje.hacerTurnoHabilidadEspecial()})
+	keyboard.left().onPressDo({personaje.cambiarArmaActual()})
 
 	//COLISIÓN
     game.onCollideDo(personaje, {cosa => cosa.colisiono(personaje)})

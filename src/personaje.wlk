@@ -18,7 +18,7 @@ object personaje {
 	var fuerzaAcumulada = 5
 	const cantArmasPermitidas = 3
 	const property bolsa = []
-	var property armaActual = mano //porque empieza con bolsa vacía
+	var property armaActual = mano //porque empieza con bolsa vacía //OJO QUE ESTO SE PUEDE RESOLVER CON POSTCALCULOOOOO
 	const property estaAturdido = false //siempre será falso. se necesita la constante para condicional en el método de hacer turno en pelea 
 										//(el que si puede variar es el de los enemigos)
 	method position() {
@@ -78,6 +78,13 @@ object personaje {
     method armaActual(arma){
         armaActual = arma
     }
+
+	method cambiarArmaActual() {
+		const armaMovida = bolsa.head()
+		bolsa.remove(armaMovida)
+		bolsa.add(armaMovida)
+		self.armaActual(bolsa.head()) // Su arma actual es la primera de la bolsa (si no tenía ninguna, será la nueva)
+	}
 
 	//MOVIMIENTO
 

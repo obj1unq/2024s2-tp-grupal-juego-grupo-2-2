@@ -36,8 +36,8 @@ program rpgPorTurnos {
 	//OBJETOS CON LOS QUE SE INTERACTUA
 	fabricaDeOjoVolador.agregarNuevoEnemigo(game.at(26,7), 150, 40)
 	fabricaDeGoblin.agregarNuevoEnemigoCon(game.at(15,14), 95, 37)
-	fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(3,10), 200, 43, visionDerecha) 
-	fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(26,10), 200, 43, visionIzquierda) 
+	fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(3,10), 200, 43, 3) 
+	fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(26,10), 200, 43, 3) 
 	//¿el que más vida tiene es el que más daño causa? ¿no es too much?
 	
 	//TECLAS MOVIMIENTO

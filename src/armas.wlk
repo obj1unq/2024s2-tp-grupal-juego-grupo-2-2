@@ -197,7 +197,7 @@ object mano { //objeto especial
     method ejecutarHabilidadEspecial() { //PUÑETAZO
         portador.gastarFuerzaAcumulada()
         self.objetivo().recibirDanho(self.danho()*7) //35 de daño
-        game.sound("puñetazoH.mp3").play()
+        self.sonidoDelArmaEspecial()
     }
 
     method imagenHabilidadEspecialParaBarra() {
@@ -206,6 +206,10 @@ object mano { //objeto especial
 
     method sonidoDelArma() {
        game.sound("puñetazo.mp3").play()
+    }
+
+    method sonidoDelArmaEspecial() {
+      game.sound("puñetazoH.mp3").play()
     }
 
 }

@@ -219,7 +219,7 @@ object personaje {
 		game.schedule(800, {self.frame(0)})
 		game.schedule(805, {self.animacion(animacionEstatica)})
 		game.schedule(800, {self.realizarHabilidadEspecial()})
-		game.sound("habilidadEspecial.mp3").play() //por el momento solo esta despues con cada arma va a tener sdu sonido.
+		game.sound("habilidadEspecial.mp3").play() //sonido que nos avisa de que se uso la habilidad especial.
 		game.schedule(810, {combate.cambiarTurnoA(enemigoCombatiendo)})   //como ya terminó el turno del pj, se cambia el turno al enemigo
 	}
 
@@ -232,6 +232,7 @@ object personaje {
 	method realizarHabilidadEspecial() {
 		armaActual.ejecutarHabilidadEspecial()
 		armaActual.realizarActualizacionDeArmas()
+		armaActual.sonidoDelArmaEspecial()
         esTurno = false //Indica que ya pasó turno. Sirve para que no pueda atacar al enemigo cuando no es su turno
 		barraEstadoPeleas.image("barraPersonajeHabilidadEspecial" + armaActual.imagenHabilidadEspecialParaBarra() + ".png")	
 	}

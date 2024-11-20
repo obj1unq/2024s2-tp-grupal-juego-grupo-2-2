@@ -5,57 +5,7 @@ import mapa.*
 import pelea.*
 import enemigos.*
 
-
-
 class Arma {
-    const property position = randomizer.posicionRandomDeArma()
-    const nivel = 1.randomUpTo(3).round() 
-    var durabilidad  
-    const portador = personaje
-
-    method objetivo() {
-        return portador.enemigoCombatiendo()
-    }
-
-    method durabilidad() {
-      return durabilidad
-    }
-
-    // El pj colsiona con el arma y la mete en la bolsa()
-    method colisiono(personaje){
-        personaje.equiparArma(self)
-        game.removeVisual(self)
-    }
-
-    method realizarActualizacionDeArmas() {
-        if ( self.durabilidad() <= 15) {
-            personaje.descartarArmaActual() //se borra esta arma de la bolsa, que era la anterior actual
-        } else {
-            self.restarDurabilidad(15)
-        }
-    }
-
-    method restarDurabilidad(cantidadRestada) {
-        durabilidad -= cantidadRestada
-    }
-
-    //se implementan en cada una de las subclases de tipos de arma (ya que en todas varía)
-    method danho()
-    method image() 
-    method imagenParaPersonaje()
-    method emojiParaInfoCombate()
-    method imagenHabilidadEspecialParaBarra()
-
-    method ejecutarHabilidadEspecial() {
-        portador.gastarFuerzaAcumulada()
-    }
-
-    // Para test
-    method text(){ return "Dur: " + self.durabilidad().toString() + "\nLvl: " + nivel.toString()}
-    method textColor() = paleta.gris()
-}
-
-class Arma2 {
     const portador = personaje
     var property durabilidad
 
@@ -75,24 +25,7 @@ class Arma2 {
 
 }
 
-class ArmaEncontrable inherits Arma2 {
-
-    /*
-    const portador = personaje
-    var property durabilidad
-
-    method objetivo() {
-        return portador.enemigoCombatiendo()
-    }
-
-    method danho()
-    method imagenParaPersonaje()
-    method emojiParaInfoCombate
-    method imagenHabilidadEspecialParaBarra()
-    method realizarActualizacionDeArmas()
-    method ejecutarHabilidadEspecial()
-    */
-
+class ArmaEncontrable inherits Arma {
     const property position = randomizer.posicionRandomDeArma()
     const nivel = 1.randomUpTo(3).round() 
 
@@ -114,8 +47,6 @@ class ArmaEncontrable inherits Arma2 {
     method restarDurabilidad(cantidadRestada) {
         durabilidad -= cantidadRestada
     }
-
-    
 
     // Para test
     method text(){ return "Dur: " + self.durabilidad().toString() + "\nLvl: " + nivel.toString()}
@@ -211,7 +142,9 @@ class Maza inherits ArmaEncontrable {
 
 }
 
-object mano inherits Arma2(durabilidad = "Infinita") { //objeto especial //hay que hacer que herede de Arma (y no de ArmaIntermedia)
+//objeto especial que representa al arma por default
+object mano inherits Arma(durabilidad = "Infinita") { //su atributo durabilidad solo se usa para el string en la info del combate. NUNCA se hacen cálculos con este
+                                                      //dato como si se hace con el atributo durabilidad de las instancias de las subclases de ArmaEncontrable.
 
     override method danho() { //
         return 5
@@ -232,25 +165,9 @@ object mano inherits Arma2(durabilidad = "Infinita") { //objeto especial //hay q
     override method realizarActualizacionDeArmas() { } //necesario para que funcione el polimorfismo (todas las armas deben entenderlo) //
 
     override method ejecutarHabilidadEspecial() { //PUÑETAZO //
-        portador.gastarFuerzaAcumulada()
+        super()
         self.objetivo().recibirDanho(self.danho()*7) //35 de daño
     }
-
-    /*
-    const portador = personaje
-
-    method objetivo() { //
-        return portador.enemigoCombatiendo()
-    }
-
-    method danho()
-    method imagenParaPersonaje()
-    method emojiParaInfoCombate
-    method imagenHabilidadEspecialParaBarra()
-    method realizarActualizacionDeArmas()
-    method ejecutarHabilidadEspecial()
-
-    */
     
 }
 

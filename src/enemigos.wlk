@@ -38,6 +38,7 @@ class Enemigo {
       
     method atacarPre() {
       self.hacerTurno()
+      game.sound("ouch.mp3").play()
     }
 
     method hacerTurno() { //1ro sufriría el daño del veneno antes de poder atacar si corresponde. asi que, si es mortal, se muere sin atacar.
@@ -54,7 +55,7 @@ class Enemigo {
             game.schedule(1600, {self.sufrirVenenoSiCorresponde()}) //este es el caso donde, si hay daño por veneno, NO va a ser mortal
             game.schedule(1610, {combate.cambiarTurnoA(objetivoADestruir)})
         }
-        
+       
     }
     
     method realizarAtaqueNormalOHabilidad() { 

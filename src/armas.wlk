@@ -48,7 +48,11 @@ class Arma {
 
     method ejecutarHabilidadEspecial() {
         portador.gastarFuerzaAcumulada()
+        self.sonidoDelArmaEspecial()
     }
+    method sonidoDelArma()
+    method sonidoDelArmaEspecial()
+
 
     // Para test
     method text(){ return "Dur: " + self.durabilidad().toString() + "\nLvl: " + nivel.toString()}
@@ -77,12 +81,20 @@ class Espada inherits Arma {
         super()
         self.objetivo().recibirDanho(self.danho()) 
         self.objetivo().estaAturdido(true)
+       
     }
 
     override method imagenHabilidadEspecialParaBarra() {
         return "Aturdimiento"
     }
 
+    override method sonidoDelArma() {
+       game.sound("espada.mp3").play()
+    }
+    
+    override method sonidoDelArmaEspecial() {
+       game.sound("aturdido.mp3").play()
+    }
 }
 
 class Lanza inherits Arma {
@@ -105,12 +117,20 @@ class Lanza inherits Arma {
     override method ejecutarHabilidadEspecial() { //EMBESTIDA
         super()
         self.objetivo().recibirDanho(self.danho()*3) 
+       
     }
 
     override method imagenHabilidadEspecialParaBarra() {
         return "Embestida"
     }
 
+    override method sonidoDelArma() {
+       game.sound("lanza.mp3").play()
+    }
+
+    override method sonidoDelArmaEspecial() {
+        game.sound("embestida.mp3").play()
+    }
 }
 
 class Maza inherits Arma {
@@ -141,6 +161,14 @@ class Maza inherits Arma {
         return "Envenenamiento"
     }
 
+    override method sonidoDelArma() {
+       game.sound("hacha.mp3").play()
+    }
+
+    override method sonidoDelArmaEspecial() {
+        game.sound("envenenamiento.mp3").play()
+    }
+
 }
 
 object mano { //objeto especial
@@ -169,12 +197,17 @@ object mano { //objeto especial
     method ejecutarHabilidadEspecial() { //PUÑETAZO
         portador.gastarFuerzaAcumulada()
         self.objetivo().recibirDanho(self.danho()*7) //35 de daño
+        game.sound("puñetazoH.mp3").play()
     }
 
     method imagenHabilidadEspecialParaBarra() {
         return "Puñetazo"
     }
-    
+
+    method sonidoDelArma() {
+       game.sound("puñetazo.mp3").play()
+    }
+
 }
 
 //FÁBRICAS (su única función es devolverme en nuevo objeto de la subclase de Arma a la que están ligadas. nos permiten crear armas random)

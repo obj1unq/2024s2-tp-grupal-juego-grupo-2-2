@@ -58,5 +58,10 @@ program rpgPorTurnos {
 	game.onTick(200, "animacion", {dungeon.animacionEnemigos()})
 	game.onTick(200, "animacion", {personaje.cambiarAnimacion()})
 
+	//SONIDO 
+	const ambiente = game.sound("ambiente.mp3")
+  	ambiente.shouldLoop(true)
+  	game.schedule(100, { ambiente.play()} ) // cuando perdemos no se termina el sonido.
+
 	game.start()
 }

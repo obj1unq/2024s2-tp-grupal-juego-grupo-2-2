@@ -6,6 +6,7 @@ import pelea.*
 import enemigos.*
 
 
+
 class Arma {
     const property position = randomizer.posicionRandomDeArma()
     const nivel = 1.randomUpTo(3).round() 
@@ -54,7 +55,75 @@ class Arma {
     method textColor() = paleta.gris()
 }
 
-class Espada inherits Arma {
+class Arma2 {
+    const portador = personaje
+    var property durabilidad
+
+    method objetivo() {
+        return portador.enemigoCombatiendo()
+    }
+
+    method danho()
+    method imagenParaPersonaje()
+    method emojiParaInfoCombate
+    method imagenHabilidadEspecialParaBarra()
+    method realizarActualizacionDeArmas()
+    
+    method ejecutarHabilidadEspecial() {
+        portador.gastarFuerzaAcumulada()
+    }
+
+}
+
+class ArmaEncontrable inherits Arma2 {
+
+    /*
+    const portador = personaje
+    var property durabilidad
+
+    method objetivo() {
+        return portador.enemigoCombatiendo()
+    }
+
+    method danho()
+    method imagenParaPersonaje()
+    method emojiParaInfoCombate
+    method imagenHabilidadEspecialParaBarra()
+    method realizarActualizacionDeArmas()
+    method ejecutarHabilidadEspecial()
+    */
+
+    const property position = randomizer.posicionRandomDeArma()
+    const nivel = 1.randomUpTo(3).round() 
+
+    method image()
+
+    method colisiono(personaje){
+        personaje.equiparArma(self)
+        game.removeVisual(self)
+    }
+
+    override method realizarActualizacionDeArmas() {
+        if ( self.durabilidad() <= 15) {
+            personaje.descartarArmaActual() //se borra esta arma de la bolsa, que era la anterior actual
+        } else {
+            self.restarDurabilidad(15)
+        }
+    }
+
+    method restarDurabilidad(cantidadRestada) {
+        durabilidad -= cantidadRestada
+    }
+
+    
+
+    // Para test
+    method text(){ return "Dur: " + self.durabilidad().toString() + "\nLvl: " + nivel.toString()}
+    method textColor() = paleta.gris()
+
+}
+
+class Espada inherits ArmaEncontrable {
 
     override method danho() {
         return 35 + nivel * 3
@@ -84,7 +153,7 @@ class Espada inherits Arma {
 
 }
 
-class Lanza inherits Arma {
+class Lanza inherits ArmaEncontrable {
 
     override method danho() {
         return 20 + nivel * 3
@@ -112,7 +181,7 @@ class Lanza inherits Arma {
 
 }
 
-class Maza inherits Arma {
+class Maza inherits ArmaEncontrable {
 
     override method danho() {
         return 80 + nivel * 3
@@ -142,37 +211,46 @@ class Maza inherits Arma {
 
 }
 
-object mano { //objeto especial
-    const portador = personaje
+object mano inherits Arma2(durabilidad = "Infinita") { //objeto especial //hay que hacer que herede de Arma (y no de ArmaIntermedia)
 
-    method objetivo() {
-        return portador.enemigoCombatiendo()
-    }
-
-    method danho() {
+    override method danho() { //
         return 5
     }
-
-    var property durabilidad = "Infinita"
     
-    method realizarActualizacionDeArmas() { } //necesario para que funcione el polimorfismo (todas las armas deben entenderlo)
-
-    method imagenParaPersonaje() {
+    override method imagenParaPersonaje() { //
         return ""
     }
 
-    method emojiParaInfoCombate() {
+    override method emojiParaInfoCombate() { //
         return "🤜 (mano)"
     }
 
-    method ejecutarHabilidadEspecial() { //PUÑETAZO
+    override method imagenHabilidadEspecialParaBarra() { //
+        return "Puñetazo"
+    }
+
+    override method realizarActualizacionDeArmas() { } //necesario para que funcione el polimorfismo (todas las armas deben entenderlo) //
+
+    override method ejecutarHabilidadEspecial() { //PUÑETAZO //
         portador.gastarFuerzaAcumulada()
         self.objetivo().recibirDanho(self.danho()*7) //35 de daño
     }
 
-    method imagenHabilidadEspecialParaBarra() {
-        return "Puñetazo"
+    /*
+    const portador = personaje
+
+    method objetivo() { //
+        return portador.enemigoCombatiendo()
     }
+
+    method danho()
+    method imagenParaPersonaje()
+    method emojiParaInfoCombate
+    method imagenHabilidadEspecialParaBarra()
+    method realizarActualizacionDeArmas()
+    method ejecutarHabilidadEspecial()
+
+    */
     
 }
 

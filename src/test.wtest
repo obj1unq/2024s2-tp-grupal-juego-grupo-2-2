@@ -33,8 +33,8 @@ describe "testeo de funcionalidades" {
 
     test "lista de enemigos de la dungeon" {
         fabricaDeOjoVolador.agregarNuevoEnemigo(game.at(20,9), 150, 20)
-	    fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(3,10), 200, 43, visionDerecha) 
-	    fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(26,10), 200, 43, visionIzquierda)
+	    fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(3,10), 200, 43, 3) 
+	    fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(26,10), 200, 43, 3)
 	    fabricaDeGoblin.agregarNuevoEnemigoCon(game.at(15, 14), 95, 37)
         assert.equals(4, dungeon.enemigos().size())
     }
@@ -42,8 +42,8 @@ describe "testeo de funcionalidades" {
     test "método de game getObjectsIn(pos) y método de mapa limpiar()" {
         fabricaDeOjoVolador.agregarNuevoEnemigo(game.at(23,15), 150, 20)
         fabricaDeGoblin.agregarNuevoEnemigoCon(game.at(15,14), 95, 37)
-        fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(3,10), 200, 43, visionDerecha) 
-        fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(26,10), 200, 43, visionIzquierda) 
+        fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(3,10), 200, 43, 3) 
+        fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(26,10), 200, 43, 3) 
         assert.equals(1, game.getObjectsIn(game.at(26,10)).size())
         assert.equals(1, game.getObjectsIn(game.at(23,15)).size())
         mapa.limpiar()

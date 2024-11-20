@@ -18,7 +18,7 @@ object personaje {
 	var fuerzaAcumulada = 5
 	const cantArmasPermitidas = 3
 	const property bolsa = []
-	var property armaActual = mano //porque empieza con bolsa vacía //OJO QUE ESTO SE PUEDE RESOLVER CON POSTCALCULOOOOO
+	//var property armaActual = mano //esto se resolvió con POSTCÁLCULO
 	const property estaAturdido = false //siempre será falso. se necesita la constante para condicional en el método de hacer turno en pelea 
 										//(el que si puede variar es el de los enemigos)
 	method position() {
@@ -66,7 +66,6 @@ object personaje {
     method equiparArma(armaNueva){
 		self.validarEquiparArma()
     	bolsa.add(armaNueva) // mete el arma en la bolsa (atrás)
-        self.armaActual(bolsa.head()) // Su arma actual es la primera de la bolsa (si no tenía ninguna, será la nueva)
     }
     
 	method validarEquiparArma() {
@@ -75,15 +74,33 @@ object personaje {
 	  }
 	}
 
-    method armaActual(arma){
-        armaActual = arma
-    }
+    //method armaActual(arma){
+    //    armaActual = arma
+    //}
 
 	method cambiarArmaActual() {
-		const armaMovida = bolsa.head()
-		bolsa.remove(armaMovida)
-		bolsa.add(armaMovida)
-		self.armaActual(bolsa.head()) // Su arma actual es la primera de la bolsa (si no tenía ninguna, será la nueva)
+		self.validarTenenciaArmas()
+		const armaAMover = bolsa.head()
+		bolsa.remove(armaAMover)
+		bolsa.add(armaAMover)
+	}
+
+	method validarTenenciaArmas() {
+		if(bolsa.size() <= 1) {
+			self.error("No hay armas suficientes para hacer el cambio")
+		}
+	}
+
+	method armaActual() {
+		if (bolsa.size() > 0) {
+			return bolsa.head()
+		} else {
+			return mano
+		}
+	}
+
+	method descartarArmaActual() { //PRECOND: Debe haber al menos un arma en la bolsa
+		bolsa.remove(bolsa.head())
 	}
 
 	//MOVIMIENTO
@@ -137,8 +154,8 @@ object personaje {
     }
 
 	method realizarAtaqueComun() {
-		enemigoCombatiendo.recibirDanho(armaActual.danho()) 
-		armaActual.realizarActualizacionDeArmas()
+		enemigoCombatiendo.recibirDanho(self.armaActual().danho()) 
+		self.armaActual().realizarActualizacionDeArmas()
         esTurno = false //Indica que ya pasó turno. Sirve para que no pueda atacar al enemigo cuando no es su turno
 		barraEstadoPeleas.image("barraPersonajeAtaqueComun.png")
 		self.sumarFuerzaAcumulada()
@@ -148,13 +165,13 @@ object personaje {
 		salud = (salud - cantidad).max(0)
 	}
 
-	method actualizarArmaActual() { //esto se ejecuta solamente cuando se descarta el arma actual
-		if(bolsa.size()>1) {
-			armaActual = bolsa.get(1) //pone la 2da de la bolsa como el arma actual (la 1ra es la que se va a descartar)
-		} else {
-			armaActual = mano
-		}
-	}
+	//method actualizarArmaActual() { //esto se ejecuta solamente cuando se descarta el arma actual
+	//	if(bolsa.size()>1) {
+	//		armaActual = bolsa.get(1) //pone la 2da de la bolsa como el arma actual (la 1ra es la que se va a descartar)
+	//	} else {
+	//		armaActual = mano
+	//	}
+	//}
 
 	//////////////////////////////////////////////
 	
@@ -231,10 +248,10 @@ object personaje {
 	}
 
 	method realizarHabilidadEspecial() {
-		armaActual.ejecutarHabilidadEspecial()
-		armaActual.realizarActualizacionDeArmas()
+		self.armaActual().ejecutarHabilidadEspecial()
+		self.armaActual().realizarActualizacionDeArmas()
         esTurno = false //Indica que ya pasó turno. Sirve para que no pueda atacar al enemigo cuando no es su turno
-		barraEstadoPeleas.image("barraPersonajeHabilidadEspecial" + armaActual.imagenHabilidadEspecialParaBarra() + ".png")
+		barraEstadoPeleas.image("barraPersonajeHabilidadEspecial" + self.armaActual().imagenHabilidadEspecialParaBarra() + ".png")
 	}
 
 	//////////////////////////////////////////////////////////

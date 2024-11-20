@@ -11,9 +11,11 @@ import pelea.*
 import mapa.*
 
 program rpgPorTurnos {
+
 	game.title("RPG por turnos de nombre a confirmar")
-	game.height(25) 		
-	game.width(30) 			
+
+	//game.height(25) 		
+	//game.width(30) 			
 	game.cellSize(32)
 
 	//OBJETOS CON LOS QUE NO SE INTERACTUA
@@ -25,8 +27,12 @@ program rpgPorTurnos {
 	game.addVisual(barraFuerza)
 
 	//OBJETOS CON LOS QUE SE INTERACTUA
-	randomizer.agregarArmaRandom()
-	randomizer.agregarArmaRandom()
+	//randomizer.agregarArmaRandom()
+	//randomizer.agregarArmaRandom()
+
+    //NIVEL
+    const nivel1 = new Nivel()
+    nivel1.dibujar()
 
 	fabricaDePocion.agregarNuevaPocion()
 	
@@ -34,10 +40,10 @@ program rpgPorTurnos {
 	game.addVisual(personaje)
 
 	//OBJETOS CON LOS QUE SE INTERACTUA
-	fabricaDeOjoVolador.agregarNuevoEnemigo(game.at(26,7), 150, 40)
+	/* fabricaDeOjoVolador.agregarNuevoEnemigo(game.at(26,7), 150, 40)
 	fabricaDeGoblin.agregarNuevoEnemigoCon(game.at(15,14), 95, 37)
 	fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(3,10), 200, 43, visionDerecha) 
-	fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(26,10), 200, 43, visionIzquierda) 
+	fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(26,10), 200, 43, visionIzquierda)  */
 	//¿el que más vida tiene es el que más daño causa? ¿no es too much?
 	
 	//TECLAS MOVIMIENTO
@@ -57,6 +63,8 @@ program rpgPorTurnos {
 	//ANIMACION
 	game.onTick(200, "animacion", {dungeon.animacionEnemigos()})
 	game.onTick(200, "animacion", {personaje.cambiarAnimacion()})
+
+
 
 	game.start()
 }

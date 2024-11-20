@@ -117,3 +117,31 @@ object turnoTest {
     method text() = "Turno De: " + combate.entidadAtacando()
     method textColor() = paleta.rojo()
 }
+
+
+object inventiario {
+    const arma1Pos = game.at(28, 24)
+    const arma2Pos = game.at(26, 24)
+    const arma3Pos = game.at(24, 24)
+
+    var armaPos = arma1Pos
+    var  estado = 0
+    
+    method moverAInventario(){
+        personaje.bolsa().last().position(armaPos)
+        self.proxPosition()
+
+    }
+
+    method proxPosition(){
+        estado = (estado + 1) % 3
+        if(estado==0){
+            armaPos = arma1Pos
+        } else if(estado == 0){
+            armaPos = arma2Pos
+        } else {
+            armaPos = arma3Pos
+        }
+
+    }
+}

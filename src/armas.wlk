@@ -7,7 +7,7 @@ import enemigos.*
 
 
 class Arma {
-    const property position = randomizer.posicionRandomDeArma()
+    var property position
     const nivel = 1.randomUpTo(3).round() 
     var durabilidad  
     const portador = personaje
@@ -22,8 +22,8 @@ class Arma {
 
     // El pj colsiona con el arma y la mete en la bolsa()
     method colisiono(personaje){
-        personaje.equiparArma(self)
-        game.removeVisual(self)
+        personaje.equiparArma(self)  
+        //game.removeVisual(self)
     }
 
     method realizarActualizacionDeArmas() {
@@ -37,6 +37,9 @@ class Arma {
 
     method restarDurabilidad(cantidadRestada) {
         durabilidad -= cantidadRestada
+        if(durabilidad <= 0){
+            game.removeVisual(self)
+        }
     }
 
     //se implementan en cada una de las subclases de tipos de arma (ya que en todas varía)
@@ -53,6 +56,10 @@ class Arma {
     // Para test
     method text(){ return "Dur: " + self.durabilidad().toString() + "\nLvl: " + nivel.toString()}
     method textColor() = paleta.gris()
+
+    method estaOcupado(){
+        return true
+    }
 }
 
 class Espada inherits Arma {
@@ -181,8 +188,8 @@ object mano { //objeto especial
 
 object fabricaDeEspada {
 
-    method agregarNuevaArma() {
-        const arma = new Espada(durabilidad = 90.randomUpTo(120).round())
+    method agregarNuevaArma(_position) {
+        const arma = new Espada(position = _position, durabilidad = 90.randomUpTo(120).round())
         game.addVisual(arma)
     }
 
@@ -190,8 +197,8 @@ object fabricaDeEspada {
 
 object fabricaDeArcoYFlecha {
 
-    method agregarNuevaArma() {
-        const arma = new Lanza(durabilidad = 120.randomUpTo(150).round())
+    method agregarNuevaArma(_position) {
+        const arma = new Lanza(position = _position, durabilidad = 120.randomUpTo(150).round())
         game.addVisual(arma)
     }
 
@@ -199,8 +206,8 @@ object fabricaDeArcoYFlecha {
 
 object fabricaDeMartilloDeGuerra {
 
-    method agregarNuevaArma() {
-        const arma = new Maza(durabilidad = 60.randomUpTo(90).round())
+    method agregarNuevaArma(_position) {
+        const arma = new Maza(position = _position, durabilidad = 60.randomUpTo(90).round())
         game.addVisual(arma)
     }
 

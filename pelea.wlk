@@ -19,31 +19,42 @@ object combate {
         barraEstadoPeleas.enemigo(entidadAtacando)
         barraEstadoPeleas.aparecerJuntoADemasBarras()
         self.entidadAtacaOTerminaCombate() //empieza el combate atacando el enemigo
+ 
     }
 
     method cambiarTurnoA(entidad){
         entidadAtacando = entidad
-        self.entidadAtacaOTerminaCombate() //acá se revisa si el que ahora tiene el turno (el que antes era el que "recibía el ataque") 
-                                            //sigue con vida y, si es así, este realiza su habilidad
+        self.entidadAtacaOTerminaCombate() //acá se valida si el que ahora tiene el turno sigue con vida y, si es así, este realiza su ataque
     }
+
+    /* implementado así, causaba bug donde, dps de matar enemigo, el segundo enemigo al que te enfrentabas golpeaba 2 veces
+    también causaba que las animaciones de muerte de los enemigos se cortaran antes porque tiraba self.error antes de que
+    estas se pudieran ejecutar en su totalidad
+    method entidadAtaca() {  
+        self.revisarFinDeCombate()      
+        //game.schedule(800, {self.validarCombate()}) //
+        self.validarCombate()
+        //game.schedule(805, {entidadAtacando.atacarPre()}) //
+        entidadAtacando.atacarPre()
+    }
+
+    method revisarFinDeCombate() {
+        if(entidadAtacando.salud() <= 0) {
+            hayCombate = false
+            barraEstadoPeleas.desaparecerJuntoADemasBarras()
+            entidadAtacando.morir() //ACÁ PARECE ESTAR EL ERROR. 
+        }
+    }
+    */
 
     method entidadAtacaOTerminaCombate() {  
         if(entidadAtacando.salud() <= 0) {
-            self.morirEntidad()
-        } else if (entidadAtacando.estaAturdido()) { //caso en donde el pj acaba de aturdir al enemigo, lo que causa que este pierda su turno
-            entidadAtacando.estaAturdido(false) //se le va el aturdimiento, que solo dura un turno (o sea, pierde nada más un turno)
-            self.cambiarTurnoA(heroe) //a heroe porque el aturdido SIEMPRE va a ser un enemigo
+            hayCombate = false
+            entidadAtacando.morir()
+            game.schedule(805, {barraEstadoPeleas.desaparecerJuntoADemasBarras()}) //con schedule para que se puedan ver animaciones d muerte
         } else {
             entidadAtacando.atacarPre()
-        }
-    }
-    
-
-
-    method morirEntidad() {
-        hayCombate = false
-        entidadAtacando.morir()
-        game.schedule(805, {barraEstadoPeleas.desaparecerJuntoADemasBarras()}) //con schedule para que se puedan ver animaciones de muerte
+        }   
     }
 
 }
@@ -89,16 +100,7 @@ object saludPersonaje {
 object saludEnemigo {
 
     method text() = "❤️ EN: " + barraEstadoPeleas.enemigo().salud().toString() + "   "
-
-    method textColor() {
-
-        if(barraEstadoPeleas.enemigo().estaEnvenenado()) {
-            return paleta.verde()
-        } else {
-            return paleta.azul()
-        }
-
-    }
+    method textColor() = paleta.azul()
 
     method position() =  barraEstadoPeleas.position().down(1).right(1)
 
@@ -118,30 +120,3 @@ object turnoTest {
     method textColor() = paleta.rojo()
 }
 
-
-/* object inventiario {
-    const arma1Pos = game.at(28, 24)
-    const arma2Pos = game.at(26, 24)
-    const arma3Pos = game.at(24, 24)
-
-    var armaPos = arma1Pos
-    var  estado = 0
-    
-    method moverAInventario(){
-        personaje.bolsa().last().position(armaPos)
-        self.proxPosition()
-
-    }
-
-    method proxPosition(){
-        estado = (estado + 1) % 3
-        if(estado==0){
-            armaPos = arma1Pos
-        } else if(estado == 0){
-            armaPos = arma2Pos
-        } else {
-            armaPos = arma3Pos
-        }
-
-    }
-} */

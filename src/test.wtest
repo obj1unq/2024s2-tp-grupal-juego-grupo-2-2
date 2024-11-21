@@ -25,7 +25,6 @@ describe "prueba de movimiento de enemigo1" {
 */
 
 describe "testeo de funcionalidades" {
-
     method initialize() {
         game.width(30)
         game.height(25)
@@ -51,4 +50,11 @@ describe "testeo de funcionalidades" {
         assert.equals(0, game.getObjectsIn(game.at(23,15)).size())
     }
 
+    test "No puede curarse pq no estoy en combate" {
+      assert.throwsException({ personaje.hacerTurnoPocion() })
+    }
+
+    test "no puedo pergar pq no estoy en combate" {
+      assert.throwsException({ personaje.hacerTurnoAtaqueComun() })
+    }
 }

@@ -10,10 +10,10 @@ import mapa.*
 import animaciones.*
 
 object personaje {
-	var position = game.at(14,2)
+	var property position = game.at(14,2)
     var property salud = 300
 	var cantVidas = 3
-	var cantPociones = 3
+	var property cantPociones = 3
 	const cantPocionesPermitidas = 3
 	var fuerzaAcumulada = 5
 	const cantArmasPermitidas = 3

@@ -66,7 +66,6 @@ object personaje {
     method equiparArma(armaNueva){
 		self.validarEquiparArma()
     	bolsa.add(armaNueva) // mete el arma en la bolsa (atrás)
-        inventiario.moverAInventario()
         self.armaActual(bolsa.head()) // Su arma actual es la primera de la bolsa (si no tenía ninguna, será la nueva)
     }
     
@@ -141,6 +140,7 @@ object personaje {
 	method recibirDanho(cantidad) {
 		salud = (salud - cantidad).max(0)
 	}
+
 
 	method actualizarArmaActual() { //esto se ejecuta solamente cuando se descarta el arma actual
 		if(bolsa.size()>1) {

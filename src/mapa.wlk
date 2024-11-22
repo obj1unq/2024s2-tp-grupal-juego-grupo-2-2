@@ -6,6 +6,8 @@ import enemigos.*
 import armas.*
 import randomizer.*
 import pelea.*
+import personaje.*
+import niveles.*
 
 object mapa {
     //podemos hacer const tablero que represente todas las celdas del tablero y eso usarlo para dibujar los distintos elementos del mismo.
@@ -33,49 +35,77 @@ object mapa {
 }
 
 class Nivel {
-    const tablero = [
+
+   const enemigosSpawneados
+
+    method tablero()
+        /* [
         [x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x],
         [x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x],
         [x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x],
         [x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x],
         [x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x],
-        [x,x,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,o,x,x],
-        [x,x,_,_,o,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,x,x],
         [x,x,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,x,x],
         [x,x,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,x,x],
         [x,x,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,x,x],
-        [x,x,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,o,_,_,_,_,o,_,_,_,x,x],
         [x,x,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,x,x],
         [x,x,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,x,x],
-        [x,x,_,_,_,_,_,_,o,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,x,x],
         [x,x,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,x,x],
-        [x,x,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,p,_,_,_,_,_,_,_,_,_,x,x],
-        [x,x,_,_,_,_,_,_,_,_,_,_,_,_,_,p,_,_,_,_,p,_,_,_,_,_,_,_,_,x,x],
         [x,x,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,x,x],
-        [x,x,_,_,_,_,_,_,_,_,_,_,a,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,x,x],
-        [x,x,_,_,_,_,_,_,_,_,_,_,a,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,x,x],
-        [x,x,_,_,_,_,_,_,_,_,_,_,a,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,x,x],
-        [x,x,_,_,_,_,_,_,_,_,_,_,a,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,x,x],
-        [x,x,e,_,_,_,_,a,a,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,g,x,x],
+        [x,x,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,x,x],
+        [x,x,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,x,x],
+        [x,x,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,x,x],
+        [x,x,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,x,x],
+        [x,x,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,x,x],
+        [x,x,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,x,x],
+        [x,x,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,x,x],
+        [x,x,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,x,x],
+        [x,x,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,x,x],
+        [x,x,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,x,x],
+        [x,x,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,x,x],
         [x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x],
         [x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x]
 
-    ].reverse()
+            ].reverse() */
+    
 
     method dibujar() {
-        game.height(tablero.size())
-        game.width(tablero.get(0).size())
+        game.height(self.tablero().size())
+        game.width(self.tablero().get(0).size())
 
 
         (0..game.width() - 1).forEach({ x =>
             (0..game.height() -1).forEach({y =>
-                tablero.get(y).get(x).dibujarEn(game.at(x,y))
+                self.tablero().get(y).get(x).dibujarEn(game.at(x,y))
             })
         })
        
     }
 
-}
+    method limpiarTablero() {
+        game.height(self.tablero().size())
+        game.width(self.tablero().get(0).size())
+        
+        (0..game.width() - 1).forEach({ x =>
+            (0..game.height() -1).forEach({y => game.removeVisual(self.tablero().get(y).get(x) )
+            })
+        })
+
+    }
+
+    method pasarNivel(){
+        personaje.pasarNivel()
+    }
+
+     method validarPasarNivel(){
+        if(!puerta.estaAbierta()){
+            self.error("No se puede pasar hasta no matar a todos los enemigos!")
+        }
+            //self.pasarNivel()
+        }
+    } 
+
+
 
 object a { //arma
     method dibujarEn(position){
@@ -88,6 +118,7 @@ object o { // ojo
     method dibujarEn(position){
         fabricaDeOjoVolador.agregarNuevoEnemigo(position,150, 40)
     }
+
 }
 
 object g { // goblin
@@ -108,6 +139,12 @@ object p { //pocion de salud
     }
 }
 
+object n {
+    method dibujarEn(position){
+        puerta.dibujarEn(position)
+    }
+}
+
 object _ { // donde se pueden poner cosas
     method dibujarEn(_position){
 
@@ -119,3 +156,36 @@ object x { //donde no se pueden poner cosas porque ahi pared
 
     }
 }
+
+
+object enemigosAsesinadosNivelActual {
+    method position() = game.at(27,22)
+    method text() = "Asesinados: " + personaje.enemigosAsesinados().toString()
+    method textColor() = paleta.rojo()
+}
+
+object puerta {
+
+    var property position = game.at(1,1) 
+
+    method dibujarEn(_position){
+        position = _position
+        game.addVisual(self)
+    }
+    //Suponemos que la puerta esta abierta porque mato a todos los enemigos. Para probar
+    method text() = "Puerta"
+    method textColor() = paleta.rojo()
+
+    method colisiono(personaje) {
+        nivel1.pasarNivel()
+        personaje.pasarNivel()
+
+    }
+
+    method estaAbierta(){ //cambiar por estados. Después
+        return true
+    }
+    
+
+}
+

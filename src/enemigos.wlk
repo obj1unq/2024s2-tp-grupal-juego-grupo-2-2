@@ -17,6 +17,7 @@ class Enemigo {
     var property cantidadDeVeneno = 0
     const danhoPorVeneno = 20
 
+
     method position() {
         return position
     }
@@ -80,6 +81,9 @@ class Enemigo {
     }
 
     method morir() {
+        personaje.sumarEnemigoAsesinado() // para pasar de nivel
+
+
         self.frame(0)
         self.animacion(animacionMuerte)
         game.schedule(800, {game.removeVisual(self)})

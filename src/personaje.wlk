@@ -8,6 +8,8 @@ import randomizer.*
 import pelea.*
 import mapa.*
 import animaciones.*
+import mapa.*
+import niveles.*
 
 object personaje {
 	var position = game.at(14,2)
@@ -262,6 +264,30 @@ object personaje {
 	  }
     
 	}
+
+    //////////////////////////////////////////////////////////////
+
+    //NIVEL
+
+    var enemigosAsesinados = 0
+    //var nivelActual = nivel1
+
+    method sumarEnemigoAsesinado(){
+        enemigosAsesinados = enemigosAsesinados + 1
+        //self.pasarNivel()
+    }
+
+    method pasarNivel(){
+        self.volverAPosicionSpawneos()
+    }
+
+    method enemigosAsesinados(){
+        return enemigosAsesinados
+    }
+
+    method volverAPosicionSpawneos() {
+        position = game.at(14,2)
+    }
 
 }
 

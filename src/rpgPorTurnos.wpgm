@@ -9,6 +9,7 @@ import armas.*
 import paredes.*
 import pelea.*
 import mapa.*
+import niveles.*
 
 program rpgPorTurnos {
 
@@ -31,8 +32,8 @@ program rpgPorTurnos {
 	//randomizer.agregarArmaRandom()
 
     //NIVEL
-    const nivel1 = new Nivel()
     nivel1.dibujar()
+    game.addVisual(enemigosAsesinadosNivelActual)
 
 	//fabricaDePocion.agregarNuevaPocion()
 	

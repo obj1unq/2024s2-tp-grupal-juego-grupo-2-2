@@ -49,8 +49,8 @@ class Nivel {
         [x,x,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,x,x],
         [x,x,_,_,_,_,_,_,o,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,x,x],
         [x,x,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,x,x],
-        [x,x,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,x,x],
-        [x,x,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,x,x],
+        [x,x,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,p,_,_,_,_,_,_,_,_,_,x,x],
+        [x,x,_,_,_,_,_,_,_,_,_,_,_,_,_,p,_,_,_,_,p,_,_,_,_,_,_,_,_,x,x],
         [x,x,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,x,x],
         [x,x,_,_,_,_,_,_,_,_,_,_,a,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,x,x],
         [x,x,_,_,_,_,_,_,_,_,_,_,a,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,x,x],
@@ -78,27 +78,33 @@ class Nivel {
 }
 
 object a { //arma
-    method dibujarEn(_position){
+    method dibujarEn(position){
        //fabricaDeArcoYFlecha.agregarNuevaArma(_position)
-       randomizer.agregarArmaRandom(_position)
+       randomizer.agregarArmaRandom(position)
     }
 }
 
 object o { // ojo
-    method dibujarEn(_position){
-        fabricaDeOjoVolador.agregarNuevoEnemigo(_position,150, 40)
+    method dibujarEn(position){
+        fabricaDeOjoVolador.agregarNuevoEnemigo(position,150, 40)
     }
 }
 
 object g { // goblin
-    method dibujarEn(_position){
-        fabricaDeGoblin.agregarNuevoEnemigoCon(_position, 95, 37)
+    method dibujarEn(position){
+        fabricaDeGoblin.agregarNuevoEnemigoCon(position, 95, 37)
     }
 }
 
 object e{ //esqueleto
-    method dibujarEn(_position){
-        fabricaDeEsqueleto.agregarNuevoEnemigo(_position, 200, 43,  visionDerecha)
+    method dibujarEn(position){
+        fabricaDeEsqueleto.agregarNuevoEnemigo(position, 200, 43,  visionDerecha)
+    }
+}
+
+object p { //pocion de salud
+    method dibujarEn(position){
+        fabricaDePocion.agregarNuevaPocion(position)
     }
 }
 

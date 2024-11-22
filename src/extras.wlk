@@ -112,7 +112,7 @@ object listaCon0 {
 */
 
 class Pocion {
-    const property position = randomizer.posicionRandomDePocion()
+    const property position //= randomizer.posicionRandomDePocion()
     const property image = "pocion-32Bits.png"
 
     // El personaje colisiona con la poción y su salud aumenta
@@ -125,8 +125,8 @@ class Pocion {
 
 object fabricaDePocion {
 
-    method agregarNuevaPocion() {
-        const pocion = new Pocion()
+    method agregarNuevaPocion(_position) {
+        const pocion = new Pocion(position = _position)
         game.addVisual(pocion)
     }
     

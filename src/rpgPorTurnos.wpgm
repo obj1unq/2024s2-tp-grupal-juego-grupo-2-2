@@ -34,7 +34,7 @@ program rpgPorTurnos {
     const nivel1 = new Nivel()
     nivel1.dibujar()
 
-	fabricaDePocion.agregarNuevaPocion()
+	//fabricaDePocion.agregarNuevaPocion()
 	
 	//PERSONAJE
 	game.addVisual(personaje)

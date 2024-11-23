@@ -143,28 +143,29 @@ class Maza inherits ArmaEncontrable {
 }
 
 //objeto especial que representa al arma por default
-object mano inherits Arma(durabilidad = "Infinita") { //su atributo durabilidad solo se usa para el string en la info del combate. NUNCA se hacen cálculos con este
-                                                      //dato como si se hace con el atributo durabilidad de las instancias de las subclases de ArmaEncontrable.
+ //Su atributo durabilidad solo se usa para el string en la info del combate. NUNCA se hacen cálculos con este
+//dato como si se hace con el atributo durabilidad de las instancias de las subclases de ArmaEncontrable.
+object mano inherits Arma(durabilidad = "Infinita") {
 
-    override method danho() { //
+    override method danho() { 
         return 5
     }
     
-    override method imagenParaPersonaje() { //
+    override method imagenParaPersonaje() { 
         return ""
     }
 
-    override method emojiParaInfoCombate() { //
+    override method emojiParaInfoCombate() { 
         return "🤜 (mano)"
     }
 
-    override method imagenHabilidadEspecialParaBarra() { //
+    override method imagenHabilidadEspecialParaBarra() { 
         return "Puñetazo"
     }
 
-    override method realizarActualizacionDeArmas() { } //necesario para que funcione el polimorfismo (todas las armas deben entenderlo) //
+    override method realizarActualizacionDeArmas() { } //necesario para que funcione el polimorfismo (todas las armas deben entenderlo) 
 
-    override method ejecutarHabilidadEspecial() { //PUÑETAZO //
+    override method ejecutarHabilidadEspecial() { //PUÑETAZO 
         super()
         self.objetivo().recibirDanho(self.danho()*7) //35 de daño
     }

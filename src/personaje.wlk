@@ -74,6 +74,10 @@ object personaje {
 	  }
 	}
 
+	method armaNumero(pos) { //PRECOND: Debe haber pos+1 armas en la bolsa
+		return bolsa.get(pos)
+	}
+
     //method armaActual(arma){
     //    armaActual = arma
     //}

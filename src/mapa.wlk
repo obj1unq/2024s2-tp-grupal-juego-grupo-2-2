@@ -93,6 +93,8 @@ class Nivel {
         })
 
     }
+
+    // Intento de que no tarde tanto en cargar el proximo nivel
     method limpiarSiHayCosa(posX , posY){
         if(self.tablero().get(posY).get(posX) != _ && self.tablero().get(posY).get(posX) != x){
             game.removeVisual(self.tablero().get(posY).get(posX))

@@ -19,9 +19,9 @@ program rpgPorTurnos {
 	//OBJETOS CON LOS QUE NO SE INTERACTUA
 	game.addVisual(gestorDeFondo)
 	game.addVisual(indicadorDeObjetos)
-	game.addVisual(primeraArmaVisual)
-	game.addVisual(segundaArmaVisual)
-	game.addVisual(terceraArmaVisual)
+	game.addVisual(primeraArma)
+	game.addVisual(segundaArma)
+	game.addVisual(terceraArma)
 	game.addVisual(salud)
 	game.addVisual(vidas)
 	game.addVisual(pociones)

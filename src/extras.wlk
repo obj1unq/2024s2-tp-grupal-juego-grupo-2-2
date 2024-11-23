@@ -76,26 +76,26 @@ object indicadorDeObjetos {
 
 }
 
-class ArmaIndicadorObjetos {
-    const cantidad
+class VisualArmaDeBolsa { //para representar visualmente arriba a la derecha los tipos de arma de las armas del personaje
+    const posBolsa
 
     method image() {
-        if (personaje.bolsa().size()>=cantidad) {
-            return self.imagenSiExiste()
+        if (personaje.bolsa().size()>=posBolsa) {
+            return self.imagenSiHayArma()
         } else {
             return "empty.png"
         }
     }
 
-    method imagenSiExiste() {
-        return personaje.armaNumero(cantidad-1).image()
+    method imagenSiHayArma() {
+        return personaje.armaNumero(posBolsa-1).image()
     }
 
     method position()
 }
 
 
-object primeraArmaVisual inherits ArmaIndicadorObjetos(cantidad=1) {
+object primeraArma inherits VisualArmaDeBolsa(posBolsa=1) {
 
     override method position() {
 		return game.at(27,24)
@@ -103,7 +103,7 @@ object primeraArmaVisual inherits ArmaIndicadorObjetos(cantidad=1) {
 
 }
 
-object segundaArmaVisual inherits ArmaIndicadorObjetos(cantidad=2) {
+object segundaArma inherits VisualArmaDeBolsa(posBolsa=2) {
 
     override method position() {
 		return game.at(28,24)
@@ -111,7 +111,7 @@ object segundaArmaVisual inherits ArmaIndicadorObjetos(cantidad=2) {
 
 }
 
-object terceraArmaVisual inherits ArmaIndicadorObjetos(cantidad=3) {
+object terceraArma inherits VisualArmaDeBolsa(posBolsa=3) {
 
     override method position() {
 		return game.at(29,24)

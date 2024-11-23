@@ -45,11 +45,7 @@ class Arma {
     method imagenParaPersonaje()
     method emojiParaInfoCombate()
     method imagenHabilidadEspecialParaBarra()
-
-    method ejecutarHabilidadEspecial() {
-        portador.gastarFuerzaAcumulada()
-        self.sonidoDelArmaEspecial()
-    }
+    method ejecutarHabilidadEspecial()
     method sonidoDelArma()
     method sonidoDelArmaEspecial()
 
@@ -78,10 +74,8 @@ class Espada inherits Arma {
     }
 
     override method ejecutarHabilidadEspecial() { //ATURDIMIENTO
-        super()
         self.objetivo().recibirDanho(self.danho()) 
         self.objetivo().estaAturdido(true)
-       
     }
 
     override method imagenHabilidadEspecialParaBarra() {
@@ -93,7 +87,7 @@ class Espada inherits Arma {
     }
     
     override method sonidoDelArmaEspecial() {
-       game.sound("aturdido.mp3").play()
+       game.sound("aturdimiento.mp3").play()
     }
 }
 
@@ -115,9 +109,7 @@ class Lanza inherits Arma {
     }
 
     override method ejecutarHabilidadEspecial() { //EMBESTIDA
-        super()
         self.objetivo().recibirDanho(self.danho()*3) 
-       
     }
 
     override method imagenHabilidadEspecialParaBarra() {
@@ -125,7 +117,7 @@ class Lanza inherits Arma {
     }
 
     override method sonidoDelArma() {
-       game.sound("lanza.mp3").play()
+        game.sound("lanza.mp3").play()
     }
 
     override method sonidoDelArmaEspecial() {
@@ -152,7 +144,6 @@ class Maza inherits Arma {
     }
 
     override method ejecutarHabilidadEspecial() { //ENVENENAMIENTO
-        super()
         self.objetivo().recibirDanho(self.danho()) 
         self.objetivo().cantidadDeVeneno(3)
     }

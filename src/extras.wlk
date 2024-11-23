@@ -7,6 +7,24 @@ import mapa.*
 
 object dungeon {
 
+    var property ambiente = game.sound("ambiente.mp3") //var porque ¿la vamos a ir cambiando con los niveles?
+
+    method comenzarMusicaAmbiente() {
+        ambiente.play()
+    }
+
+    method detenerMusicaAmbiente() {
+        ambiente.stop()
+    }
+
+    method comenzarLoopMusicaAmbiente() {
+        ambiente.shouldLoop(true)
+    }
+
+    method detenerLoopMusicaAmbiente() { //por ahora no se usa. lo cree por el tema de la musica ambiente que no paraba al perder.
+        ambiente.shouldLoop(false)
+    }
+
     const property enemigos = []
 
     method registrarEnemigo(enemigo) {
@@ -15,7 +33,7 @@ object dungeon {
 
     method validarDentro(posicion) {
         if (!self.estaDentro(posicion)) {
-            self.error("") //entiendo que al no tener visual ni posición, este mensaje de error nunca se ve.
+            self.error("")
         }
     }
 

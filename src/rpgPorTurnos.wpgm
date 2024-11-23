@@ -34,7 +34,7 @@ program rpgPorTurnos {
 	game.addVisual(personaje)
 
 	//OBJETOS CON LOS QUE SE INTERACTUA
-	fabricaDeOjoVolador.agregarNuevoEnemigo(game.at(26,7), 150, 40)
+	fabricaDeOjoVolador.agregarNuevoEnemigo(game.at(26,7), 150, 120) //le aumenté el danho para pruebas
 	fabricaDeGoblin.agregarNuevoEnemigoCon(game.at(15,14), 95, 37)
 	fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(3,10), 200, 43, visionDerecha) 
 	fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(26,10), 200, 43, visionIzquierda) 
@@ -59,9 +59,8 @@ program rpgPorTurnos {
 	game.onTick(200, "animacion", {personaje.cambiarAnimacion()})
 
 	//SONIDO 
-	const ambiente = game.sound("ambiente.mp3")
-  	ambiente.shouldLoop(true)
-  	game.schedule(100, { ambiente.play()} ) // cuando perdemos no se termina el sonido.
+  	dungeon.comenzarLoopMusicaAmbiente()
+  	dungeon.comenzarMusicaAmbiente()
 
 	game.start()
 }

@@ -38,7 +38,6 @@ class Enemigo {
       
     method atacarPre() {
       self.hacerTurno()
-      game.sound("ouch.mp3").play()
     }
 
     method hacerTurno() { //1ro sufriría el daño del veneno antes de poder atacar si corresponde. asi que, si es mortal, se muere sin atacar.
@@ -168,11 +167,12 @@ class OjoVolador inherits Enemigo(turnoRequeridoParaHabilidad = 3) {
 
     // COMBATE/PELEA
 
-    //el cuarto ataque es habilidad
+    //el cuarto ataque es habilidad especial
 
     override method utilizarHabilidad() {
         salud += danhoBase * 2.5
         barraEstadoPeleas.image("barraEnemigoHabilidadSanacion.png")
+        game.sound("sanacion.mp3").play()
     }
 
 }
@@ -208,12 +208,13 @@ class Esqueleto inherits Enemigo(turnoRequeridoParaHabilidad = 4) {
 
     // COMBATE/PELEA
 
-    //el quinto ataque es habilidad
+    //el quinto ataque es habilidad especial
 
     override method utilizarHabilidad() {
         salud += danhoBase * 1.5
         objetivoADestruir.recibirDanho(danhoBase * 1.5)
         barraEstadoPeleas.image("barraEnemigoHabilidadRoboDeSalud.png")
+        game.sound("sanacion.mp3").play()
     }
 
 }
@@ -250,7 +251,7 @@ class Goblin inherits Enemigo(turnoRequeridoParaHabilidad = 2) {
 
     // COMBATE/PELEA
 
-    //el tercer ataque es habilidad
+    //el tercer ataque es habilidad especial
 
     override method utilizarHabilidad() {
         objetivoADestruir.recibirDanho(danhoBase * 3)

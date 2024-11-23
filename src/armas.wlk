@@ -61,7 +61,7 @@ class Espada inherits ArmaEncontrable {
     }
 
     override method image() {
-        return "espadaGris-32Bits.png"
+        return "espada-32Bits.png"
     }
 
     override method imagenParaPersonaje() {
@@ -90,7 +90,7 @@ class Lanza inherits ArmaEncontrable {
         return 20 + nivel * 3
     }
         override method image() {
-        return "arcoYFlecha-32Bits.png"
+        return "lanza-32Bits.png"
     }
 
     override method imagenParaPersonaje() {
@@ -119,7 +119,7 @@ class Maza inherits ArmaEncontrable {
     }
 
     override method image() {
-        return "martilloDeGuerra-32Bits.png"
+        return "mazaCombate-32Bits.png"
     }
 
     override method imagenParaPersonaje() {

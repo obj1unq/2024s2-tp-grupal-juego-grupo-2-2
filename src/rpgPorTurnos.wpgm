@@ -39,6 +39,7 @@ program rpgPorTurnos {
 	
 	//PERSONAJE
 	game.addVisual(personaje)
+    game.addVisual(puerta)
 
 	//OBJETOS CON LOS QUE SE INTERACTUA
 	/* fabricaDeOjoVolador.agregarNuevoEnemigo(game.at(26,7), 150, 40)
@@ -62,8 +63,8 @@ program rpgPorTurnos {
     game.onCollideDo(personaje, {cosa => cosa.colisiono(personaje)})
 
 	//ANIMACION
-	game.onTick(200, "animacion", {dungeon.animacionEnemigos()})
-	game.onTick(200, "animacion", {personaje.cambiarAnimacion()})
+	//game.onTick(200, "animacion", {dungeon.animacionEnemigos()})
+	//game.onTick(200, "animacion", {personaje.cambiarAnimacion()})
 
 
 

@@ -4,6 +4,7 @@ import randomizer.*
 import paleta.*
 import enemigos.*
 import mapa.*
+import niveles.*
 
 object dungeon {
 
@@ -40,6 +41,30 @@ object dungeon {
     method animacionEnemigos(){
         enemigos.forEach({enemigo => enemigo.cambiarAnimacion()})
     }
+    
+    //Pasar nivel
+    var nivelActual = nivel1
+
+
+    method abrirPuertaSiSePuede(){
+        if(personaje.enemigosAsesinados() >= nivelActual.enemigosSpawneados()){
+            puerta.abrirPuerta()
+        }
+    
+    }
+
+    method cerraPuerta(){
+        puerta.reiniciarPuerta()
+    }
+
+    method siguienteNivel(){ // si hay mas niveles hacer una lista.get(x), x = método de (nivelActualNum + 1 ) % n cantidad de niveles que haya 
+        nivelActual = nivel2
+    }
+
+    method nivelActual(){
+        return nivelActual
+    }
+
 
 }
 

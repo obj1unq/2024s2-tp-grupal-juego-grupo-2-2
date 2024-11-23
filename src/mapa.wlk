@@ -36,7 +36,7 @@ object mapa {
 
 class Nivel {
 
-   const enemigosSpawneados
+   const property enemigosSpawneados
 
     method tablero()
         /* [
@@ -82,27 +82,30 @@ class Nivel {
        
     }
 
+
     method limpiarTablero() {
         game.height(self.tablero().size())
         game.width(self.tablero().get(0).size())
         
         (0..game.width() - 1).forEach({ x =>
-            (0..game.height() -1).forEach({y => game.removeVisual(self.tablero().get(y).get(x) )
+            (0..game.height() -1).forEach({y => self.limpiarSiHayCosa(x,y)//game.removeVisual(self.tablero().get(y).get(x) )
             })
         })
 
     }
-
-    method pasarNivel(){
-        personaje.pasarNivel()
+    method limpiarSiHayCosa(posX , posY){
+        if(self.tablero().get(posY).get(posX) != _ && self.tablero().get(posY).get(posX) != x){
+            game.removeVisual(self.tablero().get(posY).get(posX))
+        }
     }
 
-     method validarPasarNivel(){
-        if(!puerta.estaAbierta()){
-            self.error("No se puede pasar hasta no matar a todos los enemigos!")
-        }
-            //self.pasarNivel()
-        }
+    method pasarNivel(){
+        //personaje.pasarNivel()
+        dungeon.cerraPuerta()
+        dungeon.siguienteNivel()
+        self.limpiarTablero()
+    }
+
     } 
 
 
@@ -139,11 +142,6 @@ object p { //pocion de salud
     }
 }
 
-object n {
-    method dibujarEn(position){
-        puerta.dibujarEn(position)
-    }
-}
 
 object _ { // donde se pueden poner cosas
     method dibujarEn(_position){
@@ -166,26 +164,49 @@ object enemigosAsesinadosNivelActual {
 
 object puerta {
 
-    var property position = game.at(1,1) 
+    method position() =  game.at(15,19) 
+    var estado = puertaCerrada
 
-    method dibujarEn(_position){
-        position = _position
-        game.addVisual(self)
-    }
     //Suponemos que la puerta esta abierta porque mato a todos los enemigos. Para probar
     method text() = "Puerta"
     method textColor() = paleta.rojo()
 
     method colisiono(personaje) {
-        nivel1.pasarNivel()
+        self.validarEntrar()
         personaje.pasarNivel()
 
     }
 
-    method estaAbierta(){ //cambiar por estados. Después
-        return true
+    method abrirPuerta(){
+        estado = puertaAbierta
     }
+
+    method validarEntrar(){
+        if(!estado.sePuedePasar()){
+            self.error("Se deben matar a todos lo enemigos!")
+        }
+    }
+
+
+    method reiniciarPuerta(){
+        estado = puertaCerrada
+    }
+
+
+
     
 
 }
 
+object puertaAbierta {
+    method sePuedePasar(){
+        return true
+    }
+}
+
+
+object puertaCerrada {
+    method sePuedePasar(){
+        return false
+    }
+}

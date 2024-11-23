@@ -270,15 +270,16 @@ object personaje {
     //NIVEL
 
     var enemigosAsesinados = 0
-    //var nivelActual = nivel1
+
 
     method sumarEnemigoAsesinado(){
         enemigosAsesinados = enemigosAsesinados + 1
-        //self.pasarNivel()
     }
 
     method pasarNivel(){
+        dungeon.nivelActual().pasarNivel()
         self.volverAPosicionSpawneos()
+        enemigosAsesinados = 0
     }
 
     method enemigosAsesinados(){
@@ -288,6 +289,8 @@ object personaje {
     method volverAPosicionSpawneos() {
         position = game.at(14,2)
     }
+
+
 
 }
 

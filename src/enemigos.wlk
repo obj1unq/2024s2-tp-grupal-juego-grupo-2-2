@@ -82,7 +82,8 @@ class Enemigo {
 
     method morir() {
         personaje.sumarEnemigoAsesinado() // para pasar de nivel
-
+        
+        dungeon.abrirPuertaSiSePuede()
 
         self.frame(0)
         self.animacion(animacionMuerte)

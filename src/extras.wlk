@@ -59,7 +59,7 @@ object indicadorDeObjetos {
 	}
 
 	method image() { 
-		return "numListaDeObj" + self.imagenSegunEstado() + "-64Bits.png"
+		return "numIndicadorDeObj" + self.imagenSegunEstado() + "-32Bits.png"
 	}
 
     method imagenSegunEstado() {
@@ -88,7 +88,8 @@ class VisualArmaDeBolsa { //para representar visualmente arriba a la derecha los
     }
 
     method imagenSiHayArma() {
-        return personaje.armaNumero(posBolsa-1).image()
+        const arma = personaje.armaNumero(posBolsa-1)
+        return arma.image().replace(".png", "Info.png")
     }
 
     method position()
@@ -98,7 +99,7 @@ class VisualArmaDeBolsa { //para representar visualmente arriba a la derecha los
 object primeraArma inherits VisualArmaDeBolsa(posBolsa=1) {
 
     override method position() {
-		return game.at(27,24)
+		return game.at(24,24)
 	}
 
 }
@@ -106,7 +107,7 @@ object primeraArma inherits VisualArmaDeBolsa(posBolsa=1) {
 object segundaArma inherits VisualArmaDeBolsa(posBolsa=2) {
 
     override method position() {
-		return game.at(28,24)
+		return game.at(26,24)
 	}
 
 }
@@ -114,7 +115,7 @@ object segundaArma inherits VisualArmaDeBolsa(posBolsa=2) {
 object terceraArma inherits VisualArmaDeBolsa(posBolsa=3) {
 
     override method position() {
-		return game.at(29,24)
+		return game.at(28,24)
 	}
 
 }

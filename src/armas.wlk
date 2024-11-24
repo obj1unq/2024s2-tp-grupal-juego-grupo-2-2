@@ -49,8 +49,8 @@ class ArmaEncontrable inherits Arma {
     }
 
     // Para test
-    method text(){ return "Dur: " + self.durabilidad().toString() + "\nLvl: " + nivel.toString()}
-    method textColor() = paleta.gris()
+    //method text(){ return "Dur: " + self.durabilidad().toString() + "\nLvl: " + nivel.toString()}
+    //method textColor() = paleta.gris()
 
 }
 
@@ -61,7 +61,7 @@ class Espada inherits ArmaEncontrable {
     }
 
     override method image() {
-        return "espada-32Bits.png"
+        return "espadaNivel" + nivel.toString() + ".png"
     }
 
     override method imagenParaPersonaje() {
@@ -90,7 +90,7 @@ class Lanza inherits ArmaEncontrable {
         return 20 + nivel * 3
     }
         override method image() {
-        return "lanza-32Bits.png"
+        return "lanzaNivel" + nivel.toString() + ".png"
     }
 
     override method imagenParaPersonaje() {
@@ -119,7 +119,7 @@ class Maza inherits ArmaEncontrable {
     }
 
     override method image() {
-        return "mazaCombate-32Bits.png"
+        return "mazaCombateNivel" + nivel.toString() + ".png"
     }
 
     override method imagenParaPersonaje() {

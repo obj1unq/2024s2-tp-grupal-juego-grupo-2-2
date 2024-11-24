@@ -21,7 +21,8 @@ program rpgPorTurnos {
     dungeon.dibujar()
     nivel1.dibujar()
 
-/* 	//OBJETOS CON LOS QUE NO SE INTERACTUA
+/* se movio a dungeon 	
+//OBJETOS CON LOS QUE NO SE INTERACTUA
 	game.addVisual(gestorDeFondo)
 	game.addVisual(listaDeObjetos)
 	game.addVisual(salud)

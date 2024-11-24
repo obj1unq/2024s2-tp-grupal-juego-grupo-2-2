@@ -79,6 +79,8 @@ class Nivel {
                 self.tablero().get(y).get(x).dibujarEn(game.at(x,y))
             })
         })
+        
+        console.println("Dibujado")
        
     }
 
@@ -89,7 +91,10 @@ class Nivel {
         
         game.allVisuals().forEach( { visual => game.removeVisual(visual)})
 
+        console.println("Limpiado")
+
         dungeon.dibujar()
+
     }
 
     method pasarNivel(){

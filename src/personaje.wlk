@@ -277,9 +277,10 @@ object personaje {
     }
 
     method pasarNivel(){
-        dungeon.nivelActual().pasarNivel()
+        console.println("Entró")
         self.volverAPosicionSpawneos()
         enemigosAsesinados = 0
+        game.schedule(200, {dungeon.pasarNivel()})
     }
 
     method enemigosAsesinados(){

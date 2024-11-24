@@ -14,6 +14,10 @@ object dungeon {
         enemigos.add(enemigo)
     }
 
+    method removerEnemigos(){
+        enemigos.forEach( {e => enemigos.remove(e) } )
+    }
+
     method validarDentro(posicion) {
         if (!self.estaDentro(posicion)) {
             self.error("") //entiendo que al no tener visual ni posición, este mensaje de error nunca se ve.
@@ -43,22 +47,35 @@ object dungeon {
     }
     
     //Pasar nivel
-    var nivelActual = nivel1
+    var nivelActual = niveles.get(nivelNum)
+    var nivelNum = 0
+    const niveles = [nivel1, nivel2, arenaJefe]
+
 
 
     method abrirPuertaSiSePuede(){
         if(personaje.enemigosAsesinados() >= nivelActual.enemigosSpawneados()){
             puerta.abrirPuerta()
+            console.println("estaAbierta")
         }
     
     }
 
     method cerraPuerta(){
         puerta.reiniciarPuerta()
+        console.println("estaCerrada")
     }
 
-    method siguienteNivel(){ // si hay mas niveles hacer una lista.get(x), x = método de (nivelActualNum + 1 ) % n cantidad de niveles que haya 
-        nivelActual = nivel2
+    method siguienteNivel(){ 
+        nivelNum = (nivelNum + 1 ) % 3
+    }
+
+    method pasarNivel(){
+        self.removerEnemigos()  //sin esto la lista de enemigos de la dungeon tiene enemigos dentro que se cargar invisibles si Quedan despues de pasar de nivel
+        console.println("nivel= " + nivelActual.toString())
+        nivelActual.pasarNivel()
+        nivelActual = niveles.get(nivelNum)
+        console.println("nivelSiguiente= " + nivelActual.toString())
     }
 
     method nivelActual(){

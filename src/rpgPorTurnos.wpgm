@@ -18,8 +18,10 @@ program rpgPorTurnos {
 	//game.height(25) 		
 	//game.width(30) 			
 	game.cellSize(32)
+    dungeon.dibujar()
+    nivel1.dibujar()
 
-	//OBJETOS CON LOS QUE NO SE INTERACTUA
+/* 	//OBJETOS CON LOS QUE NO SE INTERACTUA
 	game.addVisual(gestorDeFondo)
 	game.addVisual(listaDeObjetos)
 	game.addVisual(salud)
@@ -39,7 +41,7 @@ program rpgPorTurnos {
 	
 	//PERSONAJE
 	game.addVisual(personaje)
-    game.addVisual(puerta)
+    game.addVisual(puerta) */
 
 	//OBJETOS CON LOS QUE SE INTERACTUA
 	/* fabricaDeOjoVolador.agregarNuevoEnemigo(game.at(26,7), 150, 40)

@@ -87,18 +87,9 @@ class Nivel {
         game.height(self.tablero().size())
         game.width(self.tablero().get(0).size())
         
-        (0..game.width() - 1).forEach({ x =>
-            (0..game.height() -1).forEach({y => self.limpiarSiHayCosa(x,y)//game.removeVisual(self.tablero().get(y).get(x) )
-            })
-        })
+        game.allVisuals().forEach( { visual => game.removeVisual(visual)})
 
-    }
-
-    // Intento de que no tarde tanto en cargar el proximo nivel
-    method limpiarSiHayCosa(posX , posY){
-        if(self.tablero().get(posY).get(posX) != _ && self.tablero().get(posY).get(posX) != x){
-            game.removeVisual(self.tablero().get(posY).get(posX))
-        }
+        dungeon.dibujar()
     }
 
     method pasarNivel(){

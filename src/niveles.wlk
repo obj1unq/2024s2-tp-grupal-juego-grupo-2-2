@@ -10,7 +10,7 @@ import paredes.*
 import pelea.*
 import mapa.*
 
-object nivel1 inherits Nivel(enemigosSpawneados = 4) {
+object nivel1 inherits Nivel(enemigosSpawneados = 2) {
 
     override method tablero() { // 25x30 (X,Y)
        return   [ 

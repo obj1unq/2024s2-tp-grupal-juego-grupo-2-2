@@ -65,6 +65,25 @@ object dungeon {
         return nivelActual
     }
 
+    //Dibujar
+    method dibujar(){
+    //OBJETOS CON LOS QUE NO SE INTERACTUA
+	game.addVisual(gestorDeFondo)
+	game.addVisual(listaDeObjetos)
+	game.addVisual(salud)
+	game.addVisual(vidas)
+	game.addVisual(pociones)
+	game.addVisual(barraFuerza)
+
+
+    game.addVisual(enemigosAsesinadosNivelActual)
+
+	
+	//PERSONAJE
+	game.addVisual(personaje)
+    game.addVisual(puerta)
+    }
+
 
 }
 

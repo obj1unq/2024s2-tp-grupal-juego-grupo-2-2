@@ -5,31 +5,43 @@ import mapa.*
 import pelea.*
 import enemigos.*
 
-
 class Arma {
-    var property position
-    const nivel = 1.randomUpTo(3).round() 
-    var durabilidad  
+    
+
+      
     const portador = personaje
+    var property durabilidad
 
     method objetivo() {
         return portador.enemigoCombatiendo()
     }
 
-    method durabilidad() {
-      return durabilidad
+    method danho()
+    method imagenParaPersonaje()
+    method emojiParaInfoCombate
+    method imagenHabilidadEspecialParaBarra()
+    method realizarActualizacionDeArmas()
+    
+    method ejecutarHabilidadEspecial() {
+        portador.gastarFuerzaAcumulada()
     }
 
-    // El pj colsiona con el arma y la mete en la bolsa()
+}
+
+class ArmaEncontrable inherits Arma {
+    var property position
+    const nivel = 1.randomUpTo(3).round() 
+
+    method image()
+
     method colisiono(personaje){
         personaje.equiparArma(self)  
         game.removeVisual(self)
     }
 
-    method realizarActualizacionDeArmas() {
+    override method realizarActualizacionDeArmas() {
         if ( self.durabilidad() <= 15) {
-            personaje.actualizarArmaActual()
-            personaje.bolsa().remove(personaje.bolsa().head()) //se borra esta arma, que era la primera y la anterior actual
+            personaje.descartarArmaActual() //se borra esta arma de la bolsa, que era la anterior actual
         } else {
             self.restarDurabilidad(15)
         }
@@ -42,34 +54,19 @@ class Arma {
         }
     }
 
-    //se implementan en cada una de las subclases de tipos de arma (ya que en todas varía)
-    method danho()
-    method image() 
-    method imagenParaPersonaje()
-    method emojiParaInfoCombate()
-    method imagenHabilidadEspecialParaBarra()
-
-    method ejecutarHabilidadEspecial() {
-        portador.gastarFuerzaAcumulada()
-    }
-
     // Para test
     method text(){ return "Dur: " + self.durabilidad().toString() + "\nLvl: " + nivel.toString()}
     method textColor() = paleta.gris()
-
-    method estaOcupado(){
-        return true
-    }
 }
 
-class Espada inherits Arma {
+class Espada inherits ArmaEncontrable {
 
     override method danho() {
         return 35 + nivel * 3
     }
 
     override method image() {
-        return "espadaGris-32Bits.png"
+        return "espadaNivel" + nivel.toString() + ".png"
     }
 
     override method imagenParaPersonaje() {
@@ -92,13 +89,13 @@ class Espada inherits Arma {
 
 }
 
-class Lanza inherits Arma {
+class Lanza inherits ArmaEncontrable {
 
     override method danho() {
         return 20 + nivel * 3
     }
         override method image() {
-        return "arcoYFlecha-32Bits.png"
+        return "lanzaNivel" + nivel.toString() + ".png"
     }
 
     override method imagenParaPersonaje() {
@@ -120,14 +117,14 @@ class Lanza inherits Arma {
 
 }
 
-class Maza inherits Arma {
+class Maza inherits ArmaEncontrable {
 
     override method danho() {
         return 80 + nivel * 3
     }
 
     override method image() {
-        return "martilloDeGuerra-32Bits.png"
+        return "mazaCombateNivel" + nivel.toString() + ".png"
     }
 
     override method imagenParaPersonaje() {
@@ -150,36 +147,32 @@ class Maza inherits Arma {
 
 }
 
-object mano { //objeto especial
-    const portador = personaje
+//objeto especial que representa al arma por default
+ //Su atributo durabilidad solo se usa para el string en la info del combate. NUNCA se hacen cálculos con este
+//dato como si se hace con el atributo durabilidad de las instancias de las subclases de ArmaEncontrable.
+object mano inherits Arma(durabilidad = "Infinita") {
 
-    method objetivo() {
-        return portador.enemigoCombatiendo()
-    }
-
-    method danho() {
+    override method danho() { 
         return 5
     }
-
-    var property durabilidad = "Infinita"
     
-    method realizarActualizacionDeArmas() { } //necesario para que funcione el polimorfismo (todas las armas deben entenderlo)
-
-    method imagenParaPersonaje() {
+    override method imagenParaPersonaje() { 
         return ""
     }
 
-    method emojiParaInfoCombate() {
+    override method emojiParaInfoCombate() { 
         return "🤜 (mano)"
     }
 
-    method ejecutarHabilidadEspecial() { //PUÑETAZO
-        portador.gastarFuerzaAcumulada()
-        self.objetivo().recibirDanho(self.danho()*7) //35 de daño
+    override method imagenHabilidadEspecialParaBarra() { 
+        return "Puñetazo"
     }
 
-    method imagenHabilidadEspecialParaBarra() {
-        return "Puñetazo"
+    override method realizarActualizacionDeArmas() { } //necesario para que funcione el polimorfismo (todas las armas deben entenderlo) 
+
+    override method ejecutarHabilidadEspecial() { //PUÑETAZO 
+        super()
+        self.objetivo().recibirDanho(self.danho()*7) //35 de daño
     }
     
 }

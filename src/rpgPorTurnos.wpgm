@@ -24,7 +24,10 @@ program rpgPorTurnos {
 /* se movio a dungeon 	
 //OBJETOS CON LOS QUE NO SE INTERACTUA
 	game.addVisual(gestorDeFondo)
-	game.addVisual(listaDeObjetos)
+	game.addVisual(indicadorDeObjetos)
+	game.addVisual(primeraArma)
+	game.addVisual(segundaArma)
+	game.addVisual(terceraArma)
 	game.addVisual(salud)
 	game.addVisual(vidas)
 	game.addVisual(pociones)
@@ -61,13 +64,14 @@ program rpgPorTurnos {
     keyboard.up().onPressDo({personaje.hacerTurnoAtaqueComun()})
 	keyboard.down().onPressDo({personaje.hacerTurnoPocion()})
 	keyboard.right().onPressDo({personaje.hacerTurnoHabilidadEspecial()})
+	keyboard.left().onPressDo({personaje.cambiarArmaActual()})
 
 	//COLISIÓN
     game.onCollideDo(personaje, {cosa => cosa.colisiono(personaje)})
 
 	//ANIMACION
-	//game.onTick(200, "animacion", {dungeon.animacionEnemigos()})
-	//game.onTick(200, "animacion", {personaje.cambiarAnimacion()})
+	game.onTick(200, "animacion", {dungeon.animacionEnemigos()})
+	game.onTick(200, "animacion", {personaje.cambiarAnimacion()})
 
 
 

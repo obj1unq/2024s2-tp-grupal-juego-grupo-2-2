@@ -111,17 +111,16 @@ object gestorDeFondo {
         return game.at(0,0)
     }
 }
+/////////////listaDeObjetos/////////////
 
-
-//To do: hacer un objeto con el visual de las armas que se tienen (en vez de los números, como ahora) que remplace a listaDeObjetos
-object listaDeObjetos {
+object indicadorDeObjetos {
 
     method position() {
-		return game.at(28,23)
+		return game.at(29,23)
 	}
 
 	method image() { 
-		return "listaDeObj" + self.imagenSegunEstado() + "-64Bits.png"
+		return "numIndicadorDeObj" + self.imagenSegunEstado() + "-32Bits.png"
 	}
 
     method imagenSegunEstado() {
@@ -138,39 +137,51 @@ object listaDeObjetos {
 
 }
 
-/* el profe dijo que no estaba tan piola hacer objs estados si solo los vamos a usar para retornar el string para el image
-object listaCon3 {
+class VisualArmaDeBolsa { //para representar visualmente arriba a la derecha los tipos de arma de las armas del personaje
+    const posBolsa
 
-    method imagenParaLista() {
-        return "3"
+    method image() {
+        if (personaje.bolsa().size()>=posBolsa) {
+            return self.imagenSiHayArma()
+        } else {
+            return "empty.png"
+        }
     }
+
+    method imagenSiHayArma() {
+        const arma = personaje.armaNumero(posBolsa-1)
+        return arma.image().replace(".png", "Info.png")
+    }
+
+    method position()
+}
+
+
+object primeraArma inherits VisualArmaDeBolsa(posBolsa=1) {
+
+    override method position() {
+		return game.at(24,24)
+	}
 
 }
 
-object listaCon2 {
+object segundaArma inherits VisualArmaDeBolsa(posBolsa=2) {
 
-    method imagenParaLista() {
-        return "2"
-    }
-
-}
-
-object listaCon1 {
-
-    method imagenParaLista() {
-        return "1"
-    }
+    override method position() {
+		return game.at(26,24)
+	}
 
 }
 
-object listaCon0 {
+object terceraArma inherits VisualArmaDeBolsa(posBolsa=3) {
 
-    method imagenParaLista() {
-        return "0"
-    }
+    override method position() {
+		return game.at(28,24)
+	}
 
 }
-*/
+
+////////////////////////////////////////
 
 class Pocion {
     const property position //= randomizer.posicionRandomDePocion()

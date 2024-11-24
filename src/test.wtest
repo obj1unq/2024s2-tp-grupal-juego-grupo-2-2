@@ -52,3 +52,74 @@ describe "testeo de funcionalidades" {
     }
 
 }
+
+describe "Combate"{
+        method initialize() {
+        game.width(30)
+        game.height(25)
+        game.addVisual(personaje) //pos = 14,2
+
+    }   
+
+    const goblin = new Goblin(position = game.at(15, 3), salud = 100, danhoBase = 30)
+
+    const espada = new Espada(position = game.at(0,0), durabilidad = 300)
+
+    test "empieza combate"{
+        assert.notThat(combate.hayCombate())
+        goblin.colisiono(personaje)
+        assert.that(combate.hayCombate())
+        assert.equals(goblin, personaje.enemigoCombatiendo())
+    }
+
+    test "Pj y enemigo ataque comun" {
+        goblin.colisiono(personaje)
+        personaje.realizarAtaqueComun()
+        assert.equals(95, goblin.salud())
+
+        goblin.realizarAtaqueNormalOHabilidad()
+        assert.equals(270, personaje.salud())
+    }
+
+    test "Pj y enemigo ataque especial" {
+        goblin.colisiono(personaje)
+
+        espada.nivel(1)
+        personaje.equiparArma(espada)
+
+        personaje.realizarHabilidadEspecial()
+        assert.equals(62, goblin.salud())
+
+        goblin.utilizarHabilidad()
+        assert.equals(210, personaje.salud())
+    }
+
+    test "Pj no puede atacar porque no hay combate"{
+            assert.throwsException({ personaje.realizarAtaqueComun() })
+    }
+
+    test "enemigo muere"{
+        dungeon.registrarEnemigo(goblin)
+
+
+
+        assert.that( !dungeon.enemigos().isEmpty() )
+        goblin.colisiono(personaje)
+
+        espada.nivel(3)
+        personaje.equiparArma(espada)
+
+        personaje.realizarAtaqueComun()
+        personaje.realizarAtaqueComun()
+        personaje.realizarAtaqueComun()
+
+        assert.equals(0,  goblin.salud())
+
+        goblin.morir()
+        dungeon.sacarEnemigo(goblin) //esta en un schedule
+
+
+        assert.notThat( !dungeon.enemigos().isEmpty()  )
+
+    }
+}

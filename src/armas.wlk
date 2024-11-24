@@ -26,11 +26,13 @@ class Arma {
         portador.gastarFuerzaAcumulada()
     }
 
+
+
 }
 
 class ArmaEncontrable inherits Arma {
     var property position
-    const nivel = 1.randomUpTo(3).round() 
+    var nivel = 1.randomUpTo(3).round() 
 
     method image()
 
@@ -55,8 +57,13 @@ class ArmaEncontrable inherits Arma {
     }
 
     // Para test
+
     /* method text(){ return "Dur: " + self.durabilidad().toString() + "\nLvl: " + nivel.toString()}
     method textColor() = paleta.gris() */
+
+    method nivel(_nivel){
+        nivel = _nivel
+    }
 }
 
 class Espada inherits ArmaEncontrable {

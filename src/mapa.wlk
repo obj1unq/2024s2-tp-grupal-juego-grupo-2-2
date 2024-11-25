@@ -9,18 +9,6 @@ import pelea.*
 import personaje.*
 import niveles.*
 
-object mapa {
-
-    method limpiar() {
-        game.allVisuals().forEach({vis => if(!self.estaEnOrigin(vis.position())) {game.removeVisual(vis)} })
-    }
-
-    method estaEnOrigin(pos) {
-        return pos == game.at(0,0)
-    }
-
-}
-
 class Nivel {
 
    const property enemigosSpawneados
@@ -56,17 +44,24 @@ class Nivel {
         console.println("Limpiado")
 
         game.addVisual(gestorDeFondo)
-        dungeon.dibujar()
-
     }
 
     method pasarNivel(){
         dungeon.cerraPuerta()
         dungeon.siguienteNivel()
         self.limpiarTablero()
+        dungeon.dibujar()
     }
 
-    } 
+    method limpiarExceptoFondo() {
+        game.allVisuals().forEach({vis => if(!self.estaEnOrigin(vis.position())) {game.removeVisual(vis)} })
+    }
+
+    method estaEnOrigin(pos) {
+        return pos == game.at(0,0)
+    }
+
+} 
 
 object b { //barriles
 

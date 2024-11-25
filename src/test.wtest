@@ -38,14 +38,14 @@ describe "testeo de funcionalidades" {
         assert.equals(4, dungeon.enemigos().size())
     }
 
-    test "método de game getObjectsIn(pos) y método de mapa limpiar()" {
+    test "método de game getObjectsIn(pos) y método de dungeon limpiarExceptoFondo()" {
         fabricaDeOjoVolador.agregarNuevoEnemigo(game.at(23,15), 150, 20)
         fabricaDeGoblin.agregarNuevoEnemigoCon(game.at(15,14), 95, 37)
         fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(3,10), 200, 43, 3) 
         fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(26,10), 200, 43, 3) 
         assert.equals(1, game.getObjectsIn(game.at(26,10)).size())
         assert.equals(1, game.getObjectsIn(game.at(23,15)).size())
-        mapa.limpiar()
+        dungeon.limpiarTablero()
         assert.equals(0, game.getObjectsIn(game.at(26,10)).size())
         assert.equals(0, game.getObjectsIn(game.at(23,15)).size())
     }

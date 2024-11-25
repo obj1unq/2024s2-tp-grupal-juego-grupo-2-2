@@ -74,6 +74,10 @@ object dungeon {
     var nivelNum = 0
     const niveles = [nivel1, nivel2, arenaJefe]
 
+    method limpiarTablero() {
+        nivelActual.limpiarTablero()
+    }
+
     method abrirPuertaSiSePuede(){
         if(personaje.enemigosAsesinados() >= nivelActual.enemigosSpawneados()){
             puerta.abrirPuerta()

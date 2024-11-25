@@ -116,8 +116,9 @@ object arenaJefe inherits Nivel(enemigosSpawneados = 1) {
     }
 
      override method pasarNivel() { //no olvidemos que falta tocar esto para que salga la pantalla final de victoria!!
-        //self.limpiarTablero() este vuelve a hacer dungeon.dibujar(). el de abajo solo borra y listo. así mejor, no??
-        mapa.limpiar()
+        //self.limpiarTablero() este vuelve a hacer dungeon.dibujar(). el de abajo solo borra y listo. así mejor, no?? más eficiente
+        self.limpiarTablero()
+        //agregar el fondo que corresponda
         game.stop()
     }
 }

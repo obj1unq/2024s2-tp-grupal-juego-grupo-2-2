@@ -129,10 +129,20 @@ object dungeon {
 }
 
 object juego {
+    var comenzado = false
+
     method empezar() {
+        self.validarYaComenzo()
+        comenzado = true
         gestorDeFondo.image("fondoPrincipio2.png")
         game.schedule(7000, {gestorDeFondo.image("fondoPrincipio3.png")})
         game.schedule(10000, {self.cargar()})
+    }
+
+    method validarYaComenzo() {
+        if(comenzado) {
+            self.error("")
+        }
     }
 
     method cargar() {

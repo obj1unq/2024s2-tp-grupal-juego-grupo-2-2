@@ -9,6 +9,7 @@ import armas.*
 import paredes.*
 import pelea.*
 import mapa.*
+import niveles.*
 
 /*
 describe "prueba de movimiento de enemigo1" {
@@ -178,6 +179,30 @@ describe "mas ideas"{
         poti.colisiono(personaje)
         assert.equals(3, personaje.cantPociones())
 
+    }
+
+    test"pasar Nivel"{
+        const goblin2 = new Goblin(position = game.at(1, 1), salud = 100, danhoBase = 30)
+        const ojo = new OjoVolador(position = game.at(2, 2), salud = 100, danhoBase = 30)
+
+
+        //el pj esta en el nivel 1
+        assert.equals(nivel1, dungeon.nivelActual())
+
+        //el pj mata a dos enemigos
+        goblin2.morir()
+        ojo.morir()
+        assert.equals(2, personaje.enemigosAsesinados())
+
+        //la puerta esta abierta, se puede pasar
+        assert.doesNotThrowException( {puerta.colisiono(personaje)} )
+
+
+        
+        assert.equals(game.at(14,2), personaje.position())
+        assert.equals(0, personaje.enemigosAsesinados())
+        dungeon.pasarNivel() //schedule
+        assert.equals(nivel2, dungeon.nivelActual())
     }
 
 }

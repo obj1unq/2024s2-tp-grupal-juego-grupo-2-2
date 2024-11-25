@@ -8,32 +8,40 @@ import animaciones.*
 
 class Enemigo {
     const danhoBase 
-    var position
+    var property position
     var salud
     const objetivoADestruir = personaje
     var acumuladorDeTurnos = 0
     const turnoRequeridoParaHabilidad
-    var property estaAturdido = false
-    var property cantidadDeVeneno = 0
+    var turnosEnvenenado = 0
     const danhoPorVeneno = 20
+    //var property estaAturdido = false
+    var property turnosAturdido = 0
+    const property esEnemigo = true
 
-    method position() {
-        return position
+    method turnosEnvenenado(_turnosEnvenenado) {
+        turnosEnvenenado = _turnosEnvenenado
     }
 
     method salud() {
         return salud
     }
 
+    //COMBATE
+
     method colisiono(personaje) {
-        self.combate() 
+        self.iniciarCombate() 
     }
     
-    method combate() { //cambio de nombre a iniciarCombate? porque con el sustantivo parece de consulta
+    method iniciarCombate() { 
 
-        position = position.left(2)    //se posiciona una celda a la izquierda del personaje
+        position = position.left(self.distanciaAlPersonaje())    //se posiciona dos celdas a la izquierda del personaje
         combate.iniciarCombate(self)    //prepara el combate, la info necesaria y le hace saber que él(enemigo/self) será quien empieza
 
+    }
+
+    method distanciaAlPersonaje() {
+        return 2
     }
       
     method atacarPre() {
@@ -58,28 +66,40 @@ class Enemigo {
     }
     
     method realizarAtaqueNormalOHabilidad() { 
-        if(acumuladorDeTurnos < turnoRequeridoParaHabilidad) {
+        if(acumuladorDeTurnos < turnoRequeridoParaHabilidad) { // habilidad basica
             acumuladorDeTurnos += 1
-            objetivoADestruir.recibirDanho(danhoBase)
-            barraEstadoPeleas.image("barraEnemigoAtaqueComun.png")
-        } else {
-            acumuladorDeTurnos = 0
+            self.utilizarAtaqueNormal()
+        } else {    //habilidad especial
+            acumuladorDeTurnos = 0  
             self.utilizarHabilidad()
         }
+    }
+
+    method utilizarAtaqueNormal() {
+        objetivoADestruir.recibirDanho(danhoBase)
+        barraEstadoPeleas.image("barraEnemigoAtaqueComun.png")
     }
 
     method sufrirVenenoSiCorresponde() { //este es el caso donde, si hay daño por veneno, NO va a ser mortal
         if(self.estaEnvenenado()) {
             self.recibirDanho(danhoPorVeneno)
-            cantidadDeVeneno -= 1
+            turnosEnvenenado -= 1
         }
     }
+
+    method sufrirAturdimiento() {
+		turnosAturdido -= 1
+	}
     
     method recibirDanho(cantidad){
         salud = (salud - cantidad).max(0)
     }
 
     method morir() {
+        personaje.sumarEnemigoAsesinado() // para pasar de nivel
+        
+        dungeon.abrirPuertaSiSePuede()
+
         self.frame(0)
         self.animacion(animacionMuerte)
         game.schedule(800, {game.removeVisual(self)})
@@ -87,17 +107,28 @@ class Enemigo {
     }
 
     method estaEnvenenado() {
-        return cantidadDeVeneno > 0
+        return turnosEnvenenado > 0
     }
 
-    method image() 
-    method reaccionarAMovimiento() 
+    method estaAturdido() {
+		return turnosAturdido > 0
+	}
+
+   
+    //MOVIMIENTO
+
+    method reaccionarAMovimiento() {
+        
+    } 
+
     method utilizarHabilidad()
 
     //ANIMACION
      
     var property animacion = animacionEstatica
     var property frame = 0
+
+    method image()
 
     method maxFrameEstatica() {
         return 4
@@ -117,7 +148,71 @@ class Enemigo {
       
 }
 
-class OjoVolador inherits Enemigo(turnoRequeridoParaHabilidad = 3) {
+/////////////  JEFE FINAL ///////////////////////////
+
+class Jefe inherits Enemigo(turnoRequeridoParaHabilidad = 6) {// puse que el turno requerido sea 6 porque pensaba en una hab tocha
+                                                              // y en la necesidad de tener que matarlo antes de esta
+
+    var fase 
+
+    method fase(_fase) {
+        fase = _fase
+    }
+
+    override method image() {
+        return  "jefe" + fase + animacion.tipo() + frame + "32Bits.png"
+    }
+
+}
+
+//FASES DEL JEFE // DATOS DE PRUEBA
+
+//Al Jefe en Fase 1 imagino que al hacer el mapa final, le haremos un clear() a la lista de enemigos de la dungeon
+//y la iniciaremos con el
+
+object jefeFase1 inherits Jefe(danhoBase = 40, position = game.at(11, 8), salud = 300, fase = 1 ) {
+
+    override method utilizarHabilidad() { //bola de energia
+        objetivoADestruir.recibirDanho(150)
+        barraEstadoPeleas.image("barraJefe1Habilidad.png")
+    }
+
+    override method morir() {
+        super()
+        game.schedule(1000, {self.cambiarFase()})        
+    }
+    
+    method cambiarFase() {
+       // self.fase(jefeFase2)
+        game.addVisual(jefeFase2)
+        dungeon.registrarEnemigo(jefeFase2)
+    }
+
+    override method distanciaAlPersonaje() {
+        return 3
+    }
+}
+
+object jefeFase2 inherits Jefe(danhoBase = 80, position = game.at(11, 8), salud = 500, fase = 2 ) {
+
+    override method utilizarHabilidad() { //Acá quiero que el personaje pierda dos turnos
+        objetivoADestruir.recibirDanho(danhoBase)
+        objetivoADestruir.turnosAturdido(2)
+        barraEstadoPeleas.image("barraJefe2Habilidad.png")
+    }
+
+    override method maxFrameCombate() {
+        return 4
+    }
+
+    override method distanciaAlPersonaje() {
+        return 6
+    }
+}
+
+/////////////  OJO VOLADOR ///////////////////////////
+
+class OjoVolador inherits Enemigo(turnoRequeridoParaHabilidad = 5) {
 
     //ANIMACION Y VISUAL
     
@@ -160,7 +255,7 @@ class OjoVolador inherits Enemigo(turnoRequeridoParaHabilidad = 3) {
     }
 
     method moverseSiNoHayOtroA(posicionSiguiente) { //El ojo se mueve si no hay otro enemigo en la celda. Así se evitan choques entre ellos.
-        if(!dungeon.hayEnemigoEn(posicionSiguiente)) {
+        if(!dungeon.hayAlgoEn(posicionSiguiente)) {
             position = posicionSiguiente
         }
     }
@@ -177,9 +272,11 @@ class OjoVolador inherits Enemigo(turnoRequeridoParaHabilidad = 3) {
 
 }
 
+/////////////  ESQUELETO ///////////////////////////
+
 class Esqueleto inherits Enemigo(turnoRequeridoParaHabilidad = 4) {
 
-    const vision
+    const rangoVision = 3
 
     //VISUAL Y ANIMACION
 
@@ -192,18 +289,19 @@ class Esqueleto inherits Enemigo(turnoRequeridoParaHabilidad = 4) {
     override method reaccionarAMovimiento() {
 
         self.revisarSiHayObjetivo()
+
     }
 
     method revisarSiHayObjetivo() {
-        if(self.hayObjetivoEnVision() && self.position()!=objetivoADestruir.position()) { //esto para que no se choque con el self.combate() de colisiono()
+        if(self.hayObjetoEnVision() && self.position()!=objetivoADestruir.position()) { //esto para que no se choque con el self.combate() de colisiono()
             position = objetivoADestruir.position()
-            self.combate()
+            self.iniciarCombate()
         }
     }
 
-    method hayObjetivoEnVision() {
-        return vision.hayObjetoEnX(self.position(), objetivoADestruir.position()) &&
-               objetivoADestruir.position().y() == self.position().y()
+    method hayObjetoEnVision() {
+        return objetivoADestruir.position().x().between((self.position().x()-rangoVision), (self.position().x()+rangoVision)) &&
+               objetivoADestruir.position().y().between((self.position().y()-rangoVision), (self.position().y()+rangoVision))
     }
 
     // COMBATE/PELEA
@@ -219,23 +317,7 @@ class Esqueleto inherits Enemigo(turnoRequeridoParaHabilidad = 4) {
 
 }
 
-                /////////OBJETOS VISION DE ESQUELETO/////////////
-
-object visionDerecha {
-
-    method hayObjetoEnX(posObservador, posObservado) {
-        return posObservado.x().between(posObservador.x(), posObservador.x()+3) //vision.hayObjetoEnX(self.position(), objetivoADestruir.position())
-    }
-
-}
-
-object visionIzquierda {
-
-    method hayObjetoEnX(posObservador, posObservado) {
-        return posObservado.x().between(posObservador.x()-3, posObservador.x()) //vision.hayObjetoEnX(self.position(), objetivoADestruir.position())
-    }
-
-}
+/////////////  GOBLIN ///////////////////////////
 
 class Goblin inherits Enemigo(turnoRequeridoParaHabilidad = 2) {
 
@@ -244,10 +326,6 @@ class Goblin inherits Enemigo(turnoRequeridoParaHabilidad = 2) {
     override method image() {
         return "goblin-" + animacion.tipo() + frame +  "32Bits.png" 
     }
-
-    //MOVIMIENTO (en realidad, no se mueve)
-
-    override method reaccionarAMovimiento() { }
 
     // COMBATE/PELEA
 
@@ -259,6 +337,8 @@ class Goblin inherits Enemigo(turnoRequeridoParaHabilidad = 2) {
     }
 
 }
+
+/////////////  FACTORIES DE ENEMIGOS ////////////
 
 object fabricaDeOjoVolador {
 
@@ -272,8 +352,8 @@ object fabricaDeOjoVolador {
 
 object fabricaDeEsqueleto {
 
-    method agregarNuevoEnemigo(_position, _salud, _danhoBase, _vision) {
-        const esqueleto = new Esqueleto(position = _position, salud = _salud, danhoBase = _danhoBase, vision = _vision)
+    method agregarNuevoEnemigo(_position, _salud, _danhoBase, _rangoVision) {
+        const esqueleto = new Esqueleto(position = _position, salud = _salud, danhoBase = _danhoBase, rangoVision = _rangoVision)
         dungeon.registrarEnemigo(esqueleto)
         game.addVisual(esqueleto)
   }

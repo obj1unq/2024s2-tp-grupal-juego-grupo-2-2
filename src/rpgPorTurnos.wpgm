@@ -6,30 +6,19 @@ import randomizer.*
 import posiciones.*
 import paleta.*
 import armas.*
-import paredes.*
 import pelea.*
 import mapa.*
+import niveles.*
 
 program rpgPorTurnos {
-	game.title("RPG por turnos de nombre a confirmar")
-	game.height(25) 		
-	game.width(30) 			
+
+	game.title("El Guardián")
+
 	game.cellSize(32)
-
-	//OBJETOS CON LOS QUE NO SE INTERACTUA
-	game.addVisual(gestorDeFondo)
-	game.addVisual(listaDeObjetos)
-	game.addVisual(salud)
-	game.addVisual(vidas)
-	game.addVisual(pociones)
-	game.addVisual(barraFuerza)
-
-	//OBJETOS CON LOS QUE SE INTERACTUA
-	randomizer.agregarArmaRandom()
-	randomizer.agregarArmaRandom()
-
-	fabricaDePocion.agregarNuevaPocion()
+	game.height(25)
+	game.width(30)
 	
+
 	//PERSONAJE
 	game.addVisual(personaje)
 
@@ -39,6 +28,9 @@ program rpgPorTurnos {
 	fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(3,10), 200, 43, visionDerecha) 
 	fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(26,10), 200, 43, visionIzquierda) 
 	//¿el que más vida tiene es el que más daño causa? ¿no es too much?
+	game.addVisual(gestorDeFondo)
+	keyboard.enter().onPressDo({juego.empezar()})
+
 	
 	//TECLAS MOVIMIENTO
 	keyboard.w().onPressDo({personaje.mover(arriba)})
@@ -50,6 +42,7 @@ program rpgPorTurnos {
     keyboard.up().onPressDo({personaje.hacerTurnoAtaqueComun()})
 	keyboard.down().onPressDo({personaje.hacerTurnoPocion()})
 	keyboard.right().onPressDo({personaje.hacerTurnoHabilidadEspecial()})
+	keyboard.left().onPressDo({personaje.cambiarArmaActual()})
 
 	//COLISIÓN
     game.onCollideDo(personaje, {cosa => cosa.colisiono(personaje)})

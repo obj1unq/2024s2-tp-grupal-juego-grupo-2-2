@@ -7,9 +7,9 @@ object randomizer {
 
 	const fabricas = [fabricaDeEspada, fabricaDeArcoYFlecha, fabricaDeMartilloDeGuerra]
 
-	method agregarArmaRandom() {
+	method agregarArmaRandom(_position) {
 		const fabricaRnd = fabricas.anyOne()
-		fabricaRnd.agregarNuevaArma()
+		fabricaRnd.agregarNuevaArma(_position)
 	}
 
 	method posicionRandomDeArma() {

@@ -6,7 +6,6 @@ import randomizer.*
 import posiciones.*
 import paleta.*
 import armas.*
-import paredes.*
 import pelea.*
 import mapa.*
 

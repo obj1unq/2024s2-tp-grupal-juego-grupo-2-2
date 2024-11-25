@@ -4,6 +4,7 @@ import randomizer.*
 import paleta.*
 import enemigos.*
 import mapa.*
+import niveles.*
 
 object dungeon {
 
@@ -26,9 +27,30 @@ object dungeon {
     }
 
     const property enemigos = []
+    const property objetosNoTraspasables = []
 
     method registrarEnemigo(enemigo) {
         enemigos.add(enemigo)
+    }
+
+    method sacarEnemigo(enemigo) {
+        enemigos.remove(enemigo)
+    }
+
+    method registrarObjetoNoTraspasable(objeto) {
+        objetosNoTraspasables.add(objeto)
+    }
+
+    method removerEnemigos(){
+        enemigos.forEach( {e => enemigos.remove(e) } )
+    }
+
+    method removerObjetosNoTraspasables() {
+        objetosNoTraspasables.forEach( {o => objetosNoTraspasables.remove(o) } )
+    }
+
+    method accionEnemigos() {
+        enemigos.forEach({enemigo => enemigo.reaccionarAMovimiento()})
     }
 
     method validarDentro(posicion) {
@@ -41,16 +63,22 @@ object dungeon {
         return posicion.x().between(2, game.width() - 3) && posicion.y().between(2, game.height() - 6) 
     }
 
-    method accionEnemigos() {
-        enemigos.forEach({enemigo => enemigo.reaccionarAMovimiento()})
+    method validarNoHayObjetoNoTraspasable(posicion) {
+        if(self.hayObjetoNoTraspasable(posicion)) {
+            self.error("")
+        }
+    }
+
+    method hayObjetoNoTraspasable(posicion) {
+        return objetosNoTraspasables.any({objeto => objeto.position() == posicion})
     }
 
     method hayEnemigoEn(celda){
         return enemigos.any({enemigo => enemigo.position() == celda})
     }
 
-    method sacarEnemigo(enemigo) {
-        enemigos.remove(enemigo)
+    method hayAlgoEn(celda) {
+        return self.hayEnemigoEn(celda) || self.hayObjetoNoTraspasable(celda)
     }
 
     //animacion enemigos
@@ -58,27 +86,108 @@ object dungeon {
     method animacionEnemigos(){
         enemigos.forEach({enemigo => enemigo.cambiarAnimacion()})
     }
+    
+    //Pasar nivel
+    var nivelNum = 0
+    const niveles = [nivel1, nivel2, arenaJefe]
+
+    method nivelActual() {
+        return niveles.get(nivelNum)
+    } 
+
+    method limpiarTablero() {
+        self.nivelActual().limpiarTablero()
+    }
+
+    method abrirPuertaSiSePuede(){
+        if(personaje.enemigosAsesinados() >= self.nivelActual().enemigosSpawneados()){
+            puerta.abrirPuerta()
+            console.println("estaAbierta")
+        }
+    
+    }
+
+    method cerraPuerta(){
+        puerta.reiniciarPuerta()
+        console.println("estaCerrada")
+    }
+
+    method siguienteNivel(){ 
+        nivelNum = (nivelNum + 1 ) % 3
+    }
+
+    method pasarNivel(){
+        self.removerEnemigos()  //sin esto la lista de enemigos de la dungeon tiene enemigos dentro que se cargar invisibles si Quedan despues de pasar de nivel
+        self.removerObjetosNoTraspasables() //este sí va!! si no, los objetos quedan intraspasables para los siguientes lvls
+        self.nivelActual().pasarNivel()
+    }
+
+    //Dibujar
+    method dibujar(){
+    //OBJETOS CON LOS QUE NO SE INTERACTUA
+	//gestorDeFondo.image("fondoNivel1.png")
+	game.addVisual(indicadorDeObjetos)
+	game.addVisual(primeraArma)
+	game.addVisual(segundaArma)
+	game.addVisual(terceraArma)
+	game.addVisual(salud)
+	game.addVisual(vidas)
+	game.addVisual(pociones)
+	game.addVisual(barraFuerza)
+
+
+    game.addVisual(enemigosAsesinadosNivelActual)
+
+	
+	//PERSONAJE
+	game.addVisual(personaje)
+    game.addVisual(puerta)
+    }
 
 }
 
+object juego {
+    var comenzado = false
+
+    method empezar() {
+        self.validarYaComenzo()
+        comenzado = true
+        gestorDeFondo.image("fondoPrincipio2.png")
+        game.schedule(7000, {gestorDeFondo.image("fondoPrincipio3.png")})
+        game.schedule(10000, {self.cargar()})
+    }
+
+    method validarYaComenzo() {
+        if(comenzado) {
+            self.error("")
+        }
+    }
+
+    method cargar() {
+        gestorDeFondo.image("fondoNivel1.png")
+        dungeon.dibujar()
+        nivel1.dibujar()
+    }
+}
+
 object gestorDeFondo {
-    var property image = "fondoNivel1.png"
+    var property image = "fondoTitulo1.png"
 
     method position() {
         return game.at(0,0)
     }
 }
 
+/////////////indicadorDeObjetos/////////////
 
-//To do: hacer un objeto con el visual de las armas que se tienen (en vez de los números, como ahora) que remplace a listaDeObjetos
-object listaDeObjetos {
+object indicadorDeObjetos {
 
     method position() {
-		return game.at(28,23)
+		return game.at(29,23)
 	}
 
 	method image() { 
-		return "listaDeObj" + self.imagenSegunEstado() + "-64Bits.png"
+		return "numIndicadorDeObj" + self.imagenSegunEstado() + "-32Bits.png"
 	}
 
     method imagenSegunEstado() {
@@ -95,42 +204,56 @@ object listaDeObjetos {
 
 }
 
-/* el profe dijo que no estaba tan piola hacer objs estados si solo los vamos a usar para retornar el string para el image
-object listaCon3 {
+class VisualArmaDeBolsa { //para representar visualmente arriba a la derecha los tipos de arma de las armas del personaje
+    const posBolsa
 
-    method imagenParaLista() {
-        return "3"
+    method image() {
+        if (personaje.bolsa().size()>=posBolsa) {
+            return self.imagenSiHayArma()
+        } else {
+            return "empty.png"
+        }
     }
+
+    method imagenSiHayArma() {
+        const arma = personaje.armaNumero(posBolsa-1)
+        return arma.image().replace(".png", "Info.png")
+    }
+
+    method position()
+}
+
+
+object primeraArma inherits VisualArmaDeBolsa(posBolsa=1) {
+
+    override method position() {
+		return game.at(24,24)
+	}
 
 }
 
-object listaCon2 {
+object segundaArma inherits VisualArmaDeBolsa(posBolsa=2) {
 
-    method imagenParaLista() {
-        return "2"
-    }
-
-}
-
-object listaCon1 {
-
-    method imagenParaLista() {
-        return "1"
-    }
+    override method position() {
+		return game.at(26,24)
+	}
 
 }
 
-object listaCon0 {
+object terceraArma inherits VisualArmaDeBolsa(posBolsa=3) {
 
-    method imagenParaLista() {
-        return "0"
-    }
+    override method position() {
+		return game.at(28,24)
+	}
 
 }
-*/
+
+/////////////indicadorDeObjetos/////////////
+
+/////////////poción////////////////////////
 
 class Pocion {
-    const property position = randomizer.posicionRandomDePocion()
+    const property position //= randomizer.posicionRandomDePocion()
     const property image = "pocion-32Bits.png"
 
     // El personaje colisiona con la poción y su salud aumenta
@@ -143,12 +266,75 @@ class Pocion {
 
 object fabricaDePocion {
 
-    method agregarNuevaPocion() {
-        const pocion = new Pocion()
+    method agregarNuevaPocion(_position) {
+        const pocion = new Pocion(position = _position)
         game.addVisual(pocion)
     }
     
 }
+
+
+/////////////poción////////////////////////
+
+
+/////////////objs no traspasable///////////
+
+class ObjetoNoTraspasable  {
+    const property position
+    
+
+    method image()
+    method colisiono(personaje){}    
+}
+
+class Barril inherits ObjetoNoTraspasable {
+    override method image() {
+        return "barriles.png"
+    }
+}
+
+object fabricaDeBarriles {
+    method agregarNuevoBarril(_position) {
+        const barriles = new Barril(position = _position)
+        game.addVisual(barriles)
+        dungeon.registrarObjetoNoTraspasable(barriles)
+    }
+
+}
+
+class Caja inherits ObjetoNoTraspasable {
+    override method image() {
+        return "cajas.png"
+    }
+}
+
+object fabricaDeCajas {
+    method agregarNuevaCaja(_position) {
+        const cajas = new Caja(position = _position)
+        game.addVisual(cajas)
+        dungeon.registrarObjetoNoTraspasable(cajas)
+    }
+
+}
+
+class Mesa inherits ObjetoNoTraspasable {
+    override method image() {
+        return "mesa.png"
+    }
+}
+
+object fabricaDeMesas {
+    method agregarNuevaMesa(_position) {
+        const mesa = new Mesa(position = _position)
+        game.addVisual(mesa)
+        dungeon.registrarObjetoNoTraspasable(mesa)
+    }
+
+}
+
+/////////////objs no traspasable///////////
+
+///////barras de arriba con info///////////
 
 object salud {
     method position() { return game.at(1, game.height()-1) }
@@ -219,3 +405,5 @@ object barraFuerza {
         }
     }
 }
+
+///////barras de arriba con info///////////

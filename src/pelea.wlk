@@ -30,20 +30,26 @@ object combate {
     method entidadAtacaOTerminaCombate() {  
         if(entidadAtacando.salud() <= 0) {
             self.morirEntidad()
-        } else if (entidadAtacando.estaAturdido()) { //caso en donde el pj acaba de aturdir al enemigo, lo que causa que este pierda su turno
-            entidadAtacando.estaAturdido(false) //se le va el aturdimiento, que solo dura un turno (o sea, pierde nada más un turno)
-            self.cambiarTurnoA(heroe) //a heroe porque el aturdido SIEMPRE va a ser un enemigo
+        } else if (entidadAtacando.estaAturdido()) { //caso donde quien tiene el turno está aturdido, lo que causa que pierda su turno
+            entidadAtacando.sufrirAturdimiento() //se le resta 1 en turnosAturdido 
+            self.cambiarTurnoAQuienCorresponde() //REVISAR
         } else {
             entidadAtacando.atacarPre()
         }
     }
     
-
+    method cambiarTurnoAQuienCorresponde() {
+        if(entidadAtacando.esEnemigo()) {
+            self.cambiarTurnoA(heroe)
+        } else {
+            self.cambiarTurnoA(heroe.enemigoCombatiendo())
+        }
+    }
 
     method morirEntidad() {
-        hayCombate = false
         entidadAtacando.morir()
         game.schedule(805, {barraEstadoPeleas.desaparecerJuntoADemasBarras()}) //con schedule para que se puedan ver animaciones de muerte
+        game.schedule(805, {self.hayCombate(false)})
     }
 
 }
@@ -117,3 +123,4 @@ object turnoTest {
     method text() = "Turno De: " + combate.entidadAtacando()
     method textColor() = paleta.rojo()
 }
+

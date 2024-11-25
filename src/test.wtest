@@ -6,7 +6,6 @@ import randomizer.*
 import posiciones.*
 import paleta.*
 import armas.*
-import paredes.*
 import pelea.*
 import mapa.*
 
@@ -32,20 +31,20 @@ describe "testeo de funcionalidades" {
 
     test "lista de enemigos de la dungeon" {
         fabricaDeOjoVolador.agregarNuevoEnemigo(game.at(20,9), 150, 20)
-	    fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(3,10), 200, 43, visionDerecha) 
-	    fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(26,10), 200, 43, visionIzquierda)
+	    fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(3,10), 200, 43, 3) 
+	    fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(26,10), 200, 43, 3)
 	    fabricaDeGoblin.agregarNuevoEnemigoCon(game.at(15, 14), 95, 37)
         assert.equals(4, dungeon.enemigos().size())
     }
 
-    test "método de game getObjectsIn(pos) y método de mapa limpiar()" {
+    test "método de game getObjectsIn(pos) y método de dungeon limpiarExceptoFondo()" {
         fabricaDeOjoVolador.agregarNuevoEnemigo(game.at(23,15), 150, 20)
         fabricaDeGoblin.agregarNuevoEnemigoCon(game.at(15,14), 95, 37)
-        fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(3,10), 200, 43, visionDerecha) 
-        fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(26,10), 200, 43, visionIzquierda) 
+        fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(3,10), 200, 43, 3) 
+        fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(26,10), 200, 43, 3) 
         assert.equals(1, game.getObjectsIn(game.at(26,10)).size())
         assert.equals(1, game.getObjectsIn(game.at(23,15)).size())
-        mapa.limpiar()
+        dungeon.limpiarTablero()
         assert.equals(0, game.getObjectsIn(game.at(26,10)).size())
         assert.equals(0, game.getObjectsIn(game.at(23,15)).size())
     }

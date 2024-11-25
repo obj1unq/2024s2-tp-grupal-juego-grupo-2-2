@@ -8,19 +8,34 @@ import randomizer.*
 import pelea.*
 import mapa.*
 import animaciones.*
+import niveles.*
 
 object personaje {
+
 	var property position = game.at(14,2)
     var property salud = 300
+
+	var position = game.at(14,2)
+    var property salud = 100
 	var cantVidas = 3
 	var property cantPociones = 3
 	const cantPocionesPermitidas = 3
 	var fuerzaAcumulada = 5
 	const cantArmasPermitidas = 3
 	const property bolsa = []
-	var property armaActual = mano //porque empieza con bolsa vacía
-	const property estaAturdido = false //siempre será falso. se necesita la constante para condicional en el método de hacer turno en pelea 
+	//const property estaAturdido = false //siempre será falso. se necesita la constante para condicional en el método de hacer turno en pelea 
 										//(el que si puede variar es el de los enemigos)
+	var property turnosAturdido = 0
+	const property esEnemigo = false
+
+	method estaAturdido() {
+		return turnosAturdido > 0
+	}
+
+	method sufrirAturdimiento() {
+		turnosAturdido -= 1
+	}
+
 	method position() {
 		return position
 	}
@@ -67,7 +82,6 @@ object personaje {
 		self.validarEquiparArma()
 		game.sound("anadirCosa.mp3").play()
     	bolsa.add(armaNueva) // mete el arma en la bolsa (atrás)
-        self.armaActual(bolsa.head()) // Su arma actual es la primera de la bolsa (si no tenía ninguna, será la nueva)
     }
     
 	method validarEquiparArma() {
@@ -76,9 +90,34 @@ object personaje {
 	  }
 	}
 
-    method armaActual(arma){
-        armaActual = arma
-    }
+	method armaNumero(pos) { //PRECOND: Debe haber pos+1 armas en la bolsa
+		return bolsa.get(pos)
+	}
+
+	method cambiarArmaActual() {
+		self.validarTenenciaArmas()
+		const armaAMover = bolsa.head()
+		bolsa.remove(armaAMover)
+		bolsa.add(armaAMover)
+	}
+
+	method validarTenenciaArmas() {
+		if(bolsa.size() <= 1) {
+			self.error("No hay armas suficientes para hacer el cambio")
+		}
+	}
+
+	method armaActual() {
+		if (bolsa.size() > 0) {
+			return bolsa.head()
+		} else {
+			return mano
+		}
+	}
+
+	method descartarArmaActual() { //PRECOND: Debe haber al menos un arma en la bolsa
+		bolsa.remove(bolsa.head())
+	}
 
 	//MOVIMIENTO
 
@@ -92,6 +131,7 @@ object personaje {
 	method validarMover(posicion) {
 		const siguiente = posicion.siguiente(self.position())
 		dungeon.validarDentro(siguiente)
+		dungeon.validarNoHayObjetoNoTraspasable(siguiente)
 		self.validarMoverPelea()
 	}
 
@@ -136,6 +176,10 @@ object personaje {
 		armaActual.sonidoDelArma()
 		armaActual.realizarActualizacionDeArmas()
         esTurno = false //Indica que ya pasó turno. Sirve para que el personaje no pueda atacar al enemigo cuando no es su turno
+
+		enemigoCombatiendo.recibirDanho(self.armaActual().danho()) 
+		self.armaActual().realizarActualizacionDeArmas()
+     esTurno = false //Indica que ya pasó turno. Sirve para que no pueda atacar al enemigo cuando no es su turno
 		barraEstadoPeleas.image("barraPersonajeAtaqueComun.png")
 		self.sumarFuerzaAcumulada()
 	}
@@ -147,13 +191,14 @@ object personaje {
 		salud = (salud - cantidad).max(0)
 	}
 
-	method actualizarArmaActual() { //esto se ejecuta solamente cuando se descarta el arma actual
-		if(bolsa.size()>1) {
-			armaActual = bolsa.get(1) //pone la 2da de la bolsa como el arma actual (la 1ra es la que se va a descartar)
-		} else {
-			armaActual = mano
-		}
-	}
+
+	//method actualizarArmaActual() { //esto se ejecuta solamente cuando se descarta el arma actual
+	//	if(bolsa.size()>1) {
+	//		armaActual = bolsa.get(1) //pone la 2da de la bolsa como el arma actual (la 1ra es la que se va a descartar)
+	//	} else {
+	//		armaActual = mano
+	//	}
+	//}
 
 	//////////////////////////////////////////////
 	
@@ -236,9 +281,13 @@ object personaje {
 		armaActual.ejecutarHabilidadEspecial()
 		armaActual.realizarActualizacionDeArmas()
 		armaActual.sonidoDelArmaEspecial()
-        esTurno = false //Indica que ya pasó turno. Sirve para que el personaje no pueda atacar al enemigo cuando no es su turno
+    esTurno = false //Indica que ya pasó turno. Sirve para que el personaje no pueda atacar al enemigo cuando no es su turno
 		barraEstadoPeleas.image("barraPersonajeHabilidadEspecial" + armaActual.imagenHabilidadEspecialParaBarra() + ".png")	
 		self.gastarFuerzaAcumulada()
+		self.armaActual().ejecutarHabilidadEspecial()
+		self.armaActual().realizarActualizacionDeArmas()
+    esTurno = false //Indica que ya pasó turno. Sirve para que no pueda atacar al enemigo cuando no es su turno
+		barraEstadoPeleas.image("barraPersonajeHabilidadEspecial" + self.armaActual().imagenHabilidadEspecialParaBarra() + ".png")
 	}
 
 	//////////////////////////////////////////////////////////
@@ -265,16 +314,48 @@ object personaje {
 		game.schedule(1000, {mapa.limpiar()})
 		game.schedule(1000, {gestorDeFondo.image("fondoFin.png")})
 		game.schedule(1100, {game.stop()})
+		game.schedule(1000, {dungeon.limpiarTablero()})
+		game.schedule(1005, {gestorDeFondo.image("fondoFin1.png")})
+		game.schedule(1050, {game.stop()})
 	  } else {
 		self.frame(0)
 		self.animacion(animacionMuerte)
 		game.schedule(1000, {self.frame(0)})
-   		game.schedule(1005, {self.animacion(animacionEstatica)})
-    	game.schedule(1010, {position = game.at(14,2)})
+    game.schedule(1005, {self.animacion(animacionEstatica)})
+    game.schedule(1005, {self.animacion(animacionEstatica)})
+    game.schedule(1010, {position = game.at(14,2)})
 		game.schedule(1010, {self.salud(300)})
 	  }
     
 	}
+
+    //////////////////////////////////////////////////////////////
+
+    //NIVEL
+
+    var enemigosAsesinados = 0
+
+
+    method sumarEnemigoAsesinado(){
+        enemigosAsesinados = enemigosAsesinados + 1
+    }
+
+    method pasarNivel(){
+        console.println("PJ entró a la puerta")
+        self.volverAPosicionSpawneos()
+        enemigosAsesinados = 0
+        game.schedule(200, {dungeon.pasarNivel()})
+    }
+
+    method enemigosAsesinados(){
+        return enemigosAsesinados
+    }
+
+    method volverAPosicionSpawneos() {
+        position = game.at(14,2)
+    }
+
+
 
 }
 

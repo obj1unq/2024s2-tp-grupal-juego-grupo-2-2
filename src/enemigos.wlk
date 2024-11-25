@@ -119,6 +119,14 @@ class Enemigo {
     method cambiarAnimacion() {
         animacion.cambiarAnimacion(self)
     }
+
+
+    
+
+    ////PARA TESTS
+    method acumuladorDeTurnos(_acumuladorDeTurnos){
+        acumuladorDeTurnos = _acumuladorDeTurnos
+    }
       
 }
 

@@ -74,28 +74,56 @@ describe "Combate"{
 
     test "Pj y enemigo ataque comun" {
         goblin.colisiono(personaje)
-        personaje.realizarAtaqueComun()
-        assert.equals(95, goblin.salud())
+        //suponemos que el enemigo ataca...
+        combate.cambiarTurnoA(personaje)
 
-        goblin.realizarAtaqueNormalOHabilidad()
+        assert.doesNotThrowException( {personaje.hacerTurnoAtaqueComun()})
+        personaje.realizarAtaqueComun() //schedule
+        assert.equals(95, goblin.salud())
+        
+        combate.cambiarTurnoA(goblin) //schedule
+
+        assert.doesNotThrowException( {goblin.realizarAtaqueNormalOHabilidad() } )
         assert.equals(270, personaje.salud())
     }
 
     test "Pj y enemigo ataque especial" {
-        goblin.colisiono(personaje)
-
         espada.nivel(1)
         personaje.equiparArma(espada)
 
-        personaje.realizarHabilidadEspecial()
+        goblin.colisiono(personaje)
+        //suponemos que el enemigo ataca...
+        combate.cambiarTurnoA(personaje)
+
+       assert.doesNotThrowException( {personaje.hacerTurnoHabilidadEspecial() }) //puede hacer ataque especial
+        personaje.realizarHabilidadEspecial() //schedule
         assert.equals(62, goblin.salud())
 
-        goblin.utilizarHabilidad()
+
+        combate.cambiarTurnoA(goblin) //schedule
+        goblin.acumuladorDeTurnos(2)
+        assert.doesNotThrowException( {goblin.realizarAtaqueNormalOHabilidad()} ) //puede hacer ataque especial
+        
         assert.equals(210, personaje.salud())
     }
 
     test "Pj no puede atacar porque no hay combate"{
             assert.throwsException({ personaje.realizarAtaqueComun() })
+    }
+
+    test "Pj se cura"{
+        goblin.colisiono(personaje) //empieza combate
+
+        assert.equals(300, personaje.salud())
+
+        goblin.utilizarHabilidad()
+        assert.equals(210, personaje.salud())
+        combate.cambiarTurnoA(personaje)
+
+        personaje.hacerTurnoPocion()
+        personaje.usarPocionSalud() //esta en un schedule
+        assert.equals(360, personaje.salud())
+
     }
 
     test "enemigo muere"{
@@ -121,5 +149,21 @@ describe "Combate"{
 
         assert.notThat( !dungeon.enemigos().isEmpty()  )
 
+    }
+}
+
+describe "mas ideas"{
+    test "crea un arma y esta en la posicion dada"{
+        const arma = new Lanza(position = game.at(20,3), durabilidad = 120.randomUpTo(150).round())
+        game.addVisual(arma)
+
+        assert.equals([arma], game.getObjectsIn(game.at(20,3)) ) 
+    }
+
+    test"crea enemigo y esta en la posicion dada" {
+        fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(3,10), 200, 43, 3) 
+
+        assert.that( dungeon.hayEnemigoEn(game.at(3,10)) )
+        assert.notThat( dungeon.hayEnemigoEn(game.at(20,19)) )
     }
 }

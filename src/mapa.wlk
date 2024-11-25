@@ -141,12 +141,6 @@ object x { //donde no se pueden poner cosas porque ahi pared
 }
 
 
-object enemigosAsesinadosNivelActual {
-    method position() = game.at(27,22)
-    method text() = "Asesinados: " + personaje.enemigosAsesinados().toString()
-    method textColor() = paleta.rojo()
-}
-
 object puerta {
 
     var property position =  game.at(16,19) 

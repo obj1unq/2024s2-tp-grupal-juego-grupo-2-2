@@ -124,7 +124,6 @@ object dungeon {
     //Dibujar
     method dibujar(){
     //OBJETOS CON LOS QUE NO SE INTERACTUA
-	//gestorDeFondo.image("fondoNivel1.png")
 	game.addVisual(indicadorDeObjetos)
 	game.addVisual(primeraArma)
 	game.addVisual(segundaArma)
@@ -134,13 +133,11 @@ object dungeon {
 	game.addVisual(pociones)
 	game.addVisual(barraFuerza)
 
-
-    game.addVisual(enemigosAsesinadosNivelActual)
-
 	
 	//PERSONAJE
-	game.addVisual(personaje)
     game.addVisual(puerta)
+	game.addVisual(personaje)
+    
     }
 
 }
@@ -252,7 +249,7 @@ object terceraArma inherits VisualArmaDeBolsa(posBolsa=3) {
 /////////////poción////////////////////////
 
 class Pocion {
-    const property position //= randomizer.posicionRandomDePocion()
+    const property position 
     const property image = "pocion-32Bits.png"
 
     // El personaje colisiona con la poción y su salud aumenta

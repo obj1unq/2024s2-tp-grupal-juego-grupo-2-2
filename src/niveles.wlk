@@ -78,7 +78,6 @@ object nivel2 inherits Nivel(enemigosSpawneados = 1){
                 ].reverse()
     }
      override method pasarNivel() {
-        //self.validarPasarNivel()
         super()
         arenaJefe.dibujar()
     }
@@ -115,10 +114,11 @@ object arenaJefe inherits Nivel(enemigosSpawneados = 1) {
                 ].reverse()
     }
 
-     override method pasarNivel() { //no olvidemos que falta tocar esto para que salga la pantalla final de victoria!!
-        //self.limpiarTablero() este vuelve a hacer dungeon.dibujar(). el de abajo solo borra y listo. así mejor, no?? más eficiente
+     override method pasarNivel() { 
         self.limpiarTablero()
-        //agregar el fondo que corresponda
-        game.stop()
+        gestorDeFondo.image("fondoFinal1.png")
+        game.schedule(7000, {gestorDeFondo.image("fondoFinal4.png")})
+        game.schedule(14000, {gestorDeFondo.image("fondoFinal5.png")})
+        game.schedule(15000, {game.stop()})
     }
 }

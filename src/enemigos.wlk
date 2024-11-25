@@ -152,8 +152,8 @@ class Enemigo {
 
 /////////////  JEFE FINAL ///////////////////////////
 
-class Jefe inherits Enemigo(turnoRequeridoParaHabilidad = 6) {// puse que el turno requerido sea 6 porque pensaba en una hab tocha
-                                                              // y en la necesidad de tener que matarlo antes de esta
+class Jefe inherits Enemigo(turnoRequeridoParaHabilidad = 6) {// Turno requerido 6 porque tiene habilidades fuertes y 
+                                                              // queremos generar la necesidad de matarlo antes que esta 
 
     var fase 
 
@@ -167,10 +167,8 @@ class Jefe inherits Enemigo(turnoRequeridoParaHabilidad = 6) {// puse que el tur
 
 }
 
-//FASES DEL JEFE // DATOS DE PRUEBA
+//FASES DEL JEFE 
 
-//Al Jefe en Fase 1 imagino que al hacer el mapa final, le haremos un clear() a la lista de enemigos de la dungeon
-//y la iniciaremos con el
 
 object jefeFase1 inherits Jefe(danhoBase = 40, position = game.at(11, 8), salud = 300, fase = 1 ) {
 
@@ -199,7 +197,7 @@ object jefeFase1 inherits Jefe(danhoBase = 40, position = game.at(11, 8), salud 
     }
 }
 
-object jefeFase2 inherits Jefe(danhoBase = 80, position = game.at(11, 8), salud = 500, fase = 2 ) {
+object jefeFase2 inherits Jefe(danhoBase = 80, position = game.at(11, 8), salud = 450, fase = 2 ) {
 
     override method utilizarHabilidad() { //Acá quiero que el personaje pierda dos turnos
         objetivoADestruir.recibirDanho(danhoBase)

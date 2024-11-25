@@ -116,6 +116,8 @@ object arenaJefe inherits Nivel(enemigosSpawneados = 1) {
 
      override method pasarNivel() { 
         self.limpiarTablero()
+        dungeon.detenerMusicaAmbiente()
+        game.sound("musicaFinal.mp3").play()
         gestorDeFondo.image("fondoFinal1.png")
         game.schedule(7000, {gestorDeFondo.image("fondoFinal4.png")})
         game.schedule(14000, {gestorDeFondo.image("fondoFinal5.png")})

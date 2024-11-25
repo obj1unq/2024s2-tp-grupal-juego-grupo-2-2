@@ -70,16 +70,19 @@ object dungeon {
     }
     
     //Pasar nivel
-    var nivelActual = niveles.get(nivelNum) //se puede resolver con postcálculo, no?
     var nivelNum = 0
     const niveles = [nivel1, nivel2, arenaJefe]
 
+    method nivelActual() {
+        return niveles.get(nivelNum)
+    } 
+
     method limpiarTablero() {
-        nivelActual.limpiarTablero()
+        self.nivelActual().limpiarTablero()
     }
 
     method abrirPuertaSiSePuede(){
-        if(personaje.enemigosAsesinados() >= nivelActual.enemigosSpawneados()){
+        if(personaje.enemigosAsesinados() >= self.nivelActual().enemigosSpawneados()){
             puerta.abrirPuerta()
             console.println("estaAbierta")
         }
@@ -98,12 +101,7 @@ object dungeon {
     method pasarNivel(){
         self.removerEnemigos()  //sin esto la lista de enemigos de la dungeon tiene enemigos dentro que se cargar invisibles si Quedan despues de pasar de nivel
         self.removerObjetosNoTraspasables() //este sí va!! si no, los objetos quedan intraspasables para los siguientes lvls
-        nivelActual.pasarNivel()
-        nivelActual = niveles.get(nivelNum) //si se resuelve con postcálculo, se evita esto
-    }
-
-    method nivelActual(){
-        return nivelActual
+        self.nivelActual().pasarNivel()
     }
 
     //Dibujar

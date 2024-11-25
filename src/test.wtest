@@ -166,4 +166,18 @@ describe "mas ideas"{
         assert.that( dungeon.hayEnemigoEn(game.at(3,10)) )
         assert.notThat( dungeon.hayEnemigoEn(game.at(20,19)) )
     }
+
+    test "agarra pocion" {
+        //suponemos que termino el combate y usó una pocionn...
+        personaje.usarPocionSalud()
+        assert.equals(2, personaje.cantPociones())
+
+        const poti = new Pocion(position = game.at(1,1))
+        game.addVisual(poti)
+
+        poti.colisiono(personaje)
+        assert.equals(3, personaje.cantPociones())
+
+    }
+
 }

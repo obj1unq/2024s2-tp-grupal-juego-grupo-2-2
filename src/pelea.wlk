@@ -29,10 +29,10 @@ object combate {
 
     method entidadAtacaOTerminaCombate() {  
         if(entidadAtacando.salud() <= 0) {
-            self.morirEntidad()
+            entidadAtacando.morir()
         } else if (entidadAtacando.estaAturdido()) { //caso donde quien tiene el turno está aturdido, lo que causa que pierda su turno
             entidadAtacando.sufrirAturdimiento() //se le resta 1 en turnosAturdido 
-            self.cambiarTurnoAQuienCorresponde() //REVISAR
+            self.cambiarTurnoAQuienCorresponde()
         } else {
             entidadAtacando.atacarPre()
         }
@@ -44,12 +44,6 @@ object combate {
         } else {
             self.cambiarTurnoA(heroe.enemigoCombatiendo())
         }
-    }
-
-    method morirEntidad() {
-        entidadAtacando.morir()
-        game.schedule(805, {barraEstadoPeleas.desaparecerJuntoADemasBarras()}) //con schedule para que se puedan ver animaciones de muerte
-        game.schedule(805, {self.hayCombate(false)})
     }
 
 }

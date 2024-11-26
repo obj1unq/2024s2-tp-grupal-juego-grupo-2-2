@@ -9,6 +9,7 @@ import pelea.*
 import mapa.*
 import animaciones.*
 import niveles.*
+import estado.*
 
 object personaje {
 	var position = game.at(14,2)
@@ -21,14 +22,7 @@ object personaje {
 	const property bolsa = []
 	var property turnosAturdido = 0
 	const property esEnemigo = false
-
-	method estaAturdido() {
-		return turnosAturdido > 0
-	}
-
-	method sufrirAturdimiento() {
-		turnosAturdido -= 1
-	}
+	var estado = estatico
 
 	method position() {
 		return position
@@ -44,6 +38,18 @@ object personaje {
 
 	method fuerzaAcumulada() {
 		return fuerzaAcumulada
+	}
+
+	method estaAturdido() {
+		return turnosAturdido > 0
+	}
+
+	method sufrirAturdimiento() {
+		turnosAturdido -= 1
+	}
+
+	method estado(_estado) {
+		estado = _estado
 	}
 
 	//ANIMACIONES
@@ -73,7 +79,7 @@ object personaje {
 
 	/// ARMA    
     method equiparArma(armaNueva){
-		self.validarEquiparArma()
+		self.validarEquiparArma() //valida que no tenga 3 armas (si tiene 3, no la equipa)
 		game.sound("anadirCosa.mp3").play()
     	bolsa.add(armaNueva) // mete el arma en la bolsa (atrás)
     }
@@ -135,7 +141,7 @@ object personaje {
 		}
 	}
 
-	//COMBATE / PELEA (y habilidades, ya sean ataque común, curación con poción o habilidad especial)
+	//COMBATE / PELEA (y habilidades/movimientos, ya sean ataque común, curación con poción o habilidad especial)
     var property enemigoCombatiendo = null //el enemigo con quien está en combate
 	var esTurno = false //si es su turno en un combate
 
@@ -144,7 +150,7 @@ object personaje {
     }
 
     method atacarPre() {
-        esTurno = true //esto da luz verde a que el usuario pueda ejecutar una habilidad (lo que no se puede hacer si no estás en combate)
+        esTurno = true //esto da luz verde a que el usuario pueda realizar un turno (lo que no se puede hacer si no estás en combate)
     }
 
 	////////////ATAQUE COMÚN//////////////////////
@@ -152,18 +158,24 @@ object personaje {
 	method hacerTurnoAtaqueComun() {
         self.validarHacerTurno() // para que no le pegue a x enemigo cuando no está peleando / no es su turno / ya se encuentra haciendo turno
 		self.frame(0)
-		self.animacion(animacionCombate)
-		game.schedule(800, {self.frame(0)})
-		game.schedule(805, {self.animacion(animacionEstatica)})
-		game.schedule(800, {self.realizarAtaqueComun()})
-		game.schedule(810, {combate.cambiarTurnoA(enemigoCombatiendo)}) //como ya terminó el turno del pj, se cambia el turno al enemigo
+		self.estado(golpeando)
+		self.animacion(animacionCombate) //cambia su tipo de animación a la correspondiente
+		game.schedule(800, {self.terminarHacerTurno()}) //dentro de 0,8 seg para que se pueda ver la animación primero
 	}
 
 	method validarHacerTurno() {
-        if(!self.estaEnCombate() || !esTurno || animacion!=animacionEstatica){
+        if(!self.estaEnCombate() || !esTurno || !estado.puedeHacerTurno()){
             self.error("No puedo ejecutar una habilidad ahora")
         }
     }
+
+	method terminarHacerTurno() {
+		estado.realizarAccionCorrespondiente() //si es golpeando, será realizarAtaqueComun(), si es haciendoHabilidad, será realizarHabilidadEspecial(), y si es curandose, será usarPocionSalud()
+		self.frame(0)
+		self.estado(estatico) //luego de mostrados los frames de la animación, se setea la default
+		self.animacion(animacionEstatica)
+		combate.cambiarTurnoA(enemigoCombatiendo) //ya terminado el turno del pj, se cambia el turno al enemigo, que ejecutará su movimiento (o morirá si se quedó sin vida)
+	}
 
 	method realizarAtaqueComun() {
 		enemigoCombatiendo.recibirDanho(self.armaActual().danho()) 
@@ -175,7 +187,7 @@ object personaje {
 	}
 
 	method recibirDanho(cantidad) {
-		if(cantidad < salud) { //si NO se muere (porque, al morir, ya hace otro sonido distinto)
+		if(cantidad < salud) { //solo se ejecuta si personaje NO se muere (porque, al morir, ya hace otro sonido distinto)
 			game.sound("ouch1.mp3").play() 
 		}
 		salud = (salud - cantidad).max(0)
@@ -186,7 +198,7 @@ object personaje {
 	////////////USO DE POCIÓN SALUD///////////////
 
 	method agregarPocion() {
-		self.validarAgregarPocion() // valida si ya tiene 3 en el inventario y no la agarra.
+		self.validarAgregarPocion() // valida si ya tiene 3 en el inventario (de ser así, no la agarra)
 		game.sound("anadirCosa.mp3").play()
 		cantPociones += 1 
 	}
@@ -201,11 +213,9 @@ object personaje {
 		self.validarHacerTurno() // para que no se cure en combate cuando no está peleando / no es su turno / ya se encuentra haciendo turno
 		self.validarPociones()
 		self.frame(0)
+		self.estado(curandose)
 		self.animacion(animacionCurar) 
-		game.schedule(800, {self.frame(0)})
-		game.schedule(805, {self.animacion(animacionEstatica)})
-		game.schedule(800, {self.usarPocionSalud()})
-		game.schedule(810, {combate.cambiarTurnoA(enemigoCombatiendo)})   //como ya terminó el turno del pj, se cambia el turno al enemigo
+		game.schedule(800, {self.terminarHacerTurno()}) //dentro de 0,8 seg para que se pueda ver la animación primero
 	}
 
 	method usarPocionSalud() {
@@ -239,17 +249,14 @@ object personaje {
 		fuerzaAcumulada = 0
 	}
 
-	//modificar
 	method hacerTurnoHabilidadEspecial() {
 		self.validarHacerTurno() // para que no use hab especial cuando no está peleando / no es su turno / ya se encuentra haciendo turno
 		self.validarFuerzaAcumulada()
-		self.frame(0)
-		self.animacion(animacionCombate)
-		game.schedule(800, {self.frame(0)})
-		game.schedule(805, {self.animacion(animacionEstatica)})
-		game.schedule(800, {self.realizarHabilidadEspecial()})
 		game.sound("habilidadEspecialPersonaje.mp3").play() //sonido que nos avisa de que se uso la habilidad especial.
-		game.schedule(810, {combate.cambiarTurnoA(enemigoCombatiendo)})   //como ya terminó el turno del pj, se cambia el turno al enemigo
+		self.frame(0)
+		self.estado(haciendoHabilidad)
+		self.animacion(animacionCombate) 
+		game.schedule(800, {self.terminarHacerTurno()}) //dentro de 0,8 seg para que se pueda ver la animación primero
 	}
 
 	method validarFuerzaAcumulada() {
@@ -273,32 +280,45 @@ object personaje {
 	method morir() {
 		self.perderVida() // pierde una vida
 		game.sound("muertepj.mp3").play()
-		self.revivirOFinalizarPartida() // revisa si el pj está muerto (no tiene más vidas) o no y actua en consecuencia
+		self.revivirOFinalizarPartida() // revisa si personaje está muerto (no tiene más vidas) o no y actua en consecuencia
 	}
 
-	method perderVida() { //se pierde una vida cuando la salud del pj llega a 0
+	method perderVida() { //se pierde una vida cuando la salud de personaje llega a 0
 	  cantVidas -= 1
 	}
 
 	method revivirOFinalizarPartida() {
   
-	  if (cantVidas <= 0) {
+	  if (cantVidas <= 0) { //caso finalizar partida
     	self.frame(0)
+		self.estado(muriendo)
 		self.animacion(animacionMuerte)
-		game.schedule(900, {game.sound("perdio2.wav").play()})
-		game.schedule(600, {dungeon.detenerMusicaAmbiente()}) //parece q el método stop (tmb pause) tarda en ejecutarse. hay que darle tiempo
-		game.schedule(1000, {dungeon.limpiarTablero()})
-		game.schedule(1010, {gestorDeFondo.image("fondoFin1.png")})
-		game.schedule(1050, {game.stop()})
-	  } else {
+		game.schedule(1000, {self.terminarFinalizarPartida()})
+	  } else { //caso revivir
 		self.frame(0)
+		self.estado(muriendo)
 		self.animacion(animacionMuerte)
-		game.schedule(1000, {self.frame(0)})
-    	game.schedule(1005, {self.animacion(animacionEstatica)})
-    	game.schedule(1010, {position = game.at(14,2)})
-		game.schedule(1010, {self.salud(300)})
+		game.schedule(1000, {self.terminarRevivir()})
 	  }
     
+	}
+
+	method terminarRevivir() {
+		position = game.at(14,2)
+		combate.hayCombate(false)
+		barraEstadoPeleas.desaparecerJuntoADemasBarras()
+		self.frame(0)
+		self.estado(estatico)
+		self.animacion(animacionEstatica)
+		self.salud(300)
+	}
+
+	method terminarFinalizarPartida() {
+		dungeon.detenerMusicaAmbiente()
+		game.sound("perdio2.wav").play()
+		dungeon.limpiarTablero()
+		gestorDeFondo.image("fondoFin1.png")
+		game.schedule(250, {game.stop()}) //con schedule porque, si no, no llegan a ejecutarse efectivamente los métodos de sonido
 	}
 
     //////////////////////////////////////////////////////////////
@@ -327,8 +347,5 @@ object personaje {
         position = game.at(14,2)
     }
 
-
-
 }
-
 

@@ -10,6 +10,7 @@
 ## Capturas
 
 ![Titulo](fondoTitulo1.png)
+![Captura Nivel 1](capturaParaReadme.png)
 
 ## Reglas de Juego / Instrucciones
 

@@ -32,7 +32,7 @@ object combate {
             self.morirEntidad()
         } else if (entidadAtacando.estaAturdido()) { //caso donde quien tiene el turno está aturdido, lo que causa que pierda su turno
             entidadAtacando.sufrirAturdimiento() //se le resta 1 en turnosAturdido 
-            self.cambiarTurnoAQuienCorresponde() //REVISAR
+            self.cambiarTurnoAQuienCorresponde()
         } else {
             entidadAtacando.atacarPre()
         }

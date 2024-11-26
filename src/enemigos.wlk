@@ -37,10 +37,18 @@ class Enemigo {
     }
     
     method iniciarCombate() { 
-
-        position = position.left(self.distanciaAlPersonaje()) //se posiciona a la izquierda del personaje
+        position = self.nuevaPosicionParaCombate()
         combate.iniciarCombate(self) //prepara el combate, la info necesaria y le hace saber a este que él(enemigo/self) será quien empieza
+    }
 
+    method nuevaPosicionParaCombate() { //se posiciona a la izquierda del personaje SI ES POSIBLE (debe estar dentro de los bordes y no debe haber otra cosa en la celda)
+        if(!dungeon.hayAlgoEn(position.left(2)) && dungeon.estaDentro(position.left(2))) {
+            return position.left(2)
+        } else if(!dungeon.hayAlgoEn(position.left(1)) && dungeon.estaDentro(position.left(1))) {
+            return position.left(1)
+        } else {
+            return position
+        }
     }
 
     method distanciaAlPersonaje() {

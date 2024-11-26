@@ -136,7 +136,7 @@ object dungeon {
 	
 	//PERSONAJE
     game.addVisual(puerta)
-	game.addVisual(personaje)
+	
     
     }
 

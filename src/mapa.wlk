@@ -29,6 +29,7 @@ class Nivel {
         })
         
         console.println("Dibujado.")
+        game.addVisual(personaje)
        
     }
 

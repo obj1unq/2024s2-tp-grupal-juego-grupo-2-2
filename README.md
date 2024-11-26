@@ -9,7 +9,8 @@
 
 ## Capturas
 
-(agregar)
+![Titulo](fondoTitulo1.png)
+![Captura Nivel 1](capturaParaReadme.png)
 
 ## Reglas de Juego / Instrucciones
 
@@ -25,4 +26,4 @@
 
 - Programacion Con Objetos 1 (Comision 2) / UNQ (Universidad Nacional de Quilmes)
 - Versión de wollok 0.2.7
-- Una vez terminado, no tenemos problemas en que el repositorio sea público / queremos manternerlo privado (aún no decidido)
+- Una vez terminado, no tenemos problemas en que el repositorio sea público

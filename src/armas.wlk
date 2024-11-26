@@ -30,7 +30,11 @@ class Arma {
 
 class ArmaEncontrable inherits Arma {
     var property position
-    const nivel = 1.randomUpTo(3).round() 
+    var nivel = 1.randomUpTo(3).round() //se cambia a variable para poder realizar los test
+
+    method nivel(_nivel) { // solo se utiliza para los test
+        nivel = _nivel
+    }
 
     method image()
 
@@ -53,16 +57,12 @@ class ArmaEncontrable inherits Arma {
             game.removeVisual(self)
         }
     }
-
-    // Para test
-    /* method text(){ return "Dur: " + self.durabilidad().toString() + "\nLvl: " + nivel.toString()}
-    method textColor() = paleta.gris() */
 }
 
 class Espada inherits ArmaEncontrable {
 
     override method danho() {
-        return 35 + nivel * 3
+        return 35 + nivel * 6
     }
 
     override method image() {
@@ -100,7 +100,7 @@ class Espada inherits ArmaEncontrable {
 class Lanza inherits ArmaEncontrable {
 
     override method danho() {
-        return 20 + nivel * 3
+        return 25 + nivel * 6
     }
         override method image() {
         return "lanzaNivel" + nivel.toString() + ".png"
@@ -136,7 +136,7 @@ class Lanza inherits ArmaEncontrable {
 class Maza inherits ArmaEncontrable {
 
     override method danho() {
-        return 80 + nivel * 3
+        return 60 + nivel * 6
     }
 
     override method image() {

@@ -176,19 +176,10 @@ object personaje {
 
 	method recibirDanho(cantidad) {
 		if(cantidad < salud) { //si NO se muere (porque, al morir, ya hace otro sonido distinto)
-			game.sound("ouch1.mp3").play() // esta cn el primer ocuh pq el otro no lo toma.
+			game.sound("ouch1.mp3").play() 
 		}
 		salud = (salud - cantidad).max(0)
 	}
-
-
-	//method actualizarArmaActual() { //esto se ejecuta solamente cuando se descarta el arma actual
-	//	if(bolsa.size()>1) {
-	//		armaActual = bolsa.get(1) //pone la 2da de la bolsa como el arma actual (la 1ra es la que se va a descartar)
-	//	} else {
-	//		armaActual = mano
-	//	}
-	//}
 
 	//////////////////////////////////////////////
 	

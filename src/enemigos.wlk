@@ -55,17 +55,21 @@ class Enemigo {
 
         if(self.estaEnvenenado() && salud <= danhoPorVeneno) {
             self.recibirDanho(danhoPorVeneno)
-            combate.morirEntidad() 
+            self.morir()
         } else { 
             self.frame(0)
             self.animacion(animacionCombate)
-            game.schedule(1600, {self.frame(0)})
-            game.schedule(1605, {self.animacion(animacionEstatica)})
-            game.schedule(1600, {self.realizarAtaqueNormalOHabilidad()}) //esto se encarga del ataque/habilidad y de sumar +1 a acumuladorDeTurnos
-            game.schedule(1600, {self.sufrirVenenoSiCorresponde()}) //este es el caso donde, si hay daño por veneno, NO va a ser mortal
-            game.schedule(1610, {combate.cambiarTurnoA(objetivoADestruir)})
+            game.schedule(1600, {self.terminarHacerTurno()}) //dentro de 1,6 seg para que se pueda ver la animación primero
         }
         
+    }
+
+    method terminarHacerTurno() {
+        self.sufrirVenenoSiCorresponde() //este es el caso donde, si hay daño por veneno, NO va a ser mortal
+        self.realizarAtaqueNormalOHabilidad() //esto se encarga del ataque/habilidad y de sumar +1 a acumuladorDeTurnos
+        self.frame(0)
+        self.animacion(animacionEstatica)
+        combate.cambiarTurnoA(objetivoADestruir)
     }
     
     method realizarAtaqueNormalOHabilidad() { 
@@ -106,7 +110,7 @@ class Enemigo {
 
         self.frame(0)
         self.animacion(animacionMuerte)
-        game.schedule(800, {self.terminarMorir()})
+        game.schedule(800, {self.terminarMorir()}) //dentro de 0,8 seg para que se pueda ver la animación primero
     }
 
     method terminarMorir() {

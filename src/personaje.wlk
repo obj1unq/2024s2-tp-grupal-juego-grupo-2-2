@@ -160,7 +160,7 @@ object personaje {
 		self.frame(0)
 		self.estado(golpeando)
 		self.animacion(animacionCombate) //cambia su tipo de animación a la correspondiente
-		game.schedule(800, {self.terminarHacerTurno()})
+		game.schedule(800, {self.terminarHacerTurno()}) //dentro de 0,8 seg para que se pueda ver la animación primero
 	}
 
 	method validarHacerTurno() {
@@ -172,9 +172,9 @@ object personaje {
 	method terminarHacerTurno() {
 		estado.realizarAccionCorrespondiente() //si es golpeando, será realizarAtaqueComun(), si es haciendoHabilidad, será realizarHabilidadEspecial(), y si es curandose, será usarPocionSalud()
 		self.frame(0)
-		self.estado(estatico)
+		self.estado(estatico) //luego de mostrados los frames de la animación, se setea la default
 		self.animacion(animacionEstatica)
-		combate.cambiarTurnoA(enemigoCombatiendo)
+		combate.cambiarTurnoA(enemigoCombatiendo) //ya terminado el turno del pj, se cambia el turno al enemigo, que ejecutará su movimiento (o morirá si se quedó sin vida)
 	}
 
 	method realizarAtaqueComun() {
@@ -215,7 +215,7 @@ object personaje {
 		self.frame(0)
 		self.estado(curandose)
 		self.animacion(animacionCurar) 
-		game.schedule(800, {self.terminarHacerTurno()})
+		game.schedule(800, {self.terminarHacerTurno()}) //dentro de 0,8 seg para que se pueda ver la animación primero
 	}
 
 	method usarPocionSalud() {
@@ -256,7 +256,7 @@ object personaje {
 		self.frame(0)
 		self.estado(haciendoHabilidad)
 		self.animacion(animacionCombate) 
-		game.schedule(800, {self.terminarHacerTurno()})
+		game.schedule(800, {self.terminarHacerTurno()}) //dentro de 0,8 seg para que se pueda ver la animación primero
 	}
 
 	method validarFuerzaAcumulada() {

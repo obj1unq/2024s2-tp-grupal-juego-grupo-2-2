@@ -158,13 +158,16 @@ object personaje {
 	method hacerTurnoAtaqueComun() {
         self.validarHacerTurno() // para que no le pegue a x enemigo cuando no está peleando / no es su turno / ya se encuentra haciendo turno
 		self.frame(0)
-		self.estado(combatiendo)
+		self.estado(golpeando)
 		self.animacion(animacionCombate) //cambia su tipo de animación a la correspondiente
+		game.schedule(800, {self.terminarHacerTurno()})
+		/*
 		game.schedule(800, {self.frame(0)})
 		game.schedule(805, {self.estado(estatico)})
 		game.schedule(805, {self.animacion(animacionEstatica)}) //luego de mostrados los frames de la animación, se setea la default
 		game.schedule(800, {self.realizarAtaqueComun()})
 		game.schedule(810, {combate.cambiarTurnoA(enemigoCombatiendo)}) //como ya terminó el turno del pj, se cambia el turno al enemigo
+		*/
 	}
 
 	method validarHacerTurno() {
@@ -172,6 +175,14 @@ object personaje {
             self.error("No puedo ejecutar una habilidad ahora")
         }
     }
+
+	method terminarHacerTurno() {
+		estado.realizarAccionCorrespondiente() //si es golpeando, será realizarAtaqueComun(), si es haciendoHabilidad, será realizarHabilidadEspecial(), y si es curandose, será usarPocionSalud()
+		self.frame(0)
+		self.estado(estatico)
+		self.animacion(animacionEstatica)
+		combate.cambiarTurnoA(enemigoCombatiendo)
+	}
 
 	method realizarAtaqueComun() {
 		enemigoCombatiendo.recibirDanho(self.armaActual().danho()) 
@@ -211,11 +222,14 @@ object personaje {
 		self.frame(0)
 		self.estado(curandose)
 		self.animacion(animacionCurar) 
+		game.schedule(800, {self.terminarHacerTurno()})
+		/*
 		game.schedule(800, {self.frame(0)})
 		game.schedule(805, {self.estado(estatico)})
 		game.schedule(805, {self.animacion(animacionEstatica)})
 		game.schedule(800, {self.usarPocionSalud()})
 		game.schedule(810, {combate.cambiarTurnoA(enemigoCombatiendo)})   //como ya terminó el turno del pj, se cambia el turno al enemigo
+		*/
 	}
 
 	method usarPocionSalud() {
@@ -254,13 +268,16 @@ object personaje {
 		self.validarFuerzaAcumulada()
 		game.sound("habilidadEspecialPersonaje.mp3").play() //sonido que nos avisa de que se uso la habilidad especial.
 		self.frame(0)
-		self.estado(combatiendo)
+		self.estado(haciendoHabilidad)
 		self.animacion(animacionCombate) 
+		game.schedule(800, {self.terminarHacerTurno()})
+		/*
 		game.schedule(800, {self.frame(0)})
 		game.schedule(805, {self.estado(estatico)})
 		game.schedule(805, {self.animacion(animacionEstatica)})
 		game.schedule(800, {self.realizarHabilidadEspecial()})
 		game.schedule(810, {combate.cambiarTurnoA(enemigoCombatiendo)})   //como ya terminó el turno del pj, se cambia el turno al enemigo
+		*/
 	}
 
 	method validarFuerzaAcumulada() {

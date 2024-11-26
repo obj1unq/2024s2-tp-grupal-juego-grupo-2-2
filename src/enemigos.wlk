@@ -38,8 +38,8 @@ class Enemigo {
     
     method iniciarCombate() { 
 
-        position = position.left(self.distanciaAlPersonaje())    //se posiciona dos celdas a la izquierda del personaje
-        combate.iniciarCombate(self)    //prepara el combate, la info necesaria y le hace saber que él(enemigo/self) será quien empieza
+        position = position.left(self.distanciaAlPersonaje()) //se posiciona a la izquierda del personaje
+        combate.iniciarCombate(self) //prepara el combate, la info necesaria y le hace saber a este que él(enemigo/self) será quien empieza
 
     }
 

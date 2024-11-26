@@ -9,6 +9,7 @@ import pelea.*
 import mapa.*
 import animaciones.*
 import niveles.*
+import estado.*
 
 object personaje {
 	var position = game.at(14,2)
@@ -21,6 +22,7 @@ object personaje {
 	const property bolsa = []
 	var property turnosAturdido = 0
 	const property esEnemigo = false
+	var estado = estatico
 
 	method position() {
 		return position
@@ -44,6 +46,10 @@ object personaje {
 
 	method sufrirAturdimiento() {
 		turnosAturdido -= 1
+	}
+
+	method estado(_estado) {
+		estado = _estado
 	}
 
 	//ANIMACIONES
@@ -152,15 +158,17 @@ object personaje {
 	method hacerTurnoAtaqueComun() {
         self.validarHacerTurno() // para que no le pegue a x enemigo cuando no está peleando / no es su turno / ya se encuentra haciendo turno
 		self.frame(0)
+		self.estado(combatiendo)
 		self.animacion(animacionCombate) //cambia su tipo de animación a la correspondiente
 		game.schedule(800, {self.frame(0)})
+		game.schedule(805, {self.estado(estatico)})
 		game.schedule(805, {self.animacion(animacionEstatica)}) //luego de mostrados los frames de la animación, se setea la default
 		game.schedule(800, {self.realizarAtaqueComun()})
 		game.schedule(810, {combate.cambiarTurnoA(enemigoCombatiendo)}) //como ya terminó el turno del pj, se cambia el turno al enemigo
 	}
 
 	method validarHacerTurno() {
-        if(!self.estaEnCombate() || !esTurno || animacion!=animacionEstatica){
+        if(!self.estaEnCombate() || !esTurno || !estado.puedeHacerTurno()){
             self.error("No puedo ejecutar una habilidad ahora")
         }
     }
@@ -201,8 +209,10 @@ object personaje {
 		self.validarHacerTurno() // para que no se cure en combate cuando no está peleando / no es su turno / ya se encuentra haciendo turno
 		self.validarPociones()
 		self.frame(0)
+		self.estado(curandose)
 		self.animacion(animacionCurar) 
 		game.schedule(800, {self.frame(0)})
+		game.schedule(805, {self.estado(estatico)})
 		game.schedule(805, {self.animacion(animacionEstatica)})
 		game.schedule(800, {self.usarPocionSalud()})
 		game.schedule(810, {combate.cambiarTurnoA(enemigoCombatiendo)})   //como ya terminó el turno del pj, se cambia el turno al enemigo
@@ -242,12 +252,14 @@ object personaje {
 	method hacerTurnoHabilidadEspecial() {
 		self.validarHacerTurno() // para que no use hab especial cuando no está peleando / no es su turno / ya se encuentra haciendo turno
 		self.validarFuerzaAcumulada()
+		game.sound("habilidadEspecialPersonaje.mp3").play() //sonido que nos avisa de que se uso la habilidad especial.
 		self.frame(0)
+		self.estado(combatiendo)
 		self.animacion(animacionCombate) 
 		game.schedule(800, {self.frame(0)})
+		game.schedule(805, {self.estado(estatico)})
 		game.schedule(805, {self.animacion(animacionEstatica)})
 		game.schedule(800, {self.realizarHabilidadEspecial()})
-		game.sound("habilidadEspecialPersonaje.mp3").play() //sonido que nos avisa de que se uso la habilidad especial.
 		game.schedule(810, {combate.cambiarTurnoA(enemigoCombatiendo)})   //como ya terminó el turno del pj, se cambia el turno al enemigo
 	}
 
@@ -283,16 +295,19 @@ object personaje {
   
 	  if (cantVidas <= 0) {
     	self.frame(0)
+		self.estado(muriendo)
 		self.animacion(animacionMuerte)
 		game.schedule(900, {game.sound("perdio2.wav").play()})
 		game.schedule(600, {dungeon.detenerMusicaAmbiente()}) 
 		game.schedule(1000, {dungeon.limpiarTablero()})
-		game.schedule(1010, {gestorDeFondo.image("fondoFin1.png")})
-		game.schedule(1050, {game.stop()})
+		game.schedule(1100, {gestorDeFondo.image("fondoFin1.png")})
+		game.schedule(1150, {game.stop()})
 	  } else {
 		self.frame(0)
+		self.estado(muriendo)
 		self.animacion(animacionMuerte)
 		game.schedule(1000, {self.frame(0)})
+		game.schedule(1005, {self.estado(estatico)})
     	game.schedule(1005, {self.animacion(animacionEstatica)})
     	game.schedule(1010, {position = game.at(14,2)})
 		game.schedule(1010, {self.salud(300)})
@@ -326,8 +341,5 @@ object personaje {
         position = game.at(14,2)
     }
 
-
-
 }
-
 

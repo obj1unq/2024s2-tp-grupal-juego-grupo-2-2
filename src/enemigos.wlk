@@ -37,18 +37,14 @@ class Enemigo {
     }
     
     method iniciarCombate() { 
-        position = self.nuevaPosicionParaCombate()
+        position = self.nuevaPosicionParaCombate() //se posiciona a la izquierda del personaje SI ES POSIBLE (debe estar dentro de los bordes y no debe haber otra cosa en la celda)
         combate.iniciarCombate(self) //prepara el combate, la info necesaria y le hace saber a este que él(enemigo/self) será quien empieza
     }
-
-    method nuevaPosicionParaCombate() { //se posiciona a la izquierda del personaje SI ES POSIBLE (debe estar dentro de los bordes y no debe haber otra cosa en la celda)
-        if(!dungeon.hayAlgoEn(position.left(2)) && dungeon.estaDentro(position.left(2))) {
-            return position.left(2)
-        } else if(!dungeon.hayAlgoEn(position.left(1)) && dungeon.estaDentro(position.left(1))) {
-            return position.left(1)
-        } else {
-            return position
-        }
+    
+    method nuevaPosicionParaCombate() { //en base a distanciaAlPersonaje(), se buca la pos a la izq del personaje más cercana a ese valor
+        const posibles = (self.distanciaAlPersonaje()..1) //queremos encontrar la más cercana a la ideal
+        const val = posibles.findOrElse({v => (!dungeon.hayAlgoEn(position.left(v)) && dungeon.estaDentro(position.left(v)))}, { 0 })
+        return position.left(val)
     }
 
     method distanciaAlPersonaje() {
@@ -59,7 +55,7 @@ class Enemigo {
       self.hacerTurno()
     }
 
-    method hacerTurno() { //1ro sufriría el daño del veneno antes de poder atacar si corresponde. asi que, si es mortal, se muere sin atacar.
+    method hacerTurno() { //1ro sufriría el daño del veneno antes de poder atacar, si corresponde. asi que, si es mortal, se muere sin atacar.
 
         if(self.estaEnvenenado() && salud <= danhoPorVeneno) {
             self.recibirDanho(danhoPorVeneno)

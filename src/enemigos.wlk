@@ -15,9 +15,12 @@ class Enemigo {
     const turnoRequeridoParaHabilidad
     var turnosEnvenenado = 0
     const danhoPorVeneno = 20
-    //var property estaAturdido = false
     var property turnosAturdido = 0
     const property esEnemigo = true
+
+    method acumuladorDeTurnos(_acumuladorDeTurnos) { //Setter solo para testear
+        acumuladorDeTurnos = _acumuladorDeTurnos
+    }
 
     method turnosEnvenenado(_turnosEnvenenado) {
         turnosEnvenenado = _turnosEnvenenado

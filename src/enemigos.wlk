@@ -106,8 +106,14 @@ class Enemigo {
 
         self.frame(0)
         self.animacion(animacionMuerte)
-        game.schedule(800, {game.removeVisual(self)})
-        game.schedule(800, {dungeon.sacarEnemigo(self)})
+        game.schedule(800, {self.terminarMorir()})
+    }
+
+    method terminarMorir() {
+        game.removeVisual(self)
+        dungeon.sacarEnemigo(self)
+        combate.hayCombate(false)
+		barraEstadoPeleas.desaparecerJuntoADemasBarras()
     }
 
     method estaEnvenenado() {

@@ -161,13 +161,6 @@ object personaje {
 		self.estado(golpeando)
 		self.animacion(animacionCombate) //cambia su tipo de animación a la correspondiente
 		game.schedule(800, {self.terminarHacerTurno()})
-		/*
-		game.schedule(800, {self.frame(0)})
-		game.schedule(805, {self.estado(estatico)})
-		game.schedule(805, {self.animacion(animacionEstatica)}) //luego de mostrados los frames de la animación, se setea la default
-		game.schedule(800, {self.realizarAtaqueComun()})
-		game.schedule(810, {combate.cambiarTurnoA(enemigoCombatiendo)}) //como ya terminó el turno del pj, se cambia el turno al enemigo
-		*/
 	}
 
 	method validarHacerTurno() {
@@ -223,13 +216,6 @@ object personaje {
 		self.estado(curandose)
 		self.animacion(animacionCurar) 
 		game.schedule(800, {self.terminarHacerTurno()})
-		/*
-		game.schedule(800, {self.frame(0)})
-		game.schedule(805, {self.estado(estatico)})
-		game.schedule(805, {self.animacion(animacionEstatica)})
-		game.schedule(800, {self.usarPocionSalud()})
-		game.schedule(810, {combate.cambiarTurnoA(enemigoCombatiendo)})   //como ya terminó el turno del pj, se cambia el turno al enemigo
-		*/
 	}
 
 	method usarPocionSalud() {
@@ -271,13 +257,6 @@ object personaje {
 		self.estado(haciendoHabilidad)
 		self.animacion(animacionCombate) 
 		game.schedule(800, {self.terminarHacerTurno()})
-		/*
-		game.schedule(800, {self.frame(0)})
-		game.schedule(805, {self.estado(estatico)})
-		game.schedule(805, {self.animacion(animacionEstatica)})
-		game.schedule(800, {self.realizarHabilidadEspecial()})
-		game.schedule(810, {combate.cambiarTurnoA(enemigoCombatiendo)})   //como ya terminó el turno del pj, se cambia el turno al enemigo
-		*/
 	}
 
 	method validarFuerzaAcumulada() {
@@ -310,26 +289,36 @@ object personaje {
 
 	method revivirOFinalizarPartida() {
   
-	  if (cantVidas <= 0) {
+	  if (cantVidas <= 0) { //caso finalizar partida
     	self.frame(0)
 		self.estado(muriendo)
 		self.animacion(animacionMuerte)
-		game.schedule(900, {game.sound("perdio2.wav").play()})
-		game.schedule(600, {dungeon.detenerMusicaAmbiente()}) 
-		game.schedule(1000, {dungeon.limpiarTablero()})
-		game.schedule(1100, {gestorDeFondo.image("fondoFin1.png")})
-		game.schedule(1150, {game.stop()})
-	  } else {
+		game.schedule(1000, {self.terminarFinalizarPartida()})
+	  } else { //caso revivir
 		self.frame(0)
 		self.estado(muriendo)
 		self.animacion(animacionMuerte)
-		game.schedule(1000, {self.frame(0)})
-		game.schedule(1005, {self.estado(estatico)})
-    	game.schedule(1005, {self.animacion(animacionEstatica)})
-    	game.schedule(1010, {position = game.at(14,2)})
-		game.schedule(1010, {self.salud(300)})
+		game.schedule(1000, {self.terminarRevivir()})
 	  }
     
+	}
+
+	method terminarRevivir() {
+		position = game.at(14,2)
+		combate.hayCombate(false)
+		barraEstadoPeleas.desaparecerJuntoADemasBarras()
+		self.frame(0)
+		self.estado(estatico)
+		self.animacion(animacionEstatica)
+		self.salud(300)
+	}
+
+	method terminarFinalizarPartida() {
+		dungeon.detenerMusicaAmbiente()
+		game.sound("perdio2.wav").play()
+		dungeon.limpiarTablero()
+		gestorDeFondo.image("fondoFin1.png")
+		game.schedule(250, {game.stop()}) //con schedule porque, si no, no llegan a ejecutarse efectivamente los métodos de sonido
 	}
 
     //////////////////////////////////////////////////////////////

@@ -48,8 +48,8 @@ object combate {
 
     method morirEntidad() {
         entidadAtacando.morir()
-        game.schedule(805, {barraEstadoPeleas.desaparecerJuntoADemasBarras()}) //con schedule para que se puedan ver animaciones de muerte
-        game.schedule(805, {self.hayCombate(false)})
+        //game.schedule(1010, {barraEstadoPeleas.desaparecerJuntoADemasBarras()}) //con schedule para que se puedan ver animaciones de muerte
+        //game.schedule(1010, {self.hayCombate(false)})
     }
 
 }

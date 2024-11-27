@@ -273,7 +273,7 @@ class OjoVolador inherits Enemigo(turnoRequeridoParaHabilidad = 5) {
         }
     }
 
-    method moverseSiNoHayOtroA(posicionSiguiente) { //El ojo se mueve si no hay otro enemigo en la celda. Así se evitan choques entre ellos.
+    method moverseSiNoHayOtroA(posicionSiguiente) { //El ojo se mueve si no hay otro enemigo u objeto no traspasable en la celda. Así se evitan choques entre estos.
         if(!dungeon.hayAlgoEn(posicionSiguiente)) {
             position = posicionSiguiente
         }

@@ -141,6 +141,10 @@ object puerta {
     var property position =  game.at(16,19) 
     var estado = puertaCerrada
 
+    method estado() { //solamente para test
+        return estado
+    }
+
 
     method image() {
         return "puertaNueva2.png"

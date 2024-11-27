@@ -10,7 +10,7 @@ import pelea.*
 import mapa.*
 import niveles.*
 
-/*
+/* test antiguo
 describe "prueba de movimiento de enemigo1" {
 
     test "distancia a la que está objetivoADestruir (personaje)" {

@@ -50,7 +50,7 @@ class Nivel {
     }
 
     method pasarNivel(){
-        dungeon.cerraPuerta()
+        puerta.reiniciarPuerta()
         dungeon.siguienteNivel()
         self.limpiarTablero()
         dungeon.dibujar()
@@ -162,9 +162,10 @@ object puerta {
         }
     }
 
-
     method reiniciarPuerta(){
         estado = puertaCerrada
+        game.sound("cerrarPuerta.mp3").play()
+        console.println("estaCerrada")
     }
 
 }

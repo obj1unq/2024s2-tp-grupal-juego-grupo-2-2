@@ -101,6 +101,7 @@ object dungeon {
     method abrirPuertaSiSePuede(){
         if(personaje.enemigosAsesinados() >= self.nivelActual().enemigosSpawneados()){
             puerta.abrirPuerta()
+            game.sound("abrirPuerta.mp3").play()
             console.println("estaAbierta")
         }
     
@@ -108,6 +109,7 @@ object dungeon {
 
     method cerraPuerta(){
         puerta.reiniciarPuerta()
+        game.sound("cerrarPuerta.mp3").play()
         console.println("estaCerrada")
     }
 

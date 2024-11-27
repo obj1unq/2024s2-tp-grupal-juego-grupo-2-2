@@ -87,8 +87,8 @@ class Enemigo {
     }
 
     method utilizarAtaqueNormal() {
-        objetivoADestruir.recibirDanho(danhoBase)
         self.sonidoAtaque()
+        objetivoADestruir.recibirDanho(danhoBase)
         barraEstadoPeleas.image("barraEnemigoAtaqueComun.png")
     }
 
@@ -182,6 +182,9 @@ class Jefe inherits Enemigo(turnoRequeridoParaHabilidad = 6) {// Turno requerido
         return  "jefe" + fase + animacion.tipo() + frame + "32Bits.png"
     }
 
+     override method sonidoAtaque() { // por ahora ninugno
+      game.sound("jefeAtaque.mp3").play()
+    }
 }
 
 //FASES DEL JEFE 
@@ -208,10 +211,6 @@ object jefeFase1 inherits Jefe(danhoBase = 40, position = game.at(11, 8), salud 
     override method distanciaAlPersonaje() {
         return 3
     }
-
-    override method sonidoAtaque() { // por ahora ninugno
-      
-    }
 }
 
 object jefeFase2 inherits Jefe(danhoBase = 80, position = game.at(11, 8), salud = 450, fase = 2 ) {
@@ -228,10 +227,6 @@ object jefeFase2 inherits Jefe(danhoBase = 80, position = game.at(11, 8), salud 
 
     override method distanciaAlPersonaje() {
         return 6
-    }
-
-    override method sonidoAtaque() { // por ahora ninugno
-      
     }
 }
 
@@ -296,7 +291,7 @@ class OjoVolador inherits Enemigo(turnoRequeridoParaHabilidad = 5) {
     }
 
     override method sonidoAtaque() {
-      
+      game.sound("ojoAtaque.mp3").play()
     }
 }
 

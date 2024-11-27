@@ -167,7 +167,7 @@ object juego {
 }
 
 object gestorDeFondo {
-    var property image = "fondoTitulo1.png"
+    var property image = "fondoTitulo2.png"
 
     method position() {
         return game.at(0,0)

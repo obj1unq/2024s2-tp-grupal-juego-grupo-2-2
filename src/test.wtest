@@ -71,6 +71,39 @@ describe "Movimiento de personaje"{
     }
 }
 
+describe "reacción al movimiento del personaje por parte de enemigos" {
+
+    method initialize() {
+        game.height(25)
+	    game.width(30)
+    }
+
+    const ojo = new OjoVolador(position = game.at(16, 4), salud = 100, danhoBase = 30)
+    const esqueleto = new Esqueleto(position = game.at(19, 4), salud = 100, danhoBase = 30, rangoVision = 3)
+    //recordemos que la posición inicial del personaje es (14,2)
+
+    test "movimiento de ojo y distancia a la que está objetivoADestruir (personaje) de este" {
+        dungeon.registrarEnemigo(ojo)
+        assert.equals(2, ojo.distanciaEnEjeX().abs())
+        assert.equals(2, ojo.distanciaEnEjeY().abs())
+        personaje.mover(izquierda) //acá el enemigo se movería hacia la izquierda, porque le queda más lejos el eje x de nuestro personaje
+        assert.equals(game.at(13,2), personaje.position())
+        assert.equals(2, ojo.distanciaEnEjeX().abs())
+        assert.equals(2, ojo.distanciaEnEjeY().abs())
+        assert.equals(game.at(15,4), ojo.position())
+    }
+
+    test "revisarSiHayObjetivo() de esqueleto ante movimiento de personaje" {
+        dungeon.registrarEnemigo(esqueleto)
+        personaje.mover(derecha) //(15,2)
+        assert.notThat(combate.hayCombate()) //el esqueleto, que está en (19,4), no nos vio porque no se da que tanto el eje x como el eje
+                                             //y de nuestra posición están en el rango de vision de este, el cual es de 3
+        personaje.mover(derecha) //(16,2)
+        assert.that(combate.hayCombate()) //ahora sí, porque tanto el eje x como el eje y de nuestra posición están en su rango de visión
+    }
+
+}
+
 describe "Combate" {
     method initialize() {
         game.width(30)

@@ -1,5 +1,8 @@
 # El Guardián
 
+# Estilo
+RPG / Roguelike de Fantasía Oscura desarrollada en mazmorras
+
 ## Equipo de desarrollo
 
 - Cutillo, Camila
@@ -9,7 +12,7 @@
 
 ## Capturas
 
-![Titulo](fondoTitulo1.png)
+![Titulo](fondoTitulo2.png)
 ![Captura Nivel 1](capturaParaReadme.png)
 
 ## Reglas de Juego / Instrucciones
@@ -20,6 +23,7 @@
  - Para curarse cuando está en combate y tiene una poción, pulse la tecla "down arrow" (flecha hacia abajo).
  - Para ejecutar una habilidad especial cuando está en combate y tiene fuerza acumulada suficiente, pulse la tecla "right arrow" (flecha hacia la derecha).
  - Para cambiar el arma actual del personaje a la siguiente de la bolsa, pulse la tecla "left arrow" (flecha hacia la izquierda).
+ - Para obtener ayuda sobre el juego, pulse la tecla " I "
 
 
 ## Otros

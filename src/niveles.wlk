@@ -83,7 +83,7 @@ object nivel2 inherits Nivel(enemigosSpawneados = 6){
     }
 }
 
-object arenaJefe inherits Nivel(enemigosSpawneados = 3) {
+object arenaJefe inherits Nivel(enemigosSpawneados = 4) {
         override method tablero() {
        return   [ 
                 [x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x],

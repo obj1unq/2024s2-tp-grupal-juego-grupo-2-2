@@ -44,5 +44,8 @@ program rpgPorTurnos {
   	dungeon.comenzarLoopMusicaAmbiente()
   	dungeon.comenzarMusicaAmbiente()
 
+	//probando
+	keyboard.i().onPressDo({menuInformativo.cambiarImagen()})
+
 	game.start()
 }

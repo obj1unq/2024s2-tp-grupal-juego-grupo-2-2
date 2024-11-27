@@ -1,0 +1,51 @@
+import wollok.game.*
+import personaje.*
+import extras.*
+import enemigos.*
+import randomizer.*
+import posiciones.*
+import paleta.*
+import armas.*
+import pelea.*
+import mapa.*
+import niveles.*
+
+program rpgPorTurnos {
+
+	game.title("El Guardián")
+
+	game.cellSize(32)
+	game.height(25)
+	game.width(30)
+	
+	game.addVisual(gestorDeFondo)
+	keyboard.enter().onPressDo({juego.empezar()})
+	
+	//TECLAS MOVIMIENTO
+	keyboard.w().onPressDo({personaje.mover(arriba)})
+	keyboard.d().onPressDo({personaje.mover(derecha)})
+	keyboard.s().onPressDo({personaje.mover(abajo)})
+	keyboard.a().onPressDo({personaje.mover(izquierda)})
+    
+    //TECLAS COMBATE
+    keyboard.up().onPressDo({personaje.hacerTurnoAtaqueComun()})
+	keyboard.down().onPressDo({personaje.hacerTurnoPocion()})
+	keyboard.right().onPressDo({personaje.hacerTurnoHabilidadEspecial()})
+	keyboard.left().onPressDo({personaje.cambiarArmaActual()})
+
+	//COLISIÓN
+    game.onCollideDo(personaje, {cosa => cosa.colisiono(personaje)})
+
+	//ANIMACION
+	game.onTick(200, "animacion", {dungeon.animacionEnemigos()})
+	game.onTick(200, "animacion", {personaje.cambiarAnimacion()})
+
+	//SONIDO 
+  	dungeon.comenzarLoopMusicaAmbiente()
+  	dungeon.comenzarMusicaAmbiente()
+
+	//probando
+	keyboard.i().onPressDo({menuInformativo.cambiarImagen()})
+
+	game.start()
+}

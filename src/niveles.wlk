@@ -9,7 +9,7 @@ import armas.*
 import pelea.*
 import mapa.*
 
-object nivel1 inherits Nivel(enemigosSpawneados = 1) {
+object nivel1 inherits Nivel(enemigosSpawneados = 4) {
 
     override method tablero() { // 25x30 (X,Y)
        return   [ 
@@ -34,7 +34,7 @@ object nivel1 inherits Nivel(enemigosSpawneados = 1) {
                 [x,x,_,_,_,_,_,_,a,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,x,x],
                 [x,x,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,x,x],
                 [x,x,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,x,x],
-                [x,x,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,b,x,x],
+                [x,x,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,g,_,b,x,x],
                 [x,x,_,_,_,b,c,_,_,_,_,a,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c,m,x,x],
                 [x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x],
                 [x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x] 
@@ -47,7 +47,7 @@ object nivel1 inherits Nivel(enemigosSpawneados = 1) {
     }
 }
 
-object nivel2 inherits Nivel(enemigosSpawneados = 1){
+object nivel2 inherits Nivel(enemigosSpawneados = 6){
     override method tablero() {
        return   [ 
                 [x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x],
@@ -83,7 +83,7 @@ object nivel2 inherits Nivel(enemigosSpawneados = 1){
     }
 }
 
-object arenaJefe inherits Nivel(enemigosSpawneados = 1) {
+object arenaJefe inherits Nivel(enemigosSpawneados = 3) {
         override method tablero() {
        return   [ 
                 [x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x],

@@ -62,7 +62,8 @@ object barraEstadoPeleas {
             game.addVisual(saludPersonaje)
             game.addVisual(saludEnemigo)
             game.addVisual(durabilidad)
-            //game.addVisual(turnoTest)
+            game.removeVisual(menuInformativo)
+            game.addVisual(menuInformativo)
     }
 
     // desaparece la barra y todo lo que muestra tras darse la muerte del personaje o el enemigo
@@ -72,7 +73,6 @@ object barraEstadoPeleas {
         game.removeVisual(saludPersonaje)
         game.removeVisual(saludEnemigo)
         game.removeVisual(durabilidad)
-        //game.removeVisual(turnoTest)
     }
 
 }

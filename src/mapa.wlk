@@ -56,14 +56,6 @@ class Nivel {
         dungeon.dibujar()
     }
 
-    method limpiarExceptoFondo() {
-        game.allVisuals().forEach({vis => if(!self.estaEnOrigin(vis.position())) {game.removeVisual(vis)} })
-    }
-
-    method estaEnOrigin(pos) {
-        return pos == game.at(0,0)
-    }
-
 } 
 
 object b { //barriles

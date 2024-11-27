@@ -24,10 +24,6 @@ describe "prueba de movimiento de enemigo1" {
 }
 */
 
-/*
-    chocar con objetos
-*/
-
 describe "testeo de funcionalidades" {
 
     method initialize() {
@@ -43,7 +39,7 @@ describe "testeo de funcionalidades" {
         assert.equals(4, dungeon.enemigos().size())
     }
 
-    test "método de game getObjectsIn(pos) y método de dungeon limpiarExceptoFondo()" {
+    test "método de game getObjectsIn(pos) y método de dungeon limpiarTablero()" {
         fabricaDeOjoVolador.agregarNuevoEnemigo(game.at(23,15), 150, 20)
         fabricaDeGoblin.agregarNuevoEnemigoCon(game.at(15,14), 95, 37)
         fabricaDeEsqueleto.agregarNuevoEnemigo(game.at(3,10), 200, 43, 3) 

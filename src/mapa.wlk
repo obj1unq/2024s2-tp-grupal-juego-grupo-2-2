@@ -50,18 +50,10 @@ class Nivel {
     }
 
     method pasarNivel(){
-        dungeon.cerraPuerta()
+        puerta.reiniciarPuerta()
         dungeon.siguienteNivel()
         self.limpiarTablero()
         dungeon.dibujar()
-    }
-
-    method limpiarExceptoFondo() {
-        game.allVisuals().forEach({vis => if(!self.estaEnOrigin(vis.position())) {game.removeVisual(vis)} })
-    }
-
-    method estaEnOrigin(pos) {
-        return pos == game.at(0,0)
     }
 
 } 
@@ -170,9 +162,10 @@ object puerta {
         }
     }
 
-
     method reiniciarPuerta(){
         estado = puertaCerrada
+        game.sound("cerrarPuerta.mp3").play()
+        console.println("estaCerrada")
     }
 
 }

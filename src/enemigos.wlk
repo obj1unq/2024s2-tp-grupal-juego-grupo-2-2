@@ -110,7 +110,7 @@ class Enemigo {
     method morir() {
         personaje.sumarEnemigoAsesinado() // para pasar de nivel
         
-        dungeon.abrirPuertaSiSePuede()
+        dungeon.abrirPuertaSiSePuede() //se revisa si personaje ya mató a todos los enemigos del nivel
 
         self.frame(0)
         self.animacion(animacionMuerte)
@@ -182,7 +182,7 @@ class Jefe inherits Enemigo(turnoRequeridoParaHabilidad = 6) {// Turno requerido
         return  "jefe" + fase + animacion.tipo() + frame + "32Bits.png"
     }
 
-     override method sonidoAtaque() { // por ahora ninugno
+     override method sonidoAtaque() {
       game.sound("jefeAtaque.mp3").play()
     }
 }
@@ -203,7 +203,6 @@ object jefeFase1 inherits Jefe(danhoBase = 40, position = game.at(11, 8), salud 
     }
     
     method cambiarFase() {
-       // self.fase(jefeFase2)
         game.addVisual(jefeFase2)
         dungeon.registrarEnemigo(jefeFase2)
     }
@@ -215,7 +214,7 @@ object jefeFase1 inherits Jefe(danhoBase = 40, position = game.at(11, 8), salud 
 
 object jefeFase2 inherits Jefe(danhoBase = 80, position = game.at(11, 8), salud = 450, fase = 2 ) {
 
-    override method utilizarHabilidad() { //Acá quiero que el personaje pierda dos turnos
+    override method utilizarHabilidad() { //personaje pierde dos turnos
         objetivoADestruir.recibirDanho(danhoBase)
         objetivoADestruir.turnosAturdido(2)
         barraEstadoPeleas.image("barraJefe2Habilidad.png")
@@ -307,7 +306,7 @@ class Esqueleto inherits Enemigo(turnoRequeridoParaHabilidad = 4) {
         return "esqueleto-" + animacion.tipo() + frame + "32Bits.png" //En realidad es de 64x64
     }
 
-    //MOVIMIENTO (en realidad, no se mueve, pero es lo que hace en vez de moverse)
+    //MOVIMIENTO (realmente su reacción no es moverse, pero es lo que hace en vez de moverse) (se moverá si encuentra a su objetivo para pelear)
 
     override method reaccionarAMovimiento() {
 

@@ -10,7 +10,7 @@ object dungeon {
 
     const property enemigos = []
     const property objetosNoTraspasables = []
-    var property ambiente = game.sound("ambiente.mp3") //var porque ¿la vamos a ir cambiando con los niveles?
+    const ambiente = game.sound("ambiente.mp3") 
 
     method comenzarMusicaAmbiente() {
         ambiente.play()
@@ -24,10 +24,6 @@ object dungeon {
         ambiente.shouldLoop(true)
     }
 
-     method detenerLoopMusicaAmbiente() { //por ahora no se usa. lo cree por el tema de la musica ambiente que no paraba al perder.
-        ambiente.shouldLoop(false)
-    }
-
     method registrarEnemigo(enemigo) {
         enemigos.add(enemigo)
     }
@@ -38,10 +34,6 @@ object dungeon {
 
     method registrarObjetoNoTraspasable(objeto) {
         objetosNoTraspasables.add(objeto)
-    }
-
-    method removerEnemigos(){
-        enemigos.forEach( {e => enemigos.remove(e) } )
     }
 
     method removerObjetosNoTraspasables() {
@@ -107,19 +99,12 @@ object dungeon {
     
     }
 
-    method cerraPuerta(){
-        puerta.reiniciarPuerta()
-        game.sound("cerrarPuerta.mp3").play()
-        console.println("estaCerrada")
-    }
-
     method siguienteNivel(){ 
         nivelNum = (nivelNum + 1 ) % 3
     }
 
     method pasarNivel(){
-        self.removerEnemigos()  //sin esto la lista de enemigos de la dungeon tiene enemigos dentro que se cargar invisibles si Quedan despues de pasar de nivel
-        self.removerObjetosNoTraspasables() //este sí va!! si no, los objetos quedan intraspasables para los siguientes lvls
+        self.removerObjetosNoTraspasables() //se usa para que los objetos no queden intraspasables para los siguientes lvls
         self.nivelActual().pasarNivel()
     }
 
@@ -134,12 +119,8 @@ object dungeon {
 	game.addVisual(vidas)
 	game.addVisual(pociones)
 	game.addVisual(barraFuerza)
-
-	
-	//PERSONAJE
+	//CON LOS QUE SÍ
     game.addVisual(puerta)
-	
-    
     }
 
 }
@@ -218,7 +199,7 @@ object indicadorDeObjetos {
 
 }
 
-class VisualArmaDeBolsa { //para representar visualmente arriba a la derecha los tipos de arma de las armas del personaje
+class VisualArmaDeBolsa { //para representar visualmente arriba a la derecha las armas (tipo y nivel) del personaje
     const posBolsa
 
     method image() {
@@ -270,7 +251,7 @@ class Pocion {
     const property position 
     const property image = "pocion-32Bits.png"
 
-    // El personaje colisiona con la poción y su salud aumenta
+    // El personaje colisiona con la poción y almacena una (si puede, o sea, si no tiene ya el máximo de pociones)
     method colisiono(personaje){
         personaje.agregarPocion()
         game.removeVisual(self)

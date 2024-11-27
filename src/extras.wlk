@@ -174,6 +174,22 @@ object gestorDeFondo {
     }
 }
 
+object menuInformativo {
+    var pantalla = 0
+
+    method image() {
+        return "menuInformativo" + pantalla.toString() + ".png"
+    }
+
+    method cambiarImagen() {
+        pantalla = (pantalla + 1) % 4
+    }
+
+    method position() {
+        return game.at(0,0)
+    }
+}
+
 /////////////indicadorDeObjetos/////////////
 
 object indicadorDeObjetos {
